@@ -6,6 +6,7 @@ import {
   getSSR,
 } from '../controllers/flightController.js';
 import { validateBody } from '../middleware/validate.middleware.js';
+import { flightSearchLimiter } from '../middleware/rateLimiter.js';
 import {
   flightSearchSchema,
   flightRepriceSchema,
@@ -15,8 +16,8 @@ import { flightBookingRequestSchema } from '../validators/flightBookingRequest.v
 
 const router = Router();
 
-// 1. Active Flight Search Endpoint
-router.post('/search', validateBody(flightSearchSchema), searchFlights);
+// 1. Active Flight Search Endpoint (Protected against bot scraping & rapid automated hits)
+router.post('/search', flightSearchLimiter, validateBody(flightSearchSchema), searchFlights);
 
 // 2. Flight Reprice Endpoint (Air_Reprice)
 router.post('/reprice', validateBody(flightRepriceSchema), repriceFlight);

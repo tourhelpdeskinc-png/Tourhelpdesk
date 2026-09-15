@@ -48,3 +48,27 @@ export const aiLimiter = rateLimit({
     message: 'Too many AI Assistant queries from this IP. Please wait a few minutes before trying again.',
   },
 });
+
+// Dedicated Flight Search Rate Limiter (Protects expensive live GDS/Aggregator APIs from bot scraping)
+export const flightSearchLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 20, // Max 20 searches per minute per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'High flight search activity detected. Please wait a moment before searching again.',
+  },
+});
+
+// Dedicated Hotel Search Rate Limiter
+export const hotelSearchLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 30, // Max 30 searches per minute per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Too many hotel search requests. Please slow down and try again in a minute.',
+  },
+});

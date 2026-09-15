@@ -9,6 +9,7 @@ import {
 } from '../controllers/hotelController.js';
 import { authMiddleware } from '../middleware/auth.js';
 import { validateBody } from '../middleware/validate.middleware.js';
+import { hotelSearchLimiter } from '../middleware/rateLimiter.js';
 import {
   hotelAutocompleteSchema,
   hotelSearchSchema,
@@ -19,8 +20,8 @@ import {
 
 const router = Router();
 
-router.post('/autocomplete', validateBody(hotelAutocompleteSchema), searchHotelByName);
-router.post('/search', validateBody(hotelSearchSchema), searchHotels);
+router.post('/autocomplete', hotelSearchLimiter, validateBody(hotelAutocompleteSchema), searchHotelByName);
+router.post('/search', hotelSearchLimiter, validateBody(hotelSearchSchema), searchHotels);
 router.post('/details', validateBody(hotelDetailsSchema), getHotelDetails);
 router.post('/cancellation-policy', getCancellationPolicy);
 router.post('/temp-booking', authMiddleware, validateBody(hotelTempBookingSchema), createTempBooking);
