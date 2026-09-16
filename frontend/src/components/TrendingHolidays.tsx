@@ -20,7 +20,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'mexico',
     name: 'Mexico Packages',
     destination: 'Mexico',
-    image: '/Images/Flight/Cancun Retun Fare.webp',
+    image: '/Images/holiday/mexico.webp',
     price: '$699/-',
     originalPrice: '$950',
     discountBadge: 'HOT DEAL',
@@ -29,7 +29,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'peru',
     name: 'Peru Packages',
     destination: 'Peru',
-    image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=800&q=80',
+    image: '/Images/holiday/peru.webp',
     price: '$899/-',
     originalPrice: '$1,200',
   },
@@ -37,7 +37,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'united-kingdom',
     name: 'United Kingdom Packages',
     destination: 'United Kingdom',
-    image: '/Images/Flight/London Retun Fare.webp',
+    image: '/Images/holiday/united-kingdom.webp',
     price: '$1,299/-',
     originalPrice: '$1,650',
   },
@@ -45,7 +45,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'italy',
     name: 'Italy Packages',
     destination: 'Italy',
-    image: '/Images/Flight/Rome Retun Fare.webp',
+    image: '/Images/holiday/italy.webp',
     price: '$1,350/-',
     originalPrice: '$1,800',
     discountBadge: 'POPULAR',
@@ -54,7 +54,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'spain',
     name: 'Spain Packages',
     destination: 'Spain',
-    image: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=800&q=80',
+    image: '/Images/holiday/spain.webp',
     price: '$1,199/-',
     originalPrice: '$1,550',
   },
@@ -62,7 +62,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'kenya',
     name: 'Kenya Packages',
     destination: 'Kenya',
-    image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80',
+    image: '/Images/holiday/kenya.webp',
     price: '$1,499/-',
     originalPrice: '$1,950',
     discountBadge: 'SAFARI',
@@ -71,7 +71,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'south-korea',
     name: 'South Korea Packages',
     destination: 'South Korea',
-    image: '/Images/Flight/Seoul Retun Fare.webp',
+    image: '/Images/holiday/south-korea.webp',
     price: '$999/-',
     originalPrice: '$1,300',
   },
@@ -79,7 +79,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'switzerland',
     name: 'Switzerland Packages',
     destination: 'Switzerland',
-    image: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80',
+    image: '/Images/holiday/switzerland.webp',
     price: '$1,899/-',
     originalPrice: '$2,400',
     discountBadge: 'LUXURY',
@@ -88,23 +88,15 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'australia',
     name: 'Australia Packages',
     destination: 'Australia',
-    image: '/Images/Flight/Sydney Retun Fare.webp',
+    image: '/Images/holiday/australia.webp',
     price: '$1,599/-',
     originalPrice: '$2,100',
-  },
-  {
-    id: 'new-zealand',
-    name: 'New Zealand Packages',
-    destination: 'New Zealand',
-    image: '/Images/Flight/Auckland Retun Fare.webp',
-    price: '$1,699/-',
-    originalPrice: '$2,200',
   },
   {
     id: 'japan',
     name: 'Japan Packages',
     destination: 'Japan',
-    image: '/Images/Flight/Tokyo Retun Fare.webp',
+    image: '/Images/holiday/japan.webp',
     price: '$2,449/-',
     originalPrice: '$3,100',
     discountBadge: 'BESTSELLER',
@@ -113,7 +105,7 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'egypt',
     name: 'Egypt Packages',
     destination: 'Egypt',
-    image: 'https://images.unsplash.com/photo-1572252821143-035a2979e8ef?auto=format&fit=crop&w=800&q=80',
+    image: '/Images/holiday/egypt.webp',
     price: '$699/-',
     originalPrice: '$990',
   },
@@ -121,23 +113,15 @@ const HOLIDAY_PACKAGES: HolidayPackage[] = [
     id: 'jordan',
     name: 'Jordan Packages',
     destination: 'Jordan',
-    image: 'https://images.unsplash.com/photo-1579606030856-4923e87f762d?auto=format&fit=crop&w=800&q=80',
+    image: '/Images/holiday/jordan.webp',
     price: '$849/-',
     originalPrice: '$1,150',
-  },
-  {
-    id: 'hong-kong',
-    name: 'Hong Kong Packages',
-    destination: 'Hong Kong',
-    image: '/Images/Flight/Hongkong Retun Fare.webp',
-    price: '$899/-',
-    originalPrice: '$1,200',
   },
   {
     id: 'singapore',
     name: 'Singapore Packages',
     destination: 'Singapore',
-    image: '/Images/Flight/Singapore Retun Fare.webp',
+    image: '/Images/holiday/singapore.webp',
     price: '$649/-',
     originalPrice: '$890',
   },
@@ -151,12 +135,18 @@ export const TrendingHolidays: React.FC<TrendingHolidaysProps> = ({ onSelectPack
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [loadedCount, setLoadedCount] = useState(5); // Initially load first 5 slides
 
   const checkScrollButtons = () => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+
+      // Lazily load images for slides scrolled into or near the viewport
+      const cardWidth = 280;
+      const visibleIndex = Math.floor((scrollLeft + clientWidth) / cardWidth);
+      setLoadedCount((prev) => Math.max(prev, visibleIndex + 3));
     }
   };
 
@@ -265,14 +255,19 @@ export const TrendingHolidays: React.FC<TrendingHolidaysProps> = ({ onSelectPack
                   onClick={() => onSelectPackage?.(pkg)}
                   className="group relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-out cursor-pointer h-[340px] sm:h-[370px] border border-slate-300 dark:border-slate-700 bg-slate-900"
                 >
-                  {/* Full-Bleed Tall Vertical Image */}
-                  <Image
-                    src={pkg.image}
-                    alt={pkg.name}
-                    fill
-                    sizes="(max-width: 640px) 240px, 280px"
-                    className="object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
-                  />
+                  {/* Full-Bleed Tall Vertical Image - Only load image for visible or nearby slides */}
+                  {index < loadedCount ? (
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.name}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 640px) 240px, (max-width: 1024px) 265px, 280px"
+                      className="object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-slate-900" />
+                  )}
 
                   {/* Dark Gradient Overlay at Bottom (Matching image design) */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/35 to-transparent"></div>
