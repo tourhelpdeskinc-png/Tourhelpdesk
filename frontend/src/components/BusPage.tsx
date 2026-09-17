@@ -382,7 +382,7 @@ export default function BusPage() {
         {/* Background Image Overlay */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src="/bus.jpg" 
+            src="/bus.webp" 
             alt="Luxury Bus Highway" 
             fill
             priority

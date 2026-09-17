@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { CONTACT_INFO } from '../constants/config';
+import { Ship, Plane, Hotel, Car, Train, Luggage, Ticket, ShieldCheck, Compass, Bus, Smartphone } from 'lucide-react';
 
 interface SidebarProps {
   activeItem?: 'cruises' | 'flights' | 'hotels' | 'car-rental' | 'trains' | 'holidays' | 'activities' | 'insurance' | 'visa' | 'bus' | 'app';
@@ -11,17 +11,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProps) {
-  const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Proactively prefetch common routes in background on mount
-    router.prefetch('/hotels');
-    router.prefetch('/flights');
-    router.prefetch('/bus');
-    router.prefetch('/car-rental');
-    router.prefetch('/offers');
-  }, [router]);
 
   useEffect(() => {
     if (toastMessage) {
@@ -51,9 +41,9 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
 
   const getIconClass = (itemKey: typeof activeItem) => {
     if (activeItem === itemKey) {
-      return "material-symbols-outlined text-[22px] text-[#E8A11A] transition-colors shrink-0 select-none";
+      return "w-[22px] h-[22px] text-[#E8A11A] transition-colors shrink-0 select-none";
     }
-    return "material-symbols-outlined text-[22px] text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors shrink-0 select-none";
+    return "w-[22px] h-[22px] text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors shrink-0 select-none";
   };
 
   return (
@@ -68,40 +58,37 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
             title={isCollapsed ? "Cruises" : undefined}
           >
             {activeItem === 'cruises' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('cruises')}>directions_boat</span>
+            <Ship className={getIconClass('cruises')} />
             {!isCollapsed && <span className="text-[15px] truncate">Cruises</span>}
           </button>
 
           <Link 
             href="/flights"
-            prefetch={true}
             className={getItemClass('flights')}
             title={isCollapsed ? "Flights" : undefined}
           >
             {activeItem === 'flights' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3.5px] bg-[#E8A11A] rounded-r shadow-sm shadow-[#E8A11A]/40" />}
-            <span className={getIconClass('flights')}>flight</span>
+            <Plane className={getIconClass('flights')} />
             {!isCollapsed && <span className="text-[15px] truncate">Flights</span>}
           </Link>
 
           <Link 
             href="/hotels"
-            prefetch={true}
             className={getItemClass('hotels')}
             title={isCollapsed ? "Hotels" : undefined}
           >
             {activeItem === 'hotels' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('hotels')}>hotel</span>
+            <Hotel className={getIconClass('hotels')} />
             {!isCollapsed && <span className="text-[15px] truncate">Hotels</span>}
           </Link>
 
           <Link 
             href="/car-rental"
-            prefetch={true}
             className={getItemClass('car-rental')}
             title={isCollapsed ? "Car Rental" : undefined}
           >
             {activeItem === 'car-rental' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('car-rental')}>directions_car</span>
+            <Car className={getIconClass('car-rental')} />
             {!isCollapsed && <span className="text-[15px] truncate">Car Rental</span>}
           </Link>
 
@@ -111,7 +98,7 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
             title={isCollapsed ? "Trains" : undefined}
           >
             {activeItem === 'trains' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('trains')}>train</span>
+            <Train className={getIconClass('trains')} />
             {!isCollapsed && <span className="text-[15px] truncate">Trains</span>}
           </button>
         </div>
@@ -122,12 +109,11 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
         <div>
           <Link 
             href="/offers"
-            prefetch={true}
             className={getItemClass('holidays')}
             title={isCollapsed ? "Holidays" : undefined}
           >
             {activeItem === 'holidays' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('holidays')}>luggage</span>
+            <Luggage className={getIconClass('holidays')} />
             {!isCollapsed && <span className="text-[15px] truncate">Holidays</span>}
           </Link>
 
@@ -137,7 +123,7 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
             title={isCollapsed ? "Activities" : undefined}
           >
             {activeItem === 'activities' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('activities')}>local_activity</span>
+            <Ticket className={getIconClass('activities')} />
             {!isCollapsed && <span className="text-[15px] truncate">Activities</span>}
           </button>
         </div>
@@ -152,7 +138,7 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
             title={isCollapsed ? "Insurance" : undefined}
           >
             {activeItem === 'insurance' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('insurance')}>verified_user</span>
+            <ShieldCheck className={getIconClass('insurance')} />
             {!isCollapsed && <span className="text-[15px] truncate">Insurance</span>}
           </button>
 
@@ -162,18 +148,17 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
             title={isCollapsed ? "Visa" : undefined}
           >
             {activeItem === 'visa' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('visa')}>travel_explore</span>
+            <Compass className={getIconClass('visa')} />
             {!isCollapsed && <span className="text-[15px] truncate">Visa</span>}
           </button>
 
           <Link 
             href="/bus"
-            prefetch={true}
             className={getItemClass('bus')}
             title={isCollapsed ? "Bus" : undefined}
           >
             {activeItem === 'bus' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('bus')}>directions_bus</span>
+            <Bus className={getIconClass('bus')} />
             {!isCollapsed && <span className="text-[15px] truncate">Bus</span>}
           </Link>
         </div>
@@ -188,7 +173,7 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
             title={isCollapsed ? "App" : undefined}
           >
             {activeItem === 'app' && <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#E8A11A] rounded-r" />}
-            <span className={getIconClass('app')}>smartphone</span>
+            <Smartphone className={getIconClass('app')} />
             {!isCollapsed && <span className="text-[15px] truncate">App</span>}
           </button>
         </div>

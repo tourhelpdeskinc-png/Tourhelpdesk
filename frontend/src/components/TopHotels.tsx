@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 
 export interface HotelDestination {
   id: string;
@@ -154,13 +153,16 @@ export const TopHotels: React.FC<TopHotelsProps> = ({ onSelectDestination }) => 
   };
 
   useEffect(() => {
-    checkScrollButtons();
+    const timer = setTimeout(() => {
+      checkScrollButtons();
+    }, 100);
     const el = carouselRef.current;
     if (el) {
       el.addEventListener('scroll', checkScrollButtons, { passive: true });
       window.addEventListener('resize', checkScrollButtons);
     }
     return () => {
+      clearTimeout(timer);
       if (el) el.removeEventListener('scroll', checkScrollButtons);
       window.removeEventListener('resize', checkScrollButtons);
     };
@@ -238,16 +240,8 @@ export const TopHotels: React.FC<TopHotelsProps> = ({ onSelectDestination }) => 
             }}
           >
             {TOP_HOTELS.map((hotel, index) => (
-              <motion.div
+              <div
                 key={hotel.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{
-                  duration: 0.45,
-                  delay: Math.min(index * 0.08, 0.7),
-                  ease: [0.215, 0.61, 0.355, 1],
-                }}
                 className="shrink-0 snap-start w-[250px] sm:w-[275px] md:w-[290px]"
               >
                 <div
@@ -287,7 +281,7 @@ export const TopHotels: React.FC<TopHotelsProps> = ({ onSelectDestination }) => 
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 

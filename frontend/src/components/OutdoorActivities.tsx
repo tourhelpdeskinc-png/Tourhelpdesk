@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
 
 export interface OutdoorActivityCard {
@@ -236,13 +235,16 @@ export const OutdoorActivities: React.FC<OutdoorActivitiesProps> = ({ onSelectAc
   };
 
   useEffect(() => {
-    checkScrollButtons();
+    const timer = setTimeout(() => {
+      checkScrollButtons();
+    }, 100);
     const el = carouselRef.current;
     if (el) {
       el.addEventListener('scroll', checkScrollButtons, { passive: true });
       window.addEventListener('resize', checkScrollButtons);
     }
     return () => {
+      clearTimeout(timer);
       if (el) el.removeEventListener('scroll', checkScrollButtons);
       window.removeEventListener('resize', checkScrollButtons);
     };
@@ -327,19 +329,9 @@ export const OutdoorActivities: React.FC<OutdoorActivitiesProps> = ({ onSelectAc
             }}
           >
             {OUTDOOR_ACTIVITIES.map((act, index) => (
-              <motion.div
+              <div
                 key={act.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{
-                  duration: 0.45,
-                  delay: Math.min(index * 0.08, 0.7),
-                  ease: [0.215, 0.61, 0.355, 1],
-                }}
-                className="shrink-0 snap-start w-[260px] sm:w-[285px] md:w-[300px]"
+                className="shrink-0 snap-start w-[260px] sm:w-[285px] md:w-[300px] transition-all duration-300 ease-out hover:-translate-y-1.5 active:scale-[0.98]"
               >
                 <div
                   onClick={() => onSelectActivity?.(act)}
@@ -410,7 +402,7 @@ export const OutdoorActivities: React.FC<OutdoorActivitiesProps> = ({ onSelectAc
                   </div>
 
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 

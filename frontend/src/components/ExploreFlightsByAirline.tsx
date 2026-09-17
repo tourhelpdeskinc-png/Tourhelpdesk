@@ -461,6 +461,10 @@ export const AirlineFlightCard: React.FC<{ deal: AirlineFlightDeal }> = ({ deal 
           <img
             src={`https://images.kiwi.com/airlines/64x64/${deal.iataCode}.png`}
             alt={deal.airline}
+            loading="lazy"
+            decoding="async"
+            width={28}
+            height={28}
             className="w-full h-full object-contain"
             onError={(e) => {
               (e.target as HTMLImageElement).src = `https://pics.avs.io/64/64/${deal.iataCode}.png`;

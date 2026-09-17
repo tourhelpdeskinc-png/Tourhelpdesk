@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
+import GoogleAuthProvider from '../app/providers/GoogleAuthProvider';
 import { authService } from '../services/authService';
 
 interface LoginProps {
@@ -261,17 +262,19 @@ const Login: React.FC<LoginProps> = ({ onBack, onSuccess }) => {
                     <span>Signing in with Google...</span>
                   </div>
                 ) : (
-                  <div className="w-full flex justify-center overflow-hidden rounded-lg">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={() => setError('Google sign-in failed. Please try again.')}
-                      shape="rectangular"
-                      size="medium"
-                      theme="outline"
-                      width="290"
-                      text={mode === 'login' ? 'signin_with' : 'signup_with'}
-                    />
-                  </div>
+                  <GoogleAuthProvider>
+                    <div className="w-full flex justify-center overflow-hidden rounded-lg">
+                      <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => setError('Google sign-in failed. Please try again.')}
+                        shape="rectangular"
+                        size="medium"
+                        theme="outline"
+                        width="290"
+                        text={mode === 'login' ? 'signin_with' : 'signup_with'}
+                      />
+                    </div>
+                  </GoogleAuthProvider>
                 )}
               </div>
 

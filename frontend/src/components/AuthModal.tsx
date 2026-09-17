@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
+import GoogleAuthProvider from '../app/providers/GoogleAuthProvider';
 import { authService } from '../services/authService';
 
 interface AuthModalProps {
@@ -274,17 +275,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     <span>Signing in with Google...</span>
                   </div>
                 ) : (
-                  <div className="w-full flex justify-center overflow-hidden rounded-xl">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={() => setError('Google sign-in failed. Please try again.')}
-                      shape="rectangular"
-                      size="large"
-                      theme="outline"
-                      width="340"
-                      text={mode === 'login' ? 'signin_with' : 'signup_with'}
-                    />
-                  </div>
+                  <GoogleAuthProvider>
+                    <div className="w-full flex justify-center overflow-hidden rounded-xl">
+                      <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => setError('Google sign-in failed. Please try again.')}
+                        shape="rectangular"
+                        size="large"
+                        theme="outline"
+                        width="340"
+                        text={mode === 'login' ? 'signin_with' : 'signup_with'}
+                      />
+                    </div>
+                  </GoogleAuthProvider>
                 )}
               </div>
 

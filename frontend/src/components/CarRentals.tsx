@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 
 import ScrollReveal from './ScrollReveal';
 
@@ -156,13 +155,16 @@ export const CarRentals: React.FC<CarRentalsProps> = ({ onSelectCity }) => {
   };
 
   useEffect(() => {
-    checkScrollButtons();
+    const timer = setTimeout(() => {
+      checkScrollButtons();
+    }, 100);
     const el = carouselRef.current;
     if (el) {
       el.addEventListener('scroll', checkScrollButtons, { passive: true });
       window.addEventListener('resize', checkScrollButtons);
     }
     return () => {
+      clearTimeout(timer);
       if (el) el.removeEventListener('scroll', checkScrollButtons);
       window.removeEventListener('resize', checkScrollButtons);
     };
@@ -244,19 +246,9 @@ export const CarRentals: React.FC<CarRentalsProps> = ({ onSelectCity }) => {
             }}
           >
             {CAR_RENTAL_CITIES.map((city, index) => (
-              <motion.div
+              <div
                 key={city.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{
-                  duration: 0.45,
-                  delay: Math.min(index * 0.08, 0.7),
-                  ease: [0.215, 0.61, 0.355, 1],
-                }}
-                className="shrink-0 snap-start w-[250px] sm:w-[275px] md:w-[290px]"
+                className="shrink-0 snap-start w-[250px] sm:w-[275px] md:w-[290px] transition-all duration-300 ease-out hover:-translate-y-1.5 active:scale-[0.98]"
               >
                 <div
                   onClick={() => onSelectCity?.(city)}
@@ -267,7 +259,6 @@ export const CarRentals: React.FC<CarRentalsProps> = ({ onSelectCity }) => {
                     src={city.image}
                     alt={city.name}
                     fill
-                    unoptimized
                     sizes="(max-width: 640px) 250px, 290px"
                     className="object-cover group-hover:scale-[1.06] transition-transform duration-500 ease-out"
                   />
@@ -285,7 +276,7 @@ export const CarRentals: React.FC<CarRentalsProps> = ({ onSelectCity }) => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 

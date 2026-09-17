@@ -1,38 +1,69 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, Suspense } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Hero from '../components/Hero';
 import MobileServiceGrid from '../components/ui/MobileServiceGrid';
 import Offers from '../components/Offers';
-import CruiseDestinations from '../components/CruiseDestinations';
-import TopHotels from '../components/TopHotels';
-import CarRentals from '../components/CarRentals';
-import TrendingHolidays from '../components/TrendingHolidays';
-import OutdoorActivities from '../components/OutdoorActivities';
-import FlightResults from '../components/FlightResults';
-import AIAssistant from '../components/AIAssistant';
 import Footer from '../components/Footer';
-import InternationalRoutes from '../components/InternationalRoutes';
 import SkeletonLoader from '../components/SkeletonLoader';
 import { resolveIataCode } from '../components/AirportAutocomplete';
-
-import AuthModal from '../components/AuthModal';
 import OfflineHotlineBanner from '../components/common/OfflineHotlineBanner';
-import FlightBookingModal from '../components/FlightBookingModal';
-import ExploreFlightsByAirline from '../components/ExploreFlightsByAirline';
-import FlightFilterSidebar, { parseTimeToHour, getTimeSlot } from '../components/flights/FlightFilterSidebar';
 
+const CruiseDestinations = dynamic(() => import('../components/CruiseDestinations'));
+const TopHotels = dynamic(() => import('../components/TopHotels'));
+const CarRentals = dynamic(() => import('../components/CarRentals'));
+const TrendingHolidays = dynamic(() => import('../components/TrendingHolidays'));
+const OutdoorActivities = dynamic(() => import('../components/OutdoorActivities'));
+const ExploreFlightsByAirline = dynamic(() => import('../components/ExploreFlightsByAirline'));
+const FlightResults = dynamic(() => import('../components/FlightResults'));
+const FlightFilterSidebar = dynamic(() => import('../components/flights/FlightFilterSidebar'));
+import { parseTimeToHour, getTimeSlot } from '../components/flights/FlightFilterSidebar';
+
+const AIAssistant = dynamic(() => import('../components/AIAssistant'), { ssr: false });
+const AuthModal = dynamic(() => import('../components/AuthModal'), { ssr: false });
+const FlightBookingModal = dynamic(() => import('../components/FlightBookingModal'), { ssr: false });
 const FlightDetails = React.lazy(() => import('../components/FlightDetails'));
 
 import { SearchParams, Flight, FlightFilterState, SSRGroup } from '../types';
 import { flightService } from '../services/flightService';
 
+function QueryParamSearchTrigger({
+  onSearch,
+  onViewDetails,
+}: {
+  onSearch: (params: SearchParams) => void;
+  onViewDetails: () => void;
+}) {
+  const searchParams = useSearchParams();
+  const fromParam = searchParams.get('from');
+  const toParam = searchParams.get('to');
+  const dateParam = searchParams.get('date');
+  const classParam = searchParams.get('class') || 'Economy';
+  const viewParam = searchParams.get('view');
+
+  useEffect(() => {
+    if (viewParam === 'details') {
+      onViewDetails();
+    } else if (fromParam && toParam && dateParam) {
+      onSearch({
+        from: resolveIataCode(fromParam),
+        to: resolveIataCode(toParam),
+        date: dateParam,
+        passengers: 1,
+        travelClass: classParam,
+      });
+    }
+  }, [fromParam, toParam, dateParam, classParam, viewParam, onSearch, onViewDetails]);
+
+  return null;
+}
+
 function HomeContent() {
   const router = useRouter();
-  const searchParamsHook = useSearchParams();
 
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<Flight[]>([]);
@@ -82,7 +113,7 @@ function HomeContent() {
     }
   }, [darkMode]);
 
-  const handleSearch = async (params: SearchParams) => {
+  const handleSearch = useCallback(async (params: SearchParams) => {
     setIsSearching(true);
     setIsSidebarCollapsed(true);
     setSearchResults([]);
@@ -113,7 +144,7 @@ function HomeContent() {
     } finally {
       setIsSearching(false);
     }
-  };
+  }, []);
 
   const handleResetFilters = () => {
     if (searchResults.length > 0) {
@@ -131,15 +162,8 @@ function HomeContent() {
     }
   };
 
-  // Auto-trigger search from query params
-  const fromParam = searchParamsHook.get('from');
-  const toParam = searchParamsHook.get('to');
-  const dateParam = searchParamsHook.get('date');
-  const classParam = searchParamsHook.get('class') || 'Economy';
-  const viewParam = searchParamsHook.get('view');
-
-  useEffect(() => {
-    if (viewParam === 'details') {
+  const handleViewDetails = useCallback(() => {
+    if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('tourhelpdesk_selected_flight');
       if (saved) {
         try {
@@ -149,16 +173,8 @@ function HomeContent() {
           console.error(e);
         }
       }
-    } else if (fromParam && toParam && dateParam) {
-      handleSearch({
-        from: resolveIataCode(fromParam),
-        to: resolveIataCode(toParam),
-        date: dateParam,
-        passengers: 1,
-        travelClass: classParam
-      });
     }
-  }, [fromParam, toParam, dateParam, classParam, viewParam]);
+  }, []);
 
   useEffect(() => {
     if (isSearching) {
@@ -541,27 +557,31 @@ function HomeContent() {
       </div>
 
 
+      <Suspense fallback={null}>
+        <QueryParamSearchTrigger onSearch={handleSearch} onViewDetails={handleViewDetails} />
+      </Suspense>
+
       <AIAssistant />
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={() => window.location.reload()}
-      />
-      <FlightBookingModal
-        isOpen={isBookingModalOpen}
-        flight={selectedBookingFlight}
-        searchParams={searchParams}
-        onClose={() => setIsBookingModalOpen(false)}
-      />
+      {isAuthModalOpen && (
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+          onSuccess={() => window.location.reload()}
+        />
+      )}
+      {isBookingModalOpen && (
+        <FlightBookingModal
+          isOpen={isBookingModalOpen}
+          flight={selectedBookingFlight}
+          searchParams={searchParams}
+          onClose={() => setIsBookingModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
 
 
 export default function Home() {
-  return (
-    <Suspense fallback={null}>
-      <HomeContent />
-    </Suspense>
-  );
+  return <HomeContent />;
 }

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { SearchParams } from '../types';
 import AirportAutocomplete, { resolveIataCode } from './AirportAutocomplete';
+import { Ship, Plane, Hotel, Car, Luggage, Ticket } from 'lucide-react';
 
 interface HeroProps {
   onSearch: (params: SearchParams) => void;
@@ -17,37 +18,12 @@ interface HeroProps {
 type SearchTab = 'cruises' | 'flights' | 'hotels' | 'cars' | 'holiday' | 'activities';
 
 const HERO_SLIDER_IMAGES = [
-  // ✈️ FLIGHTS IN DIFFERENT COUNTRIES
-  'https://images.pexels.com/photos/2007401/pexels-photo-2007401.jpeg?auto=compress&cs=tinysrgb&w=1920', // Passenger Flight In Blue Sky
-  'https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1920', // Transatlantic Flight Sunset
-  'https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg?auto=compress&cs=tinysrgb&w=1920', // Flight to Dubai / Middle East
-  'https://images.pexels.com/photos/1004584/pexels-photo-1004584.jpeg?auto=compress&cs=tinysrgb&w=1920', // Airplane over European Coast
-
-  // 🚢 LUXURY CRUISES IN DIFFERENT COUNTRIES
-  'https://images.pexels.com/photos/813011/pexels-photo-813011.jpeg?auto=compress&cs=tinysrgb&w=1920', // Caribbean Cruise Ship & Turquoise Sea
-  'https://images.pexels.com/photos/1548008/pexels-photo-1548008.jpeg?auto=compress&cs=tinysrgb&w=1920', // Mediterranean Cruise Ship Greek Isles
-  'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=1920', // Ocean Liner Voyage
-  'https://images.pexels.com/photos/1054218/pexels-photo-1054218.jpeg?auto=compress&cs=tinysrgb&w=1920', // Fjord & Ocean Cruise Ship
-
-  // 🏨 HOTELS & RESORTS IN DIFFERENT COUNTRIES
-  'https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=1920', // Maldives Overwater Villa Resort
-  'https://images.pexels.com/photos/189349/pexels-photo-189349.jpeg?auto=compress&cs=tinysrgb&w=1920', // Bali Luxury Private Pool Resort
-  'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&cs=tinysrgb&w=1920', // Swiss Alps Ski Resort Chalet
-  'https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=1920', // Santorini Greece Cave Suite Hotel
-  'https://images.pexels.com/photos/2044434/pexels-photo-2044434.jpeg?auto=compress&cs=tinysrgb&w=1920', // Dubai 7-Star Hotel Skyline
-  'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1920', // Luxury Beach Hotel Resort Pool
-
-  // 🌍 TOP COUNTRY DESTINATIONS & HOLIDAY TOURS
-  'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?auto=compress&cs=tinysrgb&w=1920', // London Big Ben UK Tour
-  'https://images.pexels.com/photos/161853/eiffel-tower-paris-france-tower-161853.jpeg?auto=compress&cs=tinysrgb&w=1920', // Paris Eiffel Tower France
-  'https://images.pexels.com/photos/161963/tokyo-japan-night-lights-161963.jpeg?auto=compress&cs=tinysrgb&w=1920', // Tokyo Japan Neon Tour
-  'https://images.pexels.com/photos/532263/pexels-photo-532263.jpeg?auto=compress&cs=tinysrgb&w=1920', // Rome Colosseum Italy Sightseeing
-  'https://images.pexels.com/photos/2193300/pexels-photo-2193300.jpeg?auto=compress&cs=tinysrgb&w=1920', // Sydney Opera House Australia
-  'https://images.pexels.com/photos/1796715/pexels-photo-1796715.jpeg?auto=compress&cs=tinysrgb&w=1920', // Venice Canal Cruise Italy
-  'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=1920', // Thailand Maya Bay Island Tour
-  'https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg?auto=compress&cs=tinysrgb&w=1920', // Family Traveling Vacation Beach
-  'https://images.pexels.com/photos/1682699/pexels-photo-1682699.jpeg?auto=compress&cs=tinysrgb&w=1920', // Airport Family Flight Trip
-  'https://images.pexels.com/photos/1008155/pexels-photo-1008155.jpeg?auto=compress&cs=tinysrgb&w=1920'  // Tropical Island Holiday
+  '/Images/hero/hero-1.webp',
+  '/Images/hero/hero-2.webp',
+  '/Images/hero/hero-3.webp',
+  '/Images/hero/hero-4.webp',
+  '/Images/hero/hero-5.webp',
+  '/Images/hero/hero-6.webp',
 ];
 
 const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
@@ -59,19 +35,32 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
   const [isPending, setIsPending] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [heroSlideIndex, setHeroSlideIndex] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState<number[]>([0]);
   const tabsContainerRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setLoadedIndices((prev) => {
+      const nextIdx = (heroSlideIndex + 1) % HERO_SLIDER_IMAGES.length;
+      if (prev.includes(heroSlideIndex) && prev.includes(nextIdx)) return prev;
+      return Array.from(new Set([...prev, heroSlideIndex, nextIdx]));
+    });
+  }, [heroSlideIndex]);
 
   // Auto-scroll the active tab into clear view on mobile screens (keep start anchored if in top 3)
   useEffect(() => {
     if (tabsContainerRef.current) {
       const container = tabsContainerRef.current;
       if (activeTab === 'cruises' || activeTab === 'flights' || activeTab === 'hotels') {
-        container.scrollTo({ left: 0, behavior: 'smooth' });
+        if (container.scrollLeft !== 0) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        }
       } else {
         const activeEl = container.querySelector(`[data-tab="${activeTab}"]`) as HTMLElement | null;
         if (activeEl) {
           const scrollLeft = activeEl.offsetLeft - (container.clientWidth / 2) + (activeEl.clientWidth / 2);
-          container.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+          if (Math.abs(container.scrollLeft - scrollLeft) > 5) {
+            container.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+          }
         }
       }
     }
@@ -223,23 +212,26 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
         
         {/* Auto-playing background image slider layer */}
         <div className="absolute inset-0 z-0 select-none overflow-hidden">
-          {HERO_SLIDER_IMAGES.map((imgSrc, index) => (
-            <div
-              key={imgSrc}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                index === heroSlideIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
-              }`}
-            >
-              <Image 
-                src={imgSrc} 
-                alt="Luxury Travel Background" 
-                fill
-                priority={index === 0}
-                sizes="100vw"
-                className="object-cover object-center"
-              />
-            </div>
-          ))}
+          {HERO_SLIDER_IMAGES.map((imgSrc, index) => {
+            if (!loadedIndices.includes(index)) return null;
+            return (
+              <div
+                key={imgSrc}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  index === heroSlideIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                }`}
+              >
+                <Image 
+                  src={imgSrc} 
+                  alt="Luxury Travel Background" 
+                  fill
+                  priority={index === 0}
+                  sizes="100vw"
+                  className="object-cover object-center"
+                />
+              </div>
+            );
+          })}
           {/* Subtle dark gradient overlay to improve text readability */}
           <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#0b3372]/35 via-[#0d2857]/45 to-[#041a42]/85"></div>
         </div>
@@ -291,7 +283,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             onClick={() => { setActiveTab('cruises'); setError(null); }}
             className={tabClass('cruises')}
           >
-            <span className={`material-symbols-outlined text-[17px] sm:text-[18px] mr-0.5 shrink-0 ${activeTab === 'cruises' ? 'text-[#E8A11A]' : 'text-white'}`}>directions_boat</span>
+            <Ship className={`w-4 h-4 sm:w-[18px] sm:h-[18px] mr-1 shrink-0 ${activeTab === 'cruises' ? 'text-[#E8A11A]' : 'text-white'}`} />
             <span>Cruises</span>
           </button>
 
@@ -300,7 +292,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             onClick={() => { setActiveTab('flights'); setError(null); }}
             className={tabClass('flights')}
           >
-            <span className={`material-symbols-outlined text-[17px] sm:text-[18px] mr-0.5 shrink-0 ${activeTab === 'flights' ? 'text-[#E8A11A]' : 'text-white'}`}>flight</span>
+            <Plane className={`w-4 h-4 sm:w-[18px] sm:h-[18px] mr-1 shrink-0 ${activeTab === 'flights' ? 'text-[#E8A11A]' : 'text-white'}`} />
             <span>Flights</span>
           </button>
 
@@ -309,7 +301,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             onClick={() => { setActiveTab('hotels'); setError(null); }}
             className={tabClass('hotels')}
           >
-            <span className={`material-symbols-outlined text-[17px] sm:text-[18px] mr-0.5 shrink-0 ${activeTab === 'hotels' ? 'text-[#E8A11A]' : 'text-white'}`}>hotel</span>
+            <Hotel className={`w-4 h-4 sm:w-[18px] sm:h-[18px] mr-1 shrink-0 ${activeTab === 'hotels' ? 'text-[#E8A11A]' : 'text-white'}`} />
             <span>Hotels</span>
           </button>
 
@@ -318,7 +310,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             onClick={() => { setActiveTab('cars'); setError(null); }}
             className={tabClass('cars')}
           >
-            <span className={`material-symbols-outlined text-[17px] sm:text-[18px] mr-0.5 shrink-0 ${activeTab === 'cars' ? 'text-[#E8A11A]' : 'text-white'}`}>directions_car</span>
+            <Car className={`w-4 h-4 sm:w-[18px] sm:h-[18px] mr-1 shrink-0 ${activeTab === 'cars' ? 'text-[#E8A11A]' : 'text-white'}`} />
             <span>Car Rental</span>
           </button>
 
@@ -327,7 +319,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             onClick={() => { setActiveTab('holiday'); setError(null); }}
             className={tabClass('holiday')}
           >
-            <span className={`material-symbols-outlined text-[17px] sm:text-[18px] mr-0.5 shrink-0 ${activeTab === 'holiday' ? 'text-[#E8A11A]' : 'text-white'}`}>luggage</span>
+            <Luggage className={`w-4 h-4 sm:w-[18px] sm:h-[18px] mr-1 shrink-0 ${activeTab === 'holiday' ? 'text-[#E8A11A]' : 'text-white'}`} />
             <span>Holiday</span>
           </button>
 
@@ -336,7 +328,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             onClick={() => { setActiveTab('activities'); setError(null); }}
             className={tabClass('activities')}
           >
-            <span className={`material-symbols-outlined text-[17px] sm:text-[18px] mr-0.5 shrink-0 ${activeTab === 'activities' ? 'text-[#E8A11A]' : 'text-white'}`}>local_activity</span>
+            <Ticket className={`w-4 h-4 sm:w-[18px] sm:h-[18px] mr-1 shrink-0 ${activeTab === 'activities' ? 'text-[#E8A11A]' : 'text-white'}`} />
             <span>Activities</span>
           </button>
         </div>

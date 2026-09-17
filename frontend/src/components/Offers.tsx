@@ -544,7 +544,6 @@ const Offers: React.FC<OffersProps> = ({ onSeeAll }) => {
                         fill
                         sizes="(max-width: 640px) 290px, 325px"
                         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                        priority={index < 4}
                       />
 
                       {/* Soft top gradient solely for badge text contrast */}

@@ -483,13 +483,8 @@ export const AIAssistant: React.FC = () => {
           className="relative w-15 h-15 rounded-full p-[2px] cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95"
           aria-label="Toggle Tour AI Concierge"
         >
-          {/* Layer 1: Ambient Background Soft Glow Pulse */}
-          <span className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-[#E8A11A] to-[#F4B63A] opacity-40 blur-lg animate-pulse pointer-events-none group-hover:opacity-75 transition-opacity" />
-
-          {/* Layer 2: Expanding Radar Ping Wave */}
-          {!isOpen && (
-            <span className="absolute -inset-1 rounded-full bg-[#E8A11A] opacity-30 animate-ping pointer-events-none duration-1000" />
-          )}
+          {/* Layer 1: Ambient Background Soft Glow */}
+          <span className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-[#E8A11A] to-[#F4B63A] opacity-40 blur-lg pointer-events-none group-hover:opacity-75 transition-opacity" />
 
           {/* Layer 3: Glass Orb Container with Luxury Gold Border */}
           <div className="relative w-full h-full rounded-full p-[2px] bg-gradient-to-tr from-[#B27305] via-[#E8A11A] to-[#FDECC3] shadow-[0_10px_35px_rgba(232,161,26,0.5)] overflow-hidden">
@@ -505,7 +500,7 @@ export const AIAssistant: React.FC = () => {
                   <Sparkles className="w-7 h-7 text-[#E8A11A] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
 
                   {/* Online Live Indicator Dot */}
-                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full ring-2 ring-slate-950 animate-pulse" />
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full ring-2 ring-slate-950" />
                 </div>
               )}
             </div>

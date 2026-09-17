@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '../../lib/utils';
+import { Ship, Plane, Hotel, Car, Train, Luggage, Ticket, ShieldCheck, Compass, Bus, Smartphone } from 'lucide-react';
 
 export interface MobileServiceGridProps {
   onSelectCategory?: (category: string) => void;
@@ -16,17 +17,6 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    // Proactively prefetch common mobile navigation destinations in background
-    router.prefetch('/hotels');
-    router.prefetch('/flights');
-    router.prefetch('/bus');
-    router.prefetch('/car-rental');
-    router.prefetch('/offers');
-    router.prefetch('/customer-service');
-    router.prefetch('/special-offer');
-  }, [router]);
 
   const handleScroll = () => {
     if (sliderRef.current) {
@@ -59,7 +49,7 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
         if (cruisesTab instanceof HTMLElement) cruisesTab.click();
         window.scrollTo({ top: 300, behavior: 'smooth' });
       },
-      icon: <span className="material-symbols-outlined text-[24px]">directions_boat</span>
+      icon: <Ship className="w-6 h-6 text-[#E8A11A]" />
     },
     {
       id: 'flights',
@@ -73,19 +63,19 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
           router.push('/flights');
         }
       },
-      icon: <span className="material-symbols-outlined text-[24px]">flight</span>
+      icon: <Plane className="w-6 h-6 text-[#E8A11A]" />
     },
     {
       id: 'hotels',
       name: 'Hotels',
       action: () => router.push('/hotels'),
-      icon: <span className="material-symbols-outlined text-[24px]">hotel</span>
+      icon: <Hotel className="w-6 h-6 text-[#E8A11A]" />
     },
     {
       id: 'cars',
       name: 'Car Rental',
       action: () => router.push('/car-rental'),
-      icon: <span className="material-symbols-outlined text-[24px]">directions_car</span>
+      icon: <Car className="w-6 h-6 text-[#E8A11A]" />
     }
   ];
 
@@ -95,13 +85,13 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
       id: 'trains',
       name: 'Trains',
       action: () => router.push('/bus'),
-      icon: <span className="material-symbols-outlined text-[20px]">train</span>
+      icon: <Train className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     },
     {
       id: 'holidays',
       name: 'Holidays',
       action: () => router.push('/offers'),
-      icon: <span className="material-symbols-outlined text-[20px]">luggage</span>
+      icon: <Luggage className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     },
     {
       id: 'activities',
@@ -111,31 +101,31 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
         if (el) el.scrollIntoView({ behavior: 'smooth' });
         else router.push('/offers');
       },
-      icon: <span className="material-symbols-outlined text-[20px]">local_activity</span>
+      icon: <Ticket className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     },
     {
       id: 'insurance',
       name: 'Insurance',
       action: () => router.push('/customer-service'),
-      icon: <span className="material-symbols-outlined text-[20px]">verified_user</span>
+      icon: <ShieldCheck className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     },
     {
       id: 'visa',
       name: 'Visa',
       action: () => router.push('/customer-service'),
-      icon: <span className="material-symbols-outlined text-[20px]">travel_explore</span>
+      icon: <Compass className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     },
     {
       id: 'bus',
       name: 'Bus',
       action: () => router.push('/bus'),
-      icon: <span className="material-symbols-outlined text-[20px]">directions_bus</span>
+      icon: <Bus className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     },
     {
       id: 'app',
       name: 'App',
       action: () => router.push('/special-offer'),
-      icon: <span className="material-symbols-outlined text-[20px]">smartphone</span>
+      icon: <Smartphone className="w-5 h-5 text-slate-700 dark:text-slate-300" />
     }
   ];
 

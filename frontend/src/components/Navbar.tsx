@@ -63,13 +63,6 @@ const Navbar: React.FC<NavbarProps> = ({
     // Fetch live rates from CurrencyFreaks via backend on load
     getExchangeRates();
 
-    // Prefetch main destination routes for zero-lag instant navigation
-    router.prefetch('/hotels');
-    router.prefetch('/flights');
-    router.prefetch('/bus');
-    router.prefetch('/offers');
-    router.prefetch('/customer-service');
-
     const handleOutsideClick = (e: MouseEvent) => {
       if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) {
         setShowCurrencyMenu(false);
@@ -80,7 +73,7 @@ const Navbar: React.FC<NavbarProps> = ({
       window.removeEventListener('currency_change', handleCurrencyEvent);
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [router]);
+  }, []);
 
   const handleSelectCurrency = (curr: CurrencyOption) => {
     setSelectedCurrency(curr);

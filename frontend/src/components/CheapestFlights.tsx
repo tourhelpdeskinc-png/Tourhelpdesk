@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import Carousel from './ui/Carousel';
 import { convertINR, getSavedCurrency, CURRENCIES, CurrencyOption } from '../lib/currency';
 
@@ -235,10 +234,8 @@ const CheapestFlights: React.FC<CheapestFlightsProps> = ({ onSelectFlight }) => 
             const convertedPrice = convertINR(flight.rawPrice * 87.5, currency.code);
 
             return (
-              <motion.div
+              <div
                 key={flight.id}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.2 }}
                 onClick={() => {
                   const searchInput = document.querySelector('input[name="from"]');
                   if (searchInput instanceof HTMLElement) {
@@ -248,7 +245,7 @@ const CheapestFlights: React.FC<CheapestFlightsProps> = ({ onSelectFlight }) => 
                     onSelectFlight(flight.name);
                   }
                 }}
-                className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_12px_32px_rgba(15,23,42,0.12)] dark:shadow-none border border-slate-100 dark:border-slate-800/80 group cursor-pointer flex flex-col h-full select-none"
+                className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_12px_32px_rgba(15,23,42,0.12)] dark:shadow-none border border-slate-100 dark:border-slate-800/80 group cursor-pointer flex flex-col h-full select-none transition-transform duration-200 ease-out hover:-translate-y-1.5"
               >
                 {/* Image Container with Badges */}
                 <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -336,7 +333,7 @@ const CheapestFlights: React.FC<CheapestFlightsProps> = ({ onSelectFlight }) => 
                     </span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </Carousel>
