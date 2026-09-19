@@ -1,5 +1,5 @@
 import mongoose, { Document, Model } from 'mongoose';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 export interface IUser extends Document {
   firstName: string;
@@ -89,6 +89,7 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       default: null,
       select: false,
+      index: { sparse: true },
     },
     resetPasswordExpire: {
       type: Date,
@@ -103,7 +104,7 @@ const userSchema = new mongoose.Schema<IUser>(
 
 userSchema.pre('save', async function () {
   if (!this.isModified('password') || !this.password) return;
-  const salt = await bcrypt.genSalt(12);
+  const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 

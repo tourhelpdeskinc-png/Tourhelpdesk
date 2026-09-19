@@ -85,7 +85,7 @@ export const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
               <label className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-500">From / Origin</label>
               <AirportAutocomplete
                 name="from"
-                placeholder="Departure City (e.g. DEL)"
+                placeholder="Select Departure City (e.g. YYZ, DEL)"
                 value={searchForm.from}
                 onChange={(code) => onChange({ ...searchForm, from: code })}
                 flat={true}
@@ -103,7 +103,7 @@ export const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
               <label className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-500">To / Destination</label>
               <AirportAutocomplete
                 name="to"
-                placeholder="Arrival City (e.g. BOM)"
+                placeholder="Select Arrival City (e.g. YVR, BOM)"
                 value={searchForm.to}
                 onChange={(code) => onChange({ ...searchForm, to: code })}
                 flat={true}

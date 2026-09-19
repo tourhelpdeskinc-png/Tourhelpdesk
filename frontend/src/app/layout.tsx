@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "../context/ThemeContext";
 import { ToastProvider } from "../context/ToastContext";
+import GoogleAuthProvider from "./providers/GoogleAuthProvider";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -31,12 +32,17 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.png', sizes: '64x64', type: 'image/png' },
     ],
     shortcut: '/favicon.ico',
-    apple: '/favicon.png',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
+  manifest: '/site.webmanifest',
 };
 
 
@@ -70,7 +76,9 @@ export default function RootLayout({
       <body className={`${plusJakartaSans.className} min-h-full flex flex-col`}>
         <ThemeProvider>
           <ToastProvider>
-            {children}
+            <GoogleAuthProvider>
+              {children}
+            </GoogleAuthProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>

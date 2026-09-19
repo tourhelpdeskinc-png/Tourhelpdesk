@@ -82,8 +82,8 @@ const staggerContainerVariants = {
 
 export default function BusPage() {
   const [searchForm, setSearchForm] = useState<BusSearchForm>({
-    from: "New York, USA",
-    to: "Boston, USA",
+    from: "Toronto, ON, Canada",
+    to: "Montreal, QC, Canada",
     date: "2026-07-30",
     busType: "AC Sleeper"
   });
@@ -124,8 +124,8 @@ export default function BusPage() {
       id: "b1",
       category: "Bus" as const,
       badgeLabel: "Bus",
-      code: "FIRST",
-      title: "Save up to Rs 250 on bus tickets",
+      code: "FIRST25",
+      title: "Save up to $25 on bus tickets",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#FEE2E2] via-[#FCE7F3] to-[#FFEDD5]",
       graphicType: "bus" as const
@@ -134,8 +134,8 @@ export default function BusPage() {
       id: "b2",
       category: "Bus" as const,
       badgeLabel: "Bus",
-      code: "PRIMO200",
-      title: "Save up to Rs 200 on Primo operators.",
+      code: "EXPRESS20",
+      title: "Save up to $20 on Express Luxury operators.",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#FEF08A] via-[#FACC15] to-[#EAB308]",
       graphicType: "primo" as const
@@ -144,8 +144,8 @@ export default function BusPage() {
       id: "b3",
       category: "Bus" as const,
       badgeLabel: "Bus",
-      code: "BUS300",
-      title: "Save up to Rs 300 on bus tickets",
+      code: "BUS30",
+      title: "Save up to $30 on intercity routes",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#FEE2E2] via-[#FCE7F3] to-[#FFEDD5]",
       graphicType: "bus" as const
@@ -154,8 +154,8 @@ export default function BusPage() {
       id: "b4",
       category: "Bus" as const,
       badgeLabel: "Bus",
-      code: "IDFC500",
-      title: "Save up to Rs 500 on IDFC FIRST Bank Credit cards",
+      code: "RBC50",
+      title: "Save up to $50 on RBC & TD Bank Credit cards",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#FFF1F2] via-[#FFE4E6] to-[#FECDD3]",
       graphicType: "bank" as const
@@ -164,8 +164,8 @@ export default function BusPage() {
       id: "t1",
       category: "Train" as const,
       badgeLabel: "Train",
-      code: "RAIL100",
-      title: "Save up to Rs 100 on IRCTC train bookings",
+      code: "VIA25",
+      title: "Save up to $25 on VIA Rail train bookings",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#E0F2FE] via-[#BAE6FD] to-[#E0E7FF]",
       graphicType: "train" as const
@@ -174,8 +174,8 @@ export default function BusPage() {
       id: "t2",
       category: "Train" as const,
       badgeLabel: "Train",
-      code: "SUPERFAST",
-      title: "Zero service fee on Vande Bharat Express tickets",
+      code: "CORRIDOR",
+      title: "Zero service fee on Toronto-Montreal Corridor tickets",
       validity: "Valid till 15 Aug",
       bgClass: "bg-gradient-to-br from-[#FEF08A] via-[#FACC15] to-[#F59E0B]",
       graphicType: "train" as const
@@ -194,8 +194,8 @@ export default function BusPage() {
       id: "h2",
       category: "HOTEL" as const,
       badgeLabel: "Hotel",
-      code: "BANKHOTEL",
-      title: "Up to Rs 1500 Instant Discount on HDFC Cards",
+      code: "TDHOTEL",
+      title: "Up to $150 Instant Discount on TD & Scotiabank Cards",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#E0F2FE] via-[#BAE6FD] to-[#FECDD3]",
       graphicType: "bank" as const
@@ -205,7 +205,7 @@ export default function BusPage() {
       category: "Flight" as const,
       badgeLabel: "Flight",
       code: "FLYHIGH",
-      title: "Save up to Rs 2500 on International Flights",
+      title: "Save up to $250 on International Flights",
       validity: "Valid till 31 Aug",
       bgClass: "bg-gradient-to-br from-[#E0F2FE] via-[#BAE6FD] to-[#C7D2FE]",
       graphicType: "flight" as const
@@ -214,8 +214,8 @@ export default function BusPage() {
       id: "c1",
       category: "Cab" as const,
       badgeLabel: "Cab",
-      code: "CAB50",
-      title: "Save up to Rs 250 on Airport Taxi & Outstation Cabs",
+      code: "CAB25",
+      title: "Save up to $25 on Airport Taxi & Outstation Cabs",
       validity: "Valid till 31 Jul",
       bgClass: "bg-gradient-to-br from-[#FEF08A] via-[#FACC15] to-[#FED7AA]",
       graphicType: "cab" as const
@@ -227,8 +227,8 @@ export default function BusPage() {
     : allOfferCards.filter(o => o.category === activeOfferTab);
 
   const countries = [
+    { name: "Canada", flag: "🇨🇦", routes: "4,200+", price: "$18", gradient: "from-red-600/90 to-rose-950/90", img: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=800&auto=format&fit=crop" },
     { name: "United States", flag: "🇺🇸", routes: "3,400+", price: "$15", gradient: "from-blue-600/90 to-indigo-900/90", img: "https://images.unsplash.com/photo-1506146332389-18140dc7b2fb?q=80&w=800&auto=format&fit=crop" },
-    { name: "India", flag: "🇮🇳", routes: "12,800+", price: "₹299", gradient: "from-amber-600/90 to-orange-900/90", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=800&auto=format&fit=crop" },
     { name: "United Kingdom", flag: "🇬🇧", routes: "1,800+", price: "£12", gradient: "from-red-600/90 to-slate-900/90", img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=800&auto=format&fit=crop" },
     { name: "United Arab Emirates", flag: "🇦🇪", routes: "980+", price: "AED 25", gradient: "from-emerald-600/90 to-teal-900/90", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800&auto=format&fit=crop" },
     { name: "Thailand", flag: "🇹🇭", routes: "2,100+", price: "฿180", gradient: "from-purple-600/90 to-indigo-950/90", img: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=800&auto=format&fit=crop" },
@@ -270,6 +270,17 @@ export default function BusPage() {
   ];
 
   const internationalBusCards = [
+    {
+      country: "Canada 🇨🇦",
+      title: "Canada Intercity Express Network",
+      routes: "Toronto ⇄ Montreal • Vancouver ⇄ Whistler • Calgary ⇄ Banff",
+      operators: "Megabus Canada • Rider Express • Ontario Northland",
+      features: ["Free High-Speed Wi-Fi", "Power Sockets", "Panoramic Mountain Views"],
+      price: "$18",
+      img: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=800&auto=format&fit=crop",
+      badgeColor: "bg-red-600",
+      accentGradient: "from-red-950/90 via-slate-900/85 to-slate-950/90"
+    },
     {
       country: "United States 🇺🇸",
       title: "USA Intercity Bus Network",
@@ -557,10 +568,10 @@ export default function BusPage() {
               International & USA Bus Travel
             </span>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
-              Buses Outside India (USA, Europe & Global)
+              Popular Intercity Bus Routes (Canada, USA & Global)
             </h2>
             <p className="mt-1 text-slate-600 dark:text-slate-400 text-xs sm:text-sm font-medium max-w-2xl">
-              Book top-rated intercity buses across the USA, UK, Europe, UAE, and Southeast Asia at guaranteed lowest prices.
+              Book top-rated intercity buses across Canada, the USA, UK, Europe, UAE, and worldwide at guaranteed lowest prices.
             </p>
           </div>
         </motion.div>
@@ -796,7 +807,7 @@ export default function BusPage() {
                 <strong className="text-slate-900 dark:text-white font-black">TourHelpDesk</strong> makes bus travel simple, secure, and affordable. Whether you're planning a weekend getaway, a family vacation, or a business trip, you can compare routes, choose from trusted operators, and book your bus tickets in just a few clicks.
               </p>
               <p>
-                With an extensive network of bus operators and routes across India, TourHelpDesk helps you find the best travel options at competitive prices. Enjoy a seamless booking experience, transparent fares, secure payments, and instant booking confirmations—all from one platform.
+                With an extensive network of bus operators and routes across Canada, the USA, and globally, TourHelpDesk helps you find the best travel options at competitive prices. Enjoy a seamless booking experience, transparent fares, secure payments, and instant booking confirmations—all from one platform.
               </p>
             </div>
           </motion.div>
@@ -838,7 +849,7 @@ export default function BusPage() {
                 { 
                   icon: <ShieldCheck className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
                   title: "Safe & Secure Payments", 
-                  desc: "Book confidently using trusted payment methods, including UPI, Credit Cards, Debit Cards, Net Banking, and Digital Wallets." 
+                  desc: "Book confidently using trusted payment methods, including Visa, MasterCard, American Express, Apple Pay, and Digital Wallets." 
                 },
                 { 
                   icon: <Navigation className="w-6 h-6 text-rose-600 dark:text-rose-400" />,
@@ -935,7 +946,7 @@ export default function BusPage() {
                 </p>
               </div>
               <div className="p-5 rounded-2xl bg-blue-600/10 dark:bg-blue-900/30 border border-blue-500/20 text-sm font-extrabold text-blue-700 dark:text-blue-300">
-                Book your next bus journey with confidence and experience a smarter way to travel across India.
+                Book your next bus journey with confidence and experience a smarter way to travel across Canada and North America.
               </div>
             </motion.div>
 

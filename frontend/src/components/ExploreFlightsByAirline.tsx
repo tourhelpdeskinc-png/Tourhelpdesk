@@ -445,7 +445,9 @@ export const AirlineFlightCard: React.FC<{ deal: AirlineFlightDeal }> = ({ deal 
       from: deal.originCode,
       to: deal.destCode,
       date: dateStr,
-      class: 'Economy'
+      class: 'Economy',
+      airline: deal.iataCode,
+      airlineName: deal.airline,
     });
     router.push(`/?${params.toString()}`);
   };

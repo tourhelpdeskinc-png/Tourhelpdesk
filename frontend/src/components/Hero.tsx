@@ -66,9 +66,9 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
     }
   }, [activeTab]);
 
-  // Controlled Flight Form States
-  const [fromCity, setFromCity] = useState('Delhi (DEL)');
-  const [toCity, setToCity] = useState('Bengaluru (BLR)');
+  // Controlled Flight Form States - empty by default so user selects their own departure/arrival
+  const [fromCity, setFromCity] = useState('');
+  const [toCity, setToCity] = useState('');
   const [departureDate, setDepartureDate] = useState(() => {
     const today = new Date();
     today.setDate(today.getDate() + 1);
@@ -154,7 +154,7 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
     const travClass = (formData.get('travelClass') as string) || travelClass;
 
     if (!from || !to || !date) {
-      setError('Please fill all required fields');
+      setError('Please select both Departure and Arrival cities');
       setIsPending(false);
       return;
     }
@@ -512,11 +512,10 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
                   <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">From</span>
                   <AirportAutocomplete
                     name="from"
-                    placeholder="Departure City"
+                    placeholder="Select Departure City"
                     value={fromCity}
                     onChange={(code, apt) => setFromCity(apt ? `${apt.city} (${apt.code})` : code)}
                     variant="mmt"
-                    defaultCode="DEL"
                     required={true}
                   />
 
@@ -536,11 +535,10 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
                   <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-1">To</span>
                   <AirportAutocomplete
                     name="to"
-                    placeholder="Arrival City"
+                    placeholder="Select Arrival City"
                     value={toCity}
                     onChange={(code, apt) => setToCity(apt ? `${apt.city} (${apt.code})` : code)}
                     variant="mmt"
-                    defaultCode="BLR"
                     required={true}
                   />
                 </div>

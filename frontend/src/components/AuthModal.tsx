@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
-import GoogleAuthProvider from '../app/providers/GoogleAuthProvider';
 import { authService } from '../services/authService';
 
 interface AuthModalProps {
@@ -53,7 +52,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+  const handleGoogleSuccess = useCallback(async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
       setError('Failed to obtain Google ID token.');
       return;
@@ -70,7 +69,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     } finally {
       setSocialLoading(null);
     }
-  };
+  }, [onSuccess, onClose]);
 
   const handleUnsupportedSocial = (provider: string) => {
     setError(`${provider} login is coming soon. Please use Google or email/password for now.`);
@@ -275,7 +274,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     <span>Signing in with Google...</span>
                   </div>
                 ) : (
-                  <GoogleAuthProvider>
+                  isOpen && (
                     <div className="w-full flex justify-center overflow-hidden rounded-xl">
                       <GoogleLogin
                         onSuccess={handleGoogleSuccess}
@@ -284,10 +283,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                         size="large"
                         theme="outline"
                         width="340"
-                        text={mode === 'login' ? 'signin_with' : 'signup_with'}
+                        text="continue_with"
                       />
                     </div>
-                  </GoogleAuthProvider>
+                  )
                 )}
               </div>
 

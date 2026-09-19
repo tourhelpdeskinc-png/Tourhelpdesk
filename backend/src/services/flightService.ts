@@ -2,8 +2,8 @@ import axios from 'axios';
 import env from '../config/env.js';
 import logger from '../config/logger.js';
 import { cacheStore } from '../utils/cache.js';
-import { extractCode, formatToMMDDYYYY, formatTimeAMPM } from '../utils/date.js';
-import { getAirlineName } from '../constants/constants.js';
+import { extractCode, formatToMMDDYYYY, formatTimeAMPM, isDomesticRoute } from '../utils/date.js';
+import { getAirlineName, getAirlineCode } from '../constants/constants.js';
 
 /*
 export const preCachePopularRoutes = async (): Promise<void> => {
@@ -27,6 +27,8 @@ export const preCachePopularRoutes = async (): Promise<void> => {
 };
 */
 
+const inFlightFlightSearches = new Map<string, Promise<any[]>>();
+
 export const searchLiveFlights = async (params: {
   from: string;
   to: string;
@@ -34,210 +36,247 @@ export const searchLiveFlights = async (params: {
   returnDate?: string | null;
   passengers?: string | number;
   travelClass?: string;
+  airline?: string | null;
+  airlineCode?: string | null;
+  page?: string | number;
+  limit?: string | number;
   clientIp?: string;
 }) => {
-  const { from, to, date, returnDate, passengers, travelClass, clientIp } = params;
+  const { from, to, date, returnDate, passengers, travelClass, airline, airlineCode, clientIp } = params;
+
+  const pageNum = Math.max(1, parseInt(String(params.page || 1), 10) || 1);
+  const limitNum = Math.min(50, Math.max(1, parseInt(String(params.limit || 20), 10) || 20));
 
   const origin = extractCode(from);
   const destination = extractCode(to);
   const formattedDate = formatToMMDDYYYY(date);
   const formattedReturnDate = returnDate ? formatToMMDDYYYY(returnDate) : formattedDate;
+  const targetAirlineCode = getAirlineCode(airlineCode || airline || '');
 
   const cacheKey = `RAW-FLYSHOP-${origin}-${destination}-${formattedDate}-${returnDate || 'oneway'}-${travelClass || 'Economy'}`;
+
+  const formatPaginatedResponse = (allFlights: any[]) => {
+    let flightList = allFlights;
+    if (targetAirlineCode) {
+      const matching = allFlights.filter((f) =>
+        f.airlineCode?.toUpperCase() === targetAirlineCode.toUpperCase() ||
+        f.airline?.toLowerCase().includes((airline || '').toLowerCase())
+      );
+      if (matching.length > 0) {
+        flightList = matching;
+      }
+    }
+
+    const startIndex = (pageNum - 1) * limitNum;
+    const paginatedFlights = flightList.slice(startIndex, startIndex + limitNum);
+    return {
+      flights: paginatedFlights,
+      count: paginatedFlights.length,
+      totalCount: flightList.length,
+      page: pageNum,
+      limit: limitNum,
+      hasMore: pageNum * limitNum < flightList.length,
+      source: 'live_flyshop_uat',
+      searchParams: { from, to, date, returnDate, passengers, travelClass, airline, airlineCode, page: pageNum, limit: limitNum },
+    };
+  };
 
   // Check Cache
   const cachedData = await cacheStore.get<any[]>(cacheKey);
   if (cachedData && Array.isArray(cachedData)) {
-    logger.info(`✅ Returning cached raw Flyshop flights for ${cacheKey}`);
-    return {
-      flights: cachedData,
-      count: cachedData.length,
-      source: 'live_flyshop_uat',
-      searchParams: { from, to, date, returnDate, passengers, travelClass },
-    };
+    logger.info(`✅ Returning cached raw Flyshop flights for ${cacheKey} (Page ${pageNum})`);
+    return formatPaginatedResponse(cachedData);
   }
 
-  const isReturn = Boolean(returnDate);
-  const bookingType = isReturn ? 1 : 0;
-
-  const tripInfo: any[] = [
-    {
-      Origin: origin,
-      Destination: destination,
-      TravelDate: formattedDate,
-      Trip_Id: 0,
-    },
-  ];
-
-  if (isReturn && returnDate) {
-    tripInfo.push({
-      Origin: destination,
-      Destination: origin,
-      TravelDate: formattedReturnDate,
-      Trip_Id: 1,
-    });
+  // Check if an identical search is already in-flight (Promise Coalescing)
+  if (inFlightFlightSearches.has(cacheKey)) {
+    logger.info(`⏳ Coalescing with in-flight Flyshop search for ${cacheKey} (Page ${pageNum})`);
+    const allFlights = await inFlightFlightSearches.get(cacheKey)!;
+    return formatPaginatedResponse(allFlights);
   }
 
-  const payload = {
-    Auth_Header: {
-      UserId: env.FLYSHOP_USER_ID,
-      Password: env.FLYSHOP_PASSWORD,
-      IP_Address: clientIp || '127.0.0.1',
-      Request_Id: `REQ_${Date.now()}`,
-      IMEI_Number: '9536615000',
-    },
-    Travel_Type: 0,
-    Booking_Type: bookingType,
-    TripInfo: tripInfo,
-    Adult_Count: String(passengers || 1),
-    Child_Count: '0',
-    Infant_Count: '0',
-    Class_Of_Travel: '0',
-    InventoryType: 0,
-    Source_Type: 0,
-    SrCitizen_Search: false,
-    StudentFare_Search: false,
-    DefenceFare_Search: false,
-    Filtered_Airline: [{ Airline_Code: '' }],
-  };
+  const fetchPromise = (async (): Promise<any[]> => {
+    const isReturn = Boolean(returnDate);
+    const bookingType = isReturn ? 1 : 0;
+    const travelType = isDomesticRoute(origin, destination) ? 0 : 1;
 
-  try {
-    logger.info(`📡 Querying RAW Flyshop UAT API for ${origin} -> ${destination} on ${formattedDate}...`);
+    const tripInfo: any[] = [
+      {
+        Origin: origin,
+        Destination: destination,
+        TravelDate: formattedDate,
+        Trip_Id: 0,
+      },
+    ];
 
-    const apiResponse = await axios.post(`${env.FLYSHOP_BASE_URL}/Air_Search`, payload, {
-      headers: { 'Content-Type': 'application/json' },
-      timeout: 25000,
-    });
-
-    const responseData = apiResponse.data;
-    const header = responseData?.Response_Header;
-
-    if (header && header.Error_Code !== '0000') {
-      logger.warn(`ℹ️ Flyshop UAT API error response: Code ${header.Error_Code} - ${header.Error_Desc}`);
-      return {
-        flights: [],
-        count: 0,
-        source: 'live_flyshop_uat',
-        message: header.Error_Desc || 'Flights search failed on GDS.',
-        searchParams: { from, to, date, returnDate, passengers, travelClass },
-      };
+    if (isReturn && returnDate) {
+      tripInfo.push({
+        Origin: destination,
+        Destination: origin,
+        TravelDate: formattedReturnDate,
+        Trip_Id: 1,
+      });
     }
 
-    const liveFlightsList: any[] = [];
-    const tripDetails = responseData?.TripDetails || [];
+    const payload = {
+      Auth_Header: {
+        UserId: env.FLYSHOP_USER_ID,
+        Password: env.FLYSHOP_PASSWORD,
+        IP_Address: clientIp || '127.0.0.1',
+        Request_Id: `REQ_${Date.now()}`,
+        IMEI_Number: '9536615000',
+      },
+      Travel_Type: travelType,
+      Booking_Type: bookingType,
+      TripInfo: tripInfo,
+      Adult_Count: String(passengers || 1),
+      Child_Count: '0',
+      Infant_Count: '0',
+      Class_Of_Travel: '0',
+      InventoryType: 0,
+      Source_Type: 0,
+      SrCitizen_Search: false,
+      StudentFare_Search: false,
+      DefenceFare_Search: false,
+      Filtered_Airline: [{ Airline_Code: '' }],
+    };
 
-    tripDetails.forEach((trip: any) => {
-      const flights = trip.Flights || [];
-      flights.forEach((flight: any, flightIndex: number) => {
-        const segments = flight.Segments || [];
-        const firstSegment = segments[0] || {};
-        const lastSegment = segments[segments.length - 1] || firstSegment;
+    try {
+      logger.info(`📡 Querying RAW Flyshop UAT API for ${origin} -> ${destination} (Travel_Type: ${travelType}) on ${formattedDate}...`);
 
-        const fareObj = flight.Fares?.[0] || {};
-        const fareDetails = fareObj.FareDetails?.[0] || {};
+      const apiResponse = await axios.post(`${env.FLYSHOP_BASE_URL}/Air_Search`, payload, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 25000,
+      });
 
-        const totalAmount = fareDetails.Total_Amount || (fareDetails.Basic_Amount + fareDetails.AirportTax_Amount) || 0;
-        const airlineCode = flight.Airline_Code || firstSegment.Airline_Code || '6E';
-        const airlineName = getAirlineName(airlineCode, firstSegment.Airline_Name);
+      const responseData = apiResponse.data;
+      const header = responseData?.Response_Header;
 
-        const depTime = formatTimeAMPM(firstSegment.Departure_DateTime);
-        const arrTime = formatTimeAMPM(lastSegment.Arrival_DateTime);
+      if (header && header.Error_Code !== '0000') {
+        logger.warn(`ℹ️ Flyshop UAT API error response: Code ${header.Error_Code} - ${header.Error_Desc}${header.Error_InnerException ? ` (${header.Error_InnerException})` : ''}`);
+        return [];
+      }
 
-        let durationStr = firstSegment.Duration || '2h 30m';
-        let durationMinutes = 150;
-        if (durationStr.includes(':')) {
-          const [dh, dm] = durationStr.split(':');
-          durationMinutes = parseInt(dh, 10) * 60 + (parseInt(dm, 10) || 0);
-          durationStr = `${parseInt(dh, 10)}h ${parseInt(dm, 10) || 0}m`;
-        }
+      const liveFlightsList: any[] = [];
+      const tripDetails = responseData?.TripDetails || [];
 
-        const flightNumber = firstSegment.Flight_Number ? `${airlineCode}-${firstSegment.Flight_Number.trim()}` : `${airlineCode}-${1000 + flightIndex}`;
+      tripDetails.forEach((trip: any) => {
+        const flights = trip.Flights || [];
+        flights.forEach((flight: any, flightIndex: number) => {
+          const segments = flight.Segments || [];
+          const firstSegment = segments[0] || {};
+          const lastSegment = segments[segments.length - 1] || firstSegment;
 
-        const flightKey = flight.Flight_Key;
-        const fareId = fareObj.Fare_Id || fareDetails.Fare_Id;
-        const searchKey = responseData?.Search_Key || trip.Search_Key;
+          const fareObj = flight.Fares?.[0] || {};
+          const fareDetails = fareObj.FareDetails?.[0] || {};
 
-        // Derive layover airports if stops > 0
-        const layovers: string[] = [];
-        if (segments.length > 1) {
-          for (let i = 0; i < segments.length - 1; i++) {
-            const layoverPort = segments[i].Destination || segments[i + 1]?.Origin;
-            if (layoverPort && !layovers.includes(layoverPort)) {
-              layovers.push(layoverPort);
+          const totalAmount = fareDetails.Total_Amount || (fareDetails.Basic_Amount + fareDetails.AirportTax_Amount) || 0;
+          const airlineCode = flight.Airline_Code || firstSegment.Airline_Code || '6E';
+          const airlineName = getAirlineName(airlineCode, firstSegment.Airline_Name);
+
+          const depTime = formatTimeAMPM(firstSegment.Departure_DateTime);
+          const arrTime = formatTimeAMPM(lastSegment.Arrival_DateTime);
+
+          let durationStr = firstSegment.Duration || '2h 30m';
+          let durationMinutes = 150;
+          if (durationStr.includes(':')) {
+            const [dh, dm] = durationStr.split(':');
+            durationMinutes = parseInt(dh, 10) * 60 + (parseInt(dm, 10) || 0);
+            durationStr = `${parseInt(dh, 10)}h ${parseInt(dm, 10) || 0}m`;
+          }
+
+          const flightNumber = firstSegment.Flight_Number ? `${airlineCode}-${firstSegment.Flight_Number.trim()}` : `${airlineCode}-${1000 + flightIndex}`;
+
+          const flightKey = flight.Flight_Key;
+          const fareId = fareObj.Fare_Id || fareDetails.Fare_Id;
+          const searchKey = responseData?.Search_Key || trip.Search_Key;
+
+          // Derive layover airports if stops > 0
+          const layovers: string[] = [];
+          if (segments.length > 1) {
+            for (let i = 0; i < segments.length - 1; i++) {
+              const layoverPort = segments[i].Destination || segments[i + 1]?.Origin;
+              if (layoverPort && !layovers.includes(layoverPort)) {
+                layovers.push(layoverPort);
+              }
             }
           }
-        }
 
-        const mappedSegments = segments.map((seg: any) => ({
-          origin: seg.Origin,
-          destination: seg.Destination,
-          departureTime: formatTimeAMPM(seg.Departure_DateTime),
-          arrivalTime: formatTimeAMPM(seg.Arrival_DateTime),
-          airline: getAirlineName(seg.Airline_Code, seg.Airline_Name),
-          airlineCode: seg.Airline_Code,
-          flightNumber: seg.Flight_Number,
-          duration: seg.Duration,
-        }));
+          const mappedSegments = segments.map((seg: any) => ({
+            origin: seg.Origin,
+            destination: seg.Destination,
+            departureTime: formatTimeAMPM(seg.Departure_DateTime),
+            arrivalTime: formatTimeAMPM(seg.Arrival_DateTime),
+            airline: getAirlineName(seg.Airline_Code, seg.Airline_Name),
+            airlineCode: seg.Airline_Code,
+            flightNumber: seg.Flight_Number,
+            duration: seg.Duration,
+          }));
 
-        if (flightKey && fareId && searchKey) {
-          liveFlightsList.push({
-            id: flight.Flight_Id || `${airlineCode}_${flightIndex}_${Date.now()}`,
-            flightKey: flightKey,
-            fareId: fareId,
-            searchKey: searchKey,
-            airline: airlineName,
-            airlineCode: airlineCode,
-            flightNumber: flightNumber,
-            airlineLogo: `https://picsum.photos/seed/${airlineCode}/100/100`,
-            departureTime: depTime,
-            arrivalTime: arrTime,
-            duration: durationStr,
-            durationMinutes: durationMinutes,
-            origin: firstSegment.Origin || origin,
-            destination: lastSegment.Destination || destination,
-            price: totalAmount,
-            stops: Math.max(0, segments.length - 1),
-            class: travelClass || 'Economy',
-            baggage: fareDetails.Free_Baggage?.Check_In_Baggage || '15 KG',
-            refundable: fareDetails.Refundable ?? true,
-            bookingLink: `#book-${flight.Flight_Id || flightIndex}`,
-            layovers: layovers,
-            segments: mappedSegments,
-          });
-        }
+          if (flightKey && fareId && searchKey) {
+            liveFlightsList.push({
+              id: flight.Flight_Id || `${airlineCode}_${flightIndex}_${Date.now()}`,
+              flightKey: flightKey,
+              fareId: fareId,
+              searchKey: searchKey,
+              airline: airlineName,
+              airlineCode: airlineCode,
+              flightNumber: flightNumber,
+              airlineLogo: `https://images.kiwi.com/airlines/64x64/${airlineCode}.png`,
+              departureTime: depTime,
+              arrivalTime: arrTime,
+              duration: durationStr,
+              durationMinutes: durationMinutes,
+              origin: firstSegment.Origin || origin,
+              destination: lastSegment.Destination || destination,
+              price: totalAmount,
+              stops: Math.max(0, segments.length - 1),
+              class: travelClass || 'Economy',
+              baggage: fareDetails.Free_Baggage?.Check_In_Baggage || '15 KG',
+              refundable: fareDetails.Refundable ?? true,
+              bookingLink: `#book-${flight.Flight_Id || flightIndex}`,
+              layovers: layovers,
+              segments: mappedSegments,
+            });
+          }
+        });
       });
-    });
 
-    if (liveFlightsList.length === 0) {
-      return {
-        flights: [],
-        count: 0,
-        source: 'live_flyshop_uat',
-        message: 'No live flights found for this route.',
-        searchParams: { from, to, date, returnDate, passengers, travelClass },
-      };
+      if (liveFlightsList.length === 0) {
+        return [];
+      }
+
+      await cacheStore.set(cacheKey, liveFlightsList, 600);
+
+      logger.info(`✅ Returned and cached ${liveFlightsList.length} RAW Flyshop UAT flights.`);
+
+      return liveFlightsList;
+    } catch (err: any) {
+      logger.error(`❌ Flyshop search error: ${err?.message || err}`);
+      return [];
     }
+  })().finally(() => {
+    inFlightFlightSearches.delete(cacheKey);
+  });
 
-    await cacheStore.set(cacheKey, liveFlightsList, 600);
+  inFlightFlightSearches.set(cacheKey, fetchPromise);
+  const fullList = await fetchPromise;
 
-    logger.info(`✅ Returned ${liveFlightsList.length} RAW Flyshop UAT flights.`);
-
-    return {
-      flights: liveFlightsList,
-      count: liveFlightsList.length,
-      source: 'live_flyshop_uat',
-      searchParams: { from, to, date, returnDate, passengers, travelClass },
-    };
-  } catch (err: any) {
-    logger.error(`❌ Flyshop search error: ${err?.message || err}`);
+  if (fullList.length === 0) {
     return {
       flights: [],
       count: 0,
+      totalCount: 0,
+      page: pageNum,
+      limit: limitNum,
+      hasMore: false,
       source: 'live_flyshop_uat',
-      message: err?.response?.data?.Response_Header?.Error_Desc || err?.message || 'Failed to fetch flights from GDS.',
-      searchParams: { from, to, date, returnDate, passengers, travelClass },
+      message: 'No live flights found for this route.',
+      searchParams: { from, to, date, returnDate, passengers, travelClass, airline, airlineCode, page: pageNum, limit: limitNum },
     };
   }
+
+  return formatPaginatedResponse(fullList);
 };
 
 export const repriceLiveFlight = async (params: {

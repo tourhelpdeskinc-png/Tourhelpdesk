@@ -37,12 +37,12 @@ export function PrimoOfferGraphic() {
 export function BankBadgeGraphic() {
   return (
     <div className="relative shrink-0 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-1.5 shadow-md border border-rose-200 flex items-center gap-1.5 w-24 h-12">
-        <div className="w-5 h-5 rounded bg-red-700 text-white flex items-center justify-center font-black text-[9px]">
-          IDFC
+      <div className="bg-white rounded-xl p-1.5 shadow-md border border-blue-200 flex items-center gap-1.5 w-24 h-12">
+        <div className="w-5 h-5 rounded bg-blue-700 text-white flex items-center justify-center font-black text-[8px]">
+          RBC
         </div>
         <div className="flex flex-col leading-none">
-          <span className="text-[9px] font-black text-slate-900">IDFC FIRST</span>
+          <span className="text-[9px] font-black text-slate-900">RBC / TD</span>
           <span className="text-[7px] font-bold text-slate-500 uppercase mt-0.5">Bank Card</span>
         </div>
       </div>

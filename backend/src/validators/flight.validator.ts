@@ -7,6 +7,10 @@ export const flightSearchSchema = z.object({
   returnDate: z.string().optional().nullable(),
   passengers: z.union([z.string(), z.number()]).optional().default(1),
   travelClass: z.string().optional().default('Economy'),
+  airline: z.string().optional().nullable(),
+  airlineCode: z.string().optional().nullable(),
+  page: z.union([z.string(), z.number()]).optional().default(1),
+  limit: z.union([z.string(), z.number()]).optional().default(20),
 });
 
 export const flightRepriceSchema = z.object({

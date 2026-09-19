@@ -15,6 +15,13 @@ const getResendInstance = (): Resend | null => {
   return new Resend(env.RESEND_API_KEY);
 };
 
+const getLogoUrl = (): string => {
+  return (
+    env.EMAIL_LOGO_URL ||
+    'https://raw.githubusercontent.com/tourhelpdeskinc-png/Tourhelpdesk/main/frontend/public/tourhelpdesk-ts.png'
+  );
+};
+
 export const sendWelcomeEmail = async ({ email, firstName }: WelcomeEmailParams): Promise<void> => {
   try {
     const resend = getResendInstance();
@@ -48,10 +55,12 @@ Team TourHelpDesk.com`;
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8fafc;">
   <!-- Header with Official Logo -->
-  <div style="background: #0f172a; padding: 20px 16px; text-align: center; border-radius: 16px 16px 0 0;">
-    <img src="https://tourhelpdesk.com/tourhelpdesk-ts.png" alt="TourHelpDesk Logo" width="34" height="31" style="width: 34px; max-width: 34px; height: auto; display: inline-block; margin-bottom: 6px; border: 0;" onerror="this.style.display='none'" />
-    <h1 style="color: #ffffff; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px;">TourHelpDesk</h1>
-    <p style="color: #94a3b8; margin: 2px 0 0 0; font-size: 11px; font-weight: 500;">Your Trusted Global Travel Partner</p>
+  <div style="background: #0f172a; padding: 26px 20px 22px; text-align: center; border-radius: 16px 16px 0 0;">
+    <div style="display: inline-block; background: #ffffff; padding: 10px 18px; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+      <img src="${getLogoUrl()}" alt="TourHelpDesk Logo" width="130" style="width: 130px; max-width: 130px; height: auto; display: block; margin: 0 auto; border: 0;" />
+    </div>
+    <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">TourHelpDesk</h1>
+    <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 12px; font-weight: 500;">Your Trusted Global Travel Partner</p>
   </div>
 
   <!-- Body Content -->
@@ -149,10 +158,12 @@ Team TourHelpDesk.com`;
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8fafc;">
   <!-- Header with Official Logo -->
-  <div style="background: #0f172a; padding: 20px 16px; text-align: center; border-radius: 16px 16px 0 0;">
-    <img src="https://tourhelpdesk.com/tourhelpdesk-ts.png" alt="TourHelpDesk Logo" width="34" height="31" style="width: 34px; max-width: 34px; height: auto; display: inline-block; margin-bottom: 6px; border: 0;" onerror="this.style.display='none'" />
-    <h1 style="color: #ffffff; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px;">TourHelpDesk</h1>
-    <p style="color: #94a3b8; margin: 2px 0 0 0; font-size: 11px; font-weight: 500;">Account Security & Recovery</p>
+  <div style="background: #0f172a; padding: 26px 20px 22px; text-align: center; border-radius: 16px 16px 0 0;">
+    <div style="display: inline-block; background: #ffffff; padding: 10px 18px; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+      <img src="${getLogoUrl()}" alt="TourHelpDesk Logo" width="130" style="width: 130px; max-width: 130px; height: auto; display: block; margin: 0 auto; border: 0;" />
+    </div>
+    <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">TourHelpDesk</h1>
+    <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 12px; font-weight: 500;">Account Security & Recovery</p>
   </div>
 
   <!-- Body Content -->
@@ -288,7 +299,11 @@ Team TourHelpDesk.com`;
   <title>Flight Booking Request Received</title>
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8fafc;">
-  <div style="background: #0f172a; padding: 24px 20px; text-align: center; border-radius: 16px 16px 0 0;">
+  <!-- Header with Official Logo -->
+  <div style="background: #0f172a; padding: 26px 20px 22px; text-align: center; border-radius: 16px 16px 0 0;">
+    <div style="display: inline-block; background: #ffffff; padding: 10px 18px; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+      <img src="${getLogoUrl()}" alt="TourHelpDesk Logo" width="130" style="width: 130px; max-width: 130px; height: auto; display: block; margin: 0 auto; border: 0;" />
+    </div>
     <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">TourHelpDesk</h1>
     <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 12px; font-weight: 500;">Flight Booking Request Confirmation</p>
   </div>

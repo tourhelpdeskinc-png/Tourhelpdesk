@@ -103,9 +103,16 @@ const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        <div className="border-t border-slate-800 dark:border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em]">
-          <button onClick={onTermsClick} className="text-slate-400 hover:text-white transition-colors">Terms of Service</button>
-          <p className="text-slate-500 dark:text-slate-600">&copy; 2026 Tour Help Desk Inc. All rights reserved.</p>
+        <div className="border-t border-slate-800 dark:border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em]">
+          <button onClick={onTermsClick} className="text-slate-400 hover:text-white transition-colors text-center md:text-left">
+            Terms of Service
+          </button>
+          <div className="flex flex-col items-center md:items-end text-center md:text-right gap-1">
+            <p className="text-slate-500 dark:text-slate-600">&copy; 2026 Tour Help Desk Inc. All rights reserved.</p>
+            <p className="text-[10px] md:text-[11px] font-semibold tracking-wider text-slate-400 dark:text-slate-500">
+              BRITISH COLUMBIA: REGISTRATION #1578191
+            </p>
+          </div>
         </div>
       </div>
     </footer>

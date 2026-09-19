@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
-import GoogleAuthProvider from '../app/providers/GoogleAuthProvider';
 import { authService } from '../services/authService';
 
 interface LoginProps {
@@ -53,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ onBack, onSuccess }) => {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+  const handleGoogleSuccess = useCallback(async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
       setError('Failed to obtain Google ID token.');
       return;
@@ -73,7 +72,7 @@ const Login: React.FC<LoginProps> = ({ onBack, onSuccess }) => {
     } finally {
       setSocialLoading(null);
     }
-  };
+  }, [onSuccess, onBack]);
 
   const handleUnsupportedSocial = (provider: string) => {
     setError(`${provider} login is coming soon. Please use Google or email/password for now.`);
@@ -262,19 +261,17 @@ const Login: React.FC<LoginProps> = ({ onBack, onSuccess }) => {
                     <span>Signing in with Google...</span>
                   </div>
                 ) : (
-                  <GoogleAuthProvider>
-                    <div className="w-full flex justify-center overflow-hidden rounded-lg">
-                      <GoogleLogin
-                        onSuccess={handleGoogleSuccess}
-                        onError={() => setError('Google sign-in failed. Please try again.')}
-                        shape="rectangular"
-                        size="medium"
-                        theme="outline"
-                        width="290"
-                        text={mode === 'login' ? 'signin_with' : 'signup_with'}
-                      />
-                    </div>
-                  </GoogleAuthProvider>
+                  <div className="w-full flex justify-center overflow-hidden rounded-lg">
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={() => setError('Google sign-in failed. Please try again.')}
+                      shape="rectangular"
+                      size="medium"
+                      theme="outline"
+                      width="290"
+                      text="continue_with"
+                    />
+                  </div>
                 )}
               </div>
 

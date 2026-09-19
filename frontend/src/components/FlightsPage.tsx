@@ -29,10 +29,10 @@ export default function FlightsPage({ isCheapFlights = false }: FlightsPageProps
   }, [isCheapFlights]);
 
   const [searchForm, setSearchForm] = useState<FlightSearchFormState>({
-    from: "JFK - New York, USA",
-    to: "LHR - London, UK",
-    departDate: "2026-08-10",
-    returnDate: "2026-08-24",
+    from: "",
+    to: "",
+    departDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+    returnDate: new Date(Date.now() + 86400000 * 5).toISOString().split('T')[0],
     tripType: "round-trip",
     travelClass: "Economy",
     adults: 1,
@@ -52,6 +52,10 @@ export default function FlightsPage({ isCheapFlights = false }: FlightsPageProps
     e.preventDefault();
     const fromCode = resolveIataCode(searchForm.from);
     const toCode = resolveIataCode(searchForm.to);
+    if (!fromCode || !toCode) {
+      alert("Please select both Departure and Arrival cities");
+      return;
+    }
     const query = new URLSearchParams({
       from: fromCode,
       to: toCode,

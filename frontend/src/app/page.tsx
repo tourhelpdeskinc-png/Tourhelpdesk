@@ -44,6 +44,8 @@ function QueryParamSearchTrigger({
   const dateParam = searchParams.get('date');
   const classParam = searchParams.get('class') || 'Economy';
   const viewParam = searchParams.get('view');
+  const airlineParam = searchParams.get('airline');
+  const airlineNameParam = searchParams.get('airlineName');
 
   useEffect(() => {
     if (viewParam === 'details') {
@@ -55,9 +57,11 @@ function QueryParamSearchTrigger({
         date: dateParam,
         passengers: 1,
         travelClass: classParam,
+        airline: airlineNameParam || airlineParam || undefined,
+        airlineCode: airlineParam || undefined,
       });
     }
-  }, [fromParam, toParam, dateParam, classParam, viewParam, onSearch, onViewDetails]);
+  }, [fromParam, toParam, dateParam, classParam, viewParam, airlineParam, airlineNameParam, onSearch, onViewDetails]);
 
   return null;
 }
@@ -128,8 +132,15 @@ function HomeContent() {
       if (flights.length > 0) {
         const prices = flights.map((f) => f.price);
         const durations = flights.map((f) => f.durationMinutes || 120);
+        const matchingAirline = (params.airline || params.airlineCode)
+          ? flights.find(f => 
+              (params.airline && f.airline.toLowerCase().includes(params.airline.toLowerCase())) ||
+              (params.airlineCode && f.airlineCode?.toUpperCase() === params.airlineCode.toUpperCase())
+            )?.airline
+          : null;
+
         setFilters({
-          selectedAirlines: [],
+          selectedAirlines: matchingAirline ? [matchingAirline] : [],
           selectedStops: [],
           departureTimeSlots: [],
           arrivalTimeSlots: [],

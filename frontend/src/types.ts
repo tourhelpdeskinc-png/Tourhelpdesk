@@ -65,6 +65,8 @@ export interface SearchParams {
   returnDate?: string;
   passengers: number;
   travelClass: string;
+  airline?: string;
+  airlineCode?: string;
 }
 
 export interface Offer {

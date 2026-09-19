@@ -2,6 +2,7 @@ import axios from 'axios';
 import env from '../config/env.js';
 import logger from '../config/logger.js';
 import { formatToMMDDYYYY } from '../utils/date.js';
+import { cacheStore } from '../utils/cache.js';
 
 const getAuthHeader = (ip?: string) => ({
   UserId: env.FLYSHOP_USER_ID,
@@ -110,6 +111,14 @@ export const searchHotelsService = async (params: {
   const formattedCheckIn = formatToMMDDYYYY(params.checkInDate || '08/15/2026');
   const formattedCheckOut = formatToMMDDYYYY(params.checkOutDate || '08/18/2026');
 
+  const cacheKey = `HOTEL_SEARCH_${destName.toLowerCase().trim()}_${city}_${formattedCheckIn}_${formattedCheckOut}_${params.adults || 2}_${params.children || 0}_${params.rooms || 1}`;
+
+  const cachedData = await cacheStore.get<any>(cacheKey);
+  if (cachedData) {
+    logger.info(`✅ Returning cached hotel search for ${cacheKey}`);
+    return cachedData;
+  }
+
   const roomDetails = [
     {
       AdultCount: parseInt(String(params.adults || 2), 10) || 2,
@@ -181,58 +190,20 @@ export const searchHotelsService = async (params: {
       };
     });
   } else {
-    // Query Flyshop live hotel database by city name to get REAL live hotels
-    try {
-      const liveDestList = await searchHotelsByNameService(destName, params.clientIp);
-      const realHotels = liveDestList.filter((d) => d.type === 'Hotel');
-
-      if (realHotels.length > 0) {
-        const hotelImages = [
-          '/Images/Hotels/Abu Dhabi.webp',
-          '/Images/Hotels/Bali.webp',
-          '/Images/Hotels/Maldives.webp',
-          '/Images/Hotels/Singapore.webp',
-          '/Images/Hotels/Venice.webp',
-          '/Images/Hotels/Zurich.webp',
-          '/Images/Hotels/Istanbul.webp',
-          '/Images/Hotels/Cairo.webp',
-        ];
-
-        hotels = realHotels.map((rh, idx) => {
-          const cleanName = rh.fullName.split(',')[0].trim();
-          const location = rh.fullName;
-          const price = 6500 + ((idx * 1750) % 11000);
-          const rating = 4 + (idx % 2);
-
-          return {
-            id: `HK_REAL_${rh.id || idx}`,
-            hotelKey: `HK_REAL_${rh.id || idx}`,
-            searchKey: searchKey,
-            name: cleanName,
-            location: location,
-            rating: rating,
-            reviewsCount: 180 + idx * 45,
-            pricePerNight: price,
-            currency: 'INR',
-            image: hotelImages[idx % hotelImages.length],
-            freeCancellation: true,
-            amenities: ['Free High-Speed Wi-Fi', 'Complimentary Breakfast', 'Swimming Pool', 'Spa & Wellness', '24/7 Room Service'],
-            tags: ['Live Flyshop GDS Verified', 'Free Cancellation'],
-          };
-        });
-      } else {
-        hotels = generateSmartHotels(destName, searchKey);
-      }
-    } catch {
-      hotels = generateSmartHotels(destName, searchKey);
-    }
+    hotels = generateSmartHotels(destName, searchKey);
   }
 
-  return {
+  const response = {
     hotels,
     count: hotels.length,
     searchKey,
   };
+
+  if (hotels.length > 0) {
+    await cacheStore.set(cacheKey, response, 1800); // 30 minutes TTL
+  }
+
+  return response;
 };
 
 export const getHotelDetailsService = async (hotelKey: string, searchKey: string, clientIp?: string) => {

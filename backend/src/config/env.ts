@@ -28,6 +28,11 @@ const envSchema = z.object({
   // Resend Email Service (Optional - No Hardcoded Fallback)
   RESEND_API_KEY: z.string().optional(),
   EMAIL_FROM: z.string().default('Tour Help Desk <noreply@tourhelpdesk.com>'),
+  EMAIL_LOGO_URL: z
+    .string()
+    .default(
+      'https://raw.githubusercontent.com/tourhelpdeskinc-png/Tourhelpdesk/main/frontend/public/tourhelpdesk-ts.png'
+    ),
 
   // AI Service (Optional - No Hardcoded Fallback)
   GEMINI_API_KEY: z.string().optional(),
@@ -55,6 +60,9 @@ const envSchema = z.object({
   // Google OAuth
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
+
+  // Optional Production Redis Cache
+  REDIS_URL: z.string().optional(),
 });
 
 /**

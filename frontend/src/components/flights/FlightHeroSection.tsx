@@ -287,7 +287,7 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
                       <label className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-400">From / Origin</label>
                       <AirportAutocomplete
                         name="from"
-                        placeholder="Departure City (e.g. DEL)"
+                        placeholder="Select Departure City (e.g. YYZ, DEL)"
                         value={searchForm.from}
                         onChange={(code) => onSearchFormChange({ ...searchForm, from: code })}
                         flat={true}
@@ -318,7 +318,7 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
                       <label className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-400">To / Destination</label>
                       <AirportAutocomplete
                         name="to"
-                        placeholder="Arrival City (e.g. BOM)"
+                        placeholder="Select Arrival City (e.g. YVR, BOM)"
                         value={searchForm.to}
                         onChange={(code) => onSearchFormChange({ ...searchForm, to: code })}
                         flat={true}
