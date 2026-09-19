@@ -18,13 +18,13 @@ const PromotionalPopup: React.FC<PromotionalPopupProps> = ({ onClose, minPrice, 
       <div className="fixed bottom-24 right-4 sm:bottom-28 sm:right-6 z-[100] animate-in slide-in-from-bottom duration-500">
         <div 
           onClick={() => setIsMinimized(false)}
-          className="bg-white dark:bg-slate-900 rounded-full shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800 p-2 sm:p-2.5 flex items-center gap-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group relative pr-10 sm:pr-14"
+          className="bg-white dark:bg-slate-900 rounded-full shadow-[0_10px_35px_-5px_rgba(14,37,94,0.3)] border-2 border-[#E8A11A] p-2 sm:p-2.5 flex items-center gap-3 cursor-pointer hover:scale-105 transition-all group relative pr-10 sm:pr-14"
         >
-          {/* Circular Glowing Icon */}
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-tr from-orange-500 to-orange-400 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/40 group-hover:scale-105 transition-transform relative">
-             <div className="absolute inset-0 border-2 border-white/20 text-white rounded-full animate-ping"></div>
-             <svg className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+          {/* Circular Glowing Navy + Gold Icon */}
+          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-[#0E255E] text-[#E8A11A] border-2 border-[#E8A11A] rounded-full flex items-center justify-center shrink-0 shadow-md shadow-[#0E255E]/30 relative">
+             <div className="absolute inset-0 border-2 border-[#E8A11A]/40 rounded-full animate-ping"></div>
+             <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
              </svg>
           </div>
           
@@ -34,16 +34,16 @@ const PromotionalPopup: React.FC<PromotionalPopupProps> = ({ onClose, minPrice, 
             <p className="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-1">{route || "Secret Deal"}</p>
           </div>
           <div className="block sm:hidden px-1">
-             <p className="text-[10px] font-black uppercase text-orange-500 tracking-wider">Sale</p>
+             <p className="text-[10px] font-black uppercase text-[#E8A11A] tracking-wider">Sale</p>
           </div>
 
           {/* Close Widget Button */}
           <button 
             onClick={(e) => { 
                 e.stopPropagation(); 
-                onClose(); // Completely destroys the component in App.tsx
+                onClose();
             }}
-            className="absolute right-2 sm:right-3 w-6 h-6 sm:w-7 sm:h-7 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-400 dark:text-slate-500 hover:bg-black dark:hover:bg-slate-700 hover:text-white transition-colors"
+            className="absolute right-2 sm:right-3 w-6 h-6 sm:w-7 sm:h-7 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-400 dark:text-slate-500 hover:bg-[#0E255E] hover:text-[#E8A11A] transition-colors cursor-pointer"
           >
             <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
@@ -53,62 +53,74 @@ const PromotionalPopup: React.FC<PromotionalPopupProps> = ({ onClose, minPrice, 
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 dark:bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-white dark:bg-slate-900 rounded-[1.5rem] shadow-2xl w-full max-w-[280px] sm:max-w-xs md:max-w-sm overflow-hidden relative animate-in zoom-in-95 duration-500 border border-transparent dark:border-slate-800">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-300">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_60px_-15px_rgba(14,37,94,0.45)] w-full max-w-[320px] sm:max-w-sm overflow-hidden relative animate-in zoom-in-95 duration-400 border border-[#E8A11A]/30 dark:border-[#E8A11A]/40">
         
         {/* Minimize Button in Top Right */}
         <button 
           onClick={() => setIsMinimized(true)}
-          className="absolute top-3 right-3 md:top-4 md:right-4 w-7 h-7 md:w-8 md:h-8 bg-slate-100/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full flex items-center justify-center text-slate-700 dark:text-slate-400 md:text-slate-500 md:hover:bg-slate-200 transition-colors z-20"
+          className="absolute top-3.5 right-3.5 w-8 h-8 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all z-20 cursor-pointer shadow-sm active:scale-95"
+          aria-label="Close modal"
         >
-          <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
 
         <div className="flex flex-col h-full">
-          <div className="bg-blue-600 dark:bg-blue-700 p-3 md:p-4 text-center relative overflow-hidden">
-            <div className="absolute top-[-20%] right-[-10%] w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-[-10%] left-[-5%] w-24 h-24 bg-orange-500/20 rounded-full blur-2xl"></div>
+          {/* Header in Brand Navy (#0E255E) with Golden Spark */}
+          <div className="bg-gradient-to-br from-[#0E255E] via-[#091a42] to-[#0E255E] p-4 sm:p-5 text-center relative overflow-hidden text-white border-b border-[#E8A11A]/20">
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#E8A11A]/15 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
             
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-2 text-white animate-float">
-               <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-11 h-11 bg-white/10 border border-[#E8A11A]/40 rounded-2xl flex items-center justify-center mx-auto mb-2.5 text-[#E8A11A] shadow-inner shadow-white/10">
+               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                </svg>
             </div>
             
-            <h2 className="text-white text-sm md:text-base font-black mb-1.5 leading-tight px-2 md:px-0">Unpublished Price Alert</h2>
-            <Badge variant="warning" className="shadow-lg bg-orange-500 text-white border-transparent">
-              Flash Deal Available
-            </Badge>
+            <h2 className="text-white text-base sm:text-lg font-black mb-1.5 leading-tight tracking-tight">Unpublished Price Alert</h2>
+            <span className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-[#E8A11A] text-slate-950 shadow-md shadow-[#E8A11A]/30">
+              ★ Flash Deal Available
+            </span>
           </div>
           
-          <div className="p-3 md:p-4 flex flex-col items-center">
-            <div className="text-center mb-3">
-              <div className="text-slate-800 dark:text-white text-[13px] md:text-sm font-semibold leading-snug mx-auto max-w-[260px] md:max-w-[300px]">
-                <span className="block mb-1">Route: <span className="font-black">{route || "Premium Flights"}</span></span>
-                Online Fare: <span className="text-slate-400 dark:text-slate-500 line-through font-bold">${minPrice.toLocaleString()}</span>
-                <span className="block mt-1.5 text-[14px] md:text-base font-black text-purple-600 dark:text-purple-400">21+ Unpublished Flights Available!</span>
-                <span className="block mt-1.5 font-black text-slate-900 dark:text-slate-200">Offline Offer: <span className="text-orange-600 dark:text-orange-500 text-lg md:text-xl underline decoration-2 underline-offset-4">${Math.floor(minPrice * 0.85).toLocaleString()}</span></span>
+          {/* Body Content (Text Preserved Exactly) */}
+          <div className="p-4 sm:p-5 flex flex-col items-center">
+            <div className="text-center mb-4 w-full">
+              <div className="text-slate-800 dark:text-slate-100 text-xs sm:text-sm font-semibold leading-relaxed">
+                <span className="block mb-1 text-slate-600 dark:text-slate-300">Route: <span className="font-black text-slate-900 dark:text-white">{route || "Premium Flights"}</span></span>
+                <span className="text-slate-400 dark:text-slate-500">Online Fare: <span className="line-through font-bold">${minPrice.toLocaleString()}</span></span>
+                <span className="block mt-1.5 text-xs sm:text-sm font-extrabold text-[#0E255E] dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 py-1 px-2 rounded-lg border border-blue-100 dark:border-blue-900/50">
+                  21+ Unpublished Flights Available!
+                </span>
+                <span className="block mt-2 font-black text-slate-900 dark:text-slate-100 text-xs sm:text-sm">
+                  Offline Offer: <span className="text-[#E8A11A] text-xl sm:text-2xl font-black ml-1">${Math.floor(minPrice * 0.85).toLocaleString()}</span>
+                </span>
               </div>
             </div>
 
-            <div className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-xl p-2.5 md:p-3 flex flex-col items-center mb-3 group hover:border-blue-200 dark:hover:border-blue-500/50 transition-colors">
-              <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Direct Booking Hotline</span>
+            {/* Direct Booking Hotline Card */}
+            <div className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-3 flex flex-col items-center mb-4 group hover:border-[#E8A11A]/50 transition-all">
+              <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Direct Booking Hotline</span>
               <div className="flex items-center gap-2">
-                 <div className="w-6 h-6 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center animate-pulse shrink-0">
-                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                 <div className="w-7 h-7 bg-[#0E255E] text-[#E8A11A] border border-[#E8A11A]/40 rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                  </div>
-                 <a href={CONTACT_INFO.HOTLINE_TEL} className="text-lg md:text-xl font-black text-blue-900 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors whitespace-nowrap">{CONTACT_INFO.HOTLINE_DISPLAY}</a>
+                 <a href={CONTACT_INFO.HOTLINE_TEL} className="text-lg sm:text-xl font-black text-[#0E255E] dark:text-[#E8A11A] hover:text-[#E8A11A] dark:hover:text-[#f4b63a] transition-colors whitespace-nowrap tracking-tight">{CONTACT_INFO.HOTLINE_DISPLAY}</a>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-2 w-full">
-              <a href={CONTACT_INFO.HOTLINE_TEL} className="bg-orange-500 hover:bg-orange-600 text-white text-xs md:text-sm font-bold py-2.5 rounded-xl shadow-xl shadow-orange-100 dark:shadow-none transition-all active:scale-95 flex items-center justify-center gap-2">
-                <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+            {/* Action Buttons - Golden Color like Home Button */}
+            <div className="grid grid-cols-1 gap-2.5 w-full">
+              <a 
+                href={CONTACT_INFO.HOTLINE_TEL} 
+                className="bg-[#E8A11A] hover:bg-[#d69013] text-slate-950 text-xs sm:text-sm font-black py-3 rounded-xl shadow-lg shadow-[#E8A11A]/25 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <svg className="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 Call Now
               </a>
               <button 
                 onClick={() => setIsMinimized(true)}
-                className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[10px] md:text-xs py-2 rounded-xl transition-all active:scale-95"
+                className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-[11px] sm:text-xs py-2 rounded-xl transition-all active:scale-95 cursor-pointer"
               >
                 No Thanks, Continue Online
               </button>
