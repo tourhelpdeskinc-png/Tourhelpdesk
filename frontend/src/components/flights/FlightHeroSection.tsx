@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Sparkles, Users, ChevronDown, Plane, MapPin, Calendar, ArrowLeftRight, Search, Home, Bookmark, FileText, Settings, User } from 'lucide-react';
+import { Sparkles, Users, ChevronDown, Plane, MapPin, Calendar, ArrowLeftRight, Search } from 'lucide-react';
 import AirportAutocomplete from '../AirportAutocomplete';
 import FlightSearchForm, { FlightSearchFormState } from '../forms/FlightSearchForm';
 
@@ -87,29 +87,6 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
           onSubmit={onSearchSubmit}
           compact={isCheapFlights}
         />
-
-        {/* Floating Mobile Bottom Navigation */}
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-3 py-2 rounded-full shadow-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-2 sm:gap-3">
-          <button
-            type="button"
-            className="bg-slate-950 dark:bg-blue-600 text-white px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-extrabold shadow-md"
-          >
-            <Home className="w-3.5 h-3.5 text-white" />
-            <span>Home</span>
-          </button>
-          <button type="button" aria-label="Saved" className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Bookmark className="w-4 h-4" />
-          </button>
-          <button type="button" aria-label="Bookings" className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <FileText className="w-4 h-4" />
-          </button>
-          <button type="button" aria-label="Settings" className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Settings className="w-4 h-4" />
-          </button>
-          <button type="button" aria-label="Profile" className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <User className="w-4 h-4" />
-          </button>
-        </div>
       </div>
 
       {/* DESKTOP VIEW (>= md screen sizes) */}
