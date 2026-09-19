@@ -42,12 +42,20 @@ export const configureSecurityMiddleware = (app: Express): void => {
     'http://127.0.0.1:3000',
     'http://127.0.0.1:3001',
     'http://127.0.0.1:5173',
+    'https://tourhelpdesk.com',
+    'http://tourhelpdesk.com',
+    'https://www.tourhelpdesk.com',
+    'http://www.tourhelpdesk.com',
+    'http://91.108.104.138',
+    'https://91.108.104.138',
   ];
 
   if (env.FRONTEND_URL) {
-    const cleanUrl = env.FRONTEND_URL.trim().replace(/\/+$/, '');
-    if (cleanUrl && !allowedOrigins.includes(cleanUrl)) {
-      allowedOrigins.push(cleanUrl);
+    const customUrls = env.FRONTEND_URL.split(',').map((u) => u.trim().replace(/\/+$/, ''));
+    for (const u of customUrls) {
+      if (u && !allowedOrigins.includes(u)) {
+        allowedOrigins.push(u);
+      }
     }
   }
 
@@ -59,6 +67,20 @@ export const configureSecurityMiddleware = (app: Express): void => {
 
         // Always allow explicitly whitelisted production/dev origins
         if (allowedOrigins.includes(origin)) return callback(null, true);
+
+        // Allow any subdomain of tourhelpdesk.com or the VPS IP
+        try {
+          const parsed = new URL(origin);
+          if (
+            parsed.hostname === 'tourhelpdesk.com' ||
+            parsed.hostname.endsWith('.tourhelpdesk.com') ||
+            parsed.hostname === '91.108.104.138'
+          ) {
+            return callback(null, true);
+          }
+        } catch {
+          // ignore URL parse errors
+        }
 
         // Allow localhost and local subnet development origins in development mode
         if (

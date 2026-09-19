@@ -34,6 +34,7 @@ configureSecurityMiddleware(app);
 
 // 4. API Routes Registration
 app.use('/', healthRoutes);
+app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/flights', flightRoutes);
 app.use('/api/hotels', hotelRoutes);
