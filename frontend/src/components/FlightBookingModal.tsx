@@ -54,7 +54,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
       age: 28,
       dob: '',
       passportNumber: '',
-      nationality: 'Indian',
+      nationality: 'Canadian',
     },
   ]);
 
@@ -82,7 +82,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
           age: 30,
           dob: '',
           passportNumber: '',
-          nationality: 'Indian',
+          nationality: 'Canadian',
         });
       }
       setPassengers(initialPaxList);
@@ -110,7 +110,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
         age: type === 'Child' ? 8 : type === 'Infant' ? 1 : 25,
         dob: '',
         passportNumber: '',
-        nationality: 'Indian',
+        nationality: 'Canadian',
       },
     ]);
   };
@@ -354,7 +354,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Rahul Sharma"
+                      placeholder="e.g. John Roland"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -368,7 +368,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                     <input
                       type="email"
                       required
-                      placeholder="rahul@example.com"
+                      placeholder="john.roland@example.com"
                       value={customerEmail}
                       onChange={(e) => setCustomerEmail(e.target.value)}
                       className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -382,7 +382,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                     <input
                       type="tel"
                       required
-                      placeholder="+91 9876543210"
+                      placeholder="+1 (604) 555-0199"
                       value={customerMobile}
                       onChange={(e) => setCustomerMobile(e.target.value)}
                       className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -479,7 +479,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                           <input
                             type="text"
                             required
-                            placeholder="First Name"
+                            placeholder="John"
                             value={pax.firstName}
                             onChange={(e) => handlePassengerChange(idx, 'firstName', e.target.value)}
                             className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500"
@@ -493,7 +493,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                           <input
                             type="text"
                             required
-                            placeholder="Last Name"
+                            placeholder="Roland"
                             value={pax.lastName}
                             onChange={(e) => handlePassengerChange(idx, 'lastName', e.target.value)}
                             className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500"
@@ -540,7 +540,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                               </label>
                               <input
                                 type="text"
-                                placeholder="A1234567"
+                                placeholder="AA1234567"
                                 value={pax.passportNumber || ''}
                                 onChange={(e) => handlePassengerChange(idx, 'passportNumber', e.target.value)}
                                 className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none"
@@ -552,7 +552,7 @@ const FlightBookingModal: React.FC<FlightBookingModalProps> = ({
                               </label>
                               <input
                                 type="text"
-                                placeholder="Indian"
+                                placeholder="Canadian"
                                 value={pax.nationality || ''}
                                 onChange={(e) => handlePassengerChange(idx, 'nationality', e.target.value)}
                                 className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none"

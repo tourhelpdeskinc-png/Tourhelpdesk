@@ -199,7 +199,7 @@ const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+91 9876543210"
+                    placeholder="+1 (604) 555-0199"
                     className="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-white outline-none focus:border-blue-500"
                   />
                 </div>

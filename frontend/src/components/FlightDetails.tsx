@@ -62,7 +62,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
       age: 28,
       dob: '',
       passportNumber: '',
-      nationality: 'Indian',
+      nationality: 'Canadian',
     },
   ]);
 
@@ -88,7 +88,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
           age: 28,
           dob: '',
           passportNumber: '',
-          nationality: 'Indian',
+          nationality: 'Canadian',
         });
       }
       setPassengers(initialPaxList);
@@ -115,7 +115,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
         age: type === 'Child' ? 8 : type === 'Infant' ? 1 : 28,
         dob: '',
         passportNumber: '',
-        nationality: 'Indian',
+        nationality: 'Canadian',
       },
     ]);
   };
@@ -547,7 +547,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Amit Verma"
+                          placeholder="e.g. John Roland"
                           value={customerName}
                           onChange={(e) => setCustomerName(e.target.value)}
                           className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -561,7 +561,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                         <input
                           type="email"
                           required
-                          placeholder="amit@example.com"
+                          placeholder="john.roland@example.com"
                           value={customerEmail}
                           onChange={(e) => setCustomerEmail(e.target.value)}
                           className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -575,7 +575,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                         <input
                           type="tel"
                           required
-                          placeholder="+91 9876543210"
+                          placeholder="+1 (604) 555-0199"
                           value={customerMobile}
                           onChange={(e) => setCustomerMobile(e.target.value)}
                           className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -672,7 +672,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                               <input
                                 type="text"
                                 required
-                                placeholder="First Name"
+                                placeholder="John"
                                 value={pax.firstName}
                                 onChange={(e) => handlePassengerChange(idx, 'firstName', e.target.value)}
                                 className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none focus:ring-2 focus:ring-blue-500"
@@ -686,7 +686,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                               <input
                                 type="text"
                                 required
-                                placeholder="Last Name"
+                                placeholder="Roland"
                                 value={pax.lastName}
                                 onChange={(e) => handlePassengerChange(idx, 'lastName', e.target.value)}
                                 className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none focus:ring-2 focus:ring-blue-500"
@@ -733,7 +733,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                                   </label>
                                   <input
                                     type="text"
-                                    placeholder="Passport No"
+                                    placeholder="AA1234567"
                                     value={pax.passportNumber || ''}
                                     onChange={(e) => handlePassengerChange(idx, 'passportNumber', e.target.value)}
                                     className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none"
@@ -745,7 +745,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                                   </label>
                                   <input
                                     type="text"
-                                    placeholder="e.g. Indian"
+                                    placeholder="e.g. Canadian"
                                     value={pax.nationality || ''}
                                     onChange={(e) => handlePassengerChange(idx, 'nationality', e.target.value)}
                                     className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none"
@@ -929,7 +929,7 @@ const FlightDetails: React.FC<FlightDetailsProps> = ({
                     </label>
                     <textarea
                       rows={2}
-                      placeholder="e.g. Jain meal, wheelchair assistance, aisle seat preference..."
+                      placeholder="e.g. Vegetarian meal, wheelchair assistance, aisle seat preference..."
                       value={remarks}
                       onChange={(e) => setRemarks(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 resize-none"
