@@ -37,7 +37,7 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
 
   // Shared Footer Navy (#0E255E) + Golden Ring/Icon (#E8A11A) styling (Original Brand)
   const brandIconStylePrimary = 'bg-[#0E255E] dark:bg-[#0b1a3e] text-[#E8A11A] border-2 border-[#E8A11A] shadow-md shadow-[#0E255E]/30 group-hover:scale-105 transition-all';
-  const brandIconStyleSecondary = 'bg-[#0E255E]/90 dark:bg-[#0b1a3e]/90 text-[#E8A11A] border border-[#E8A11A]/80 shadow-sm shadow-[#0E255E]/20 group-hover:scale-105 transition-all';
+  const brandIconStyleSecondary = 'bg-[#0E255E] dark:bg-[#0b1a3e] text-[#E8A11A] border-2 border-[#E8A11A] shadow-md shadow-[#0E255E]/20 group-hover:scale-105 transition-all';
 
   // Row 1: Fixed 4 Equal Columns (Primary)
   const firstRowServices = [
@@ -85,13 +85,13 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
       id: 'trains',
       name: 'Trains',
       action: () => router.push('/bus'),
-      icon: <Train className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <Train className="w-5 h-5 text-[#E8A11A]" />
     },
     {
       id: 'holidays',
       name: 'Holidays',
       action: () => router.push('/offers'),
-      icon: <Luggage className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <Luggage className="w-5 h-5 text-[#E8A11A]" />
     },
     {
       id: 'activities',
@@ -101,31 +101,31 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
         if (el) el.scrollIntoView({ behavior: 'smooth' });
         else router.push('/offers');
       },
-      icon: <Ticket className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <Ticket className="w-5 h-5 text-[#E8A11A]" />
     },
     {
       id: 'insurance',
       name: 'Insurance',
       action: () => router.push('/customer-service'),
-      icon: <ShieldCheck className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <ShieldCheck className="w-5 h-5 text-[#E8A11A]" />
     },
     {
       id: 'visa',
       name: 'Visa',
       action: () => router.push('/customer-service'),
-      icon: <Compass className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <Compass className="w-5 h-5 text-[#E8A11A]" />
     },
     {
       id: 'bus',
       name: 'Bus',
       action: () => router.push('/bus'),
-      icon: <Bus className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <Bus className="w-5 h-5 text-[#E8A11A]" />
     },
     {
       id: 'app',
       name: 'App',
       action: () => router.push('/special-offer'),
-      icon: <Smartphone className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      icon: <Smartphone className="w-5 h-5 text-[#E8A11A]" />
     }
   ];
 
@@ -174,13 +174,13 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
             >
               <div
                 className={cn(
-                  'w-[42px] h-[42px] min-w-[42px] min-h-[42px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-105',
+                  'w-[44px] h-[44px] min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-105',
                   brandIconStyleSecondary
                 )}
               >
                 {item.icon}
               </div>
-              <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 mt-1 text-center leading-tight tracking-tight truncate w-full">
+              <span className="text-[10.5px] font-extrabold text-slate-900 dark:text-white mt-1 text-center leading-tight tracking-tight truncate w-full">
                 {item.name}
               </span>
             </button>
