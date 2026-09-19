@@ -54,15 +54,7 @@ export const MobileServiceGrid: React.FC<MobileServiceGridProps> = ({
     {
       id: 'flights',
       name: 'Flights',
-      action: () => {
-        const flightsTab = document.querySelector('button[data-tab="flights"]');
-        if (flightsTab instanceof HTMLElement) {
-          flightsTab.click();
-          window.scrollTo({ top: 300, behavior: 'smooth' });
-        } else {
-          router.push('/flights');
-        }
-      },
+      action: () => router.push('/flights'),
       icon: <Plane className="w-6 h-6 text-[#E8A11A]" />
     },
     {

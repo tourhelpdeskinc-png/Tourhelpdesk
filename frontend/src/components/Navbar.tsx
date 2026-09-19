@@ -485,7 +485,7 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button 
-              onClick={() => { setIsSidebarOpen(false); }}
+              onClick={() => { router.push('/car-rental'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -507,7 +507,7 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button 
-              onClick={() => { setIsSidebarOpen(false); }}
+              onClick={() => { router.push('/offers'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -519,7 +519,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <div className="h-px bg-slate-100 dark:bg-slate-800 my-2 mx-6" />
 
             <button 
-              onClick={() => { setIsSidebarOpen(false); }}
+              onClick={() => { router.push('/customer-service'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -529,7 +529,7 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button 
-              onClick={() => { setIsSidebarOpen(false); }}
+              onClick={() => { router.push('/customer-service'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -539,7 +539,7 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button 
-              onClick={() => { setIsSidebarOpen(false); }}
+              onClick={() => { router.push('/bus'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -549,6 +549,16 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
           </div>
+        </div>
+
+        {/* Mobile Hamburger Drawer Footer */}
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-center shrink-0">
+          <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
+            © 2026 Tour Help Desk Inc. All rights reserved.
+          </p>
+          <p className="text-[10px] font-bold text-[#E8A11A] tracking-wider uppercase mt-1">
+            BRITISH COLUMBIA: REGISTRATION #1578191
+          </p>
         </div>
       </div>
     </nav>

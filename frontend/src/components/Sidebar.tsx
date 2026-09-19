@@ -179,6 +179,17 @@ export default function Sidebar({ activeItem, isCollapsed = false }: SidebarProp
         </div>
       </div>
 
+      {!isCollapsed && (
+        <div className="mt-auto px-4 pt-3 pb-1 border-t border-slate-100 dark:border-slate-800 text-center select-none">
+          <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-snug">
+            © 2026 Tour Help Desk Inc. All rights reserved.
+          </p>
+          <p className="text-[9px] font-bold text-[#E8A11A] tracking-wider uppercase mt-0.5">
+            BRITISH COLUMBIA: REGISTRATION #1578191
+          </p>
+        </div>
+      )}
+
       {/* Premium Toast Popup Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 left-6 z-[100] max-w-sm bg-slate-900/95 dark:bg-slate-900/95 text-white rounded-2xl p-4 shadow-2xl border border-slate-800 dark:border-slate-800/80 backdrop-blur-md animate-slide-in flex items-start gap-3 transition-all">
