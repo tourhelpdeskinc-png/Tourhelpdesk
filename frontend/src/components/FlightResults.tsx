@@ -14,7 +14,7 @@ interface FlightResultsProps {
 const FlightResults: React.FC<FlightResultsProps> = ({ 
   flights, 
   onBook, 
-  initialLimit = 6,
+  initialLimit = 20,
   searchParams,
   verifyingFlightId = null,
 }) => {
@@ -39,7 +39,7 @@ const FlightResults: React.FC<FlightResultsProps> = ({
   const hasMore = displayCount < flights.length;
 
   const handleViewMore = () => {
-    setDisplayCount((prev: number) => Math.min(prev + 6, flights.length));
+    setDisplayCount((prev: number) => Math.min(prev + 20, flights.length));
   };
 
   const handleNavigateToFlightsPage = () => {
@@ -288,13 +288,13 @@ const FlightResults: React.FC<FlightResultsProps> = ({
 
       {/* View More Flights */}
       {hasMore && (
-        <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="pt-4 pb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={handleViewMore}
-            className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2.5"
           >
             <span>View More Flights ({flights.length - displayCount} Remaining)</span>
-            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>

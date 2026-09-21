@@ -5,6 +5,9 @@ import { cacheStore } from '../utils/cache.js';
 import { extractCode, formatToMMDDYYYY, formatTimeAMPM, isDomesticRoute } from '../utils/date.js';
 import { getAirlineName, getAirlineCode } from '../constants/constants.js';
 
+// Flyshop GDS Whitelisted Static Server IP
+const FLYSHOP_AUTH_IP = process.env.FLYSHOP_AUTH_IP || '91.108.104.138';
+
 /*
 export const preCachePopularRoutes = async (): Promise<void> => {
   try {
@@ -12,7 +15,7 @@ export const preCachePopularRoutes = async (): Promise<void> => {
       Auth_Header: {
         UserId: env.FLYSHOP_USER_ID,
         Password: env.FLYSHOP_PASSWORD,
-        IP_Address: '127.0.0.1',
+        IP_Address: FLYSHOP_AUTH_IP,
         Request_Id: `REQ_PRECACHE_${Date.now()}`,
       },
     });
@@ -45,7 +48,7 @@ export const searchLiveFlights = async (params: {
   const { from, to, date, returnDate, passengers, travelClass, airline, airlineCode, clientIp } = params;
 
   const pageNum = Math.max(1, parseInt(String(params.page || 1), 10) || 1);
-  const limitNum = Math.min(50, Math.max(1, parseInt(String(params.limit || 20), 10) || 20));
+  const limitNum = Math.min(500, Math.max(1, parseInt(String(params.limit || 500), 10) || 500));
 
   const origin = extractCode(from);
   const destination = extractCode(to);
@@ -68,7 +71,9 @@ export const searchLiveFlights = async (params: {
     }
 
     const startIndex = (pageNum - 1) * limitNum;
-    const paginatedFlights = flightList.slice(startIndex, startIndex + limitNum);
+    const paginatedFlights = params.limit 
+      ? flightList.slice(startIndex, startIndex + limitNum) 
+      : flightList;
     return {
       flights: paginatedFlights,
       count: paginatedFlights.length,
@@ -122,7 +127,7 @@ export const searchLiveFlights = async (params: {
       Auth_Header: {
         UserId: env.FLYSHOP_USER_ID,
         Password: env.FLYSHOP_PASSWORD,
-        IP_Address: clientIp || '127.0.0.1',
+        IP_Address: FLYSHOP_AUTH_IP,
         Request_Id: `REQ_${Date.now()}`,
         IMEI_Number: '9536615000',
       },
@@ -304,7 +309,7 @@ export const repriceLiveFlight = async (params: {
       Auth_Header: {
         UserId: env.FLYSHOP_USER_ID,
         Password: env.FLYSHOP_PASSWORD,
-        IP_Address: clientIp || '127.0.0.1',
+        IP_Address: FLYSHOP_AUTH_IP,
         Request_Id: `REQ_REPRICE_${Date.now()}`,
         IMEI_Number: '9536615000',
       },
@@ -400,7 +405,7 @@ export const getLiveSSR = async (params: {
       Auth_Header: {
         UserId: env.FLYSHOP_USER_ID,
         Password: env.FLYSHOP_PASSWORD,
-        IP_Address: clientIp || '127.0.0.1',
+        IP_Address: FLYSHOP_AUTH_IP,
         Request_Id: `REQ_GETSSR_${Date.now()}`,
         IMEI_Number: '9536615000',
       },
@@ -567,7 +572,7 @@ export const tempBookingLiveFlight = async (params: {
       Auth_Header: {
         UserId: env.FLYSHOP_USER_ID,
         Password: env.FLYSHOP_PASSWORD,
-        IP_Address: clientIp || '127.0.0.1',
+        IP_Address: FLYSHOP_AUTH_IP,
         Request_Id: `REQ_TEMPBOOK_${Date.now()}`,
         IMEI_Number: '9536615000',
       },
@@ -695,7 +700,7 @@ export const issueTicketLiveFlight = async (params: {
       Auth_Header: {
         UserId: env.FLYSHOP_USER_ID,
         Password: env.FLYSHOP_PASSWORD,
-        IP_Address: clientIp || '127.0.0.1',
+        IP_Address: FLYSHOP_AUTH_IP,
         Request_Id: `REQ_TICKET_${Date.now()}`,
         IMEI_Number: '9536615000',
       },

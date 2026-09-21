@@ -43,7 +43,7 @@ const envSchema = z.object({
   // Flyshop External GDS Services (UAT Fallbacks for development)
   FLYSHOP_BASE_URL: z
     .string()
-    .default('http://uat.flyshop.in/AirlineHost/AirAPIService.svc/JSONService'),
+    .default('https://api.flyshop.in/Flight/AirAPIService.svc/JSONService'),
   FLYSHOP_HOTEL_URL: z
     .string()
     .default('http://uat.flyshop.in/HotelHost/HotelNewAPIService.svc/JSONService'),

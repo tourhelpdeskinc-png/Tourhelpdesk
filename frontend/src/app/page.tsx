@@ -483,7 +483,7 @@ function HomeContent() {
                         <FlightResults 
                           flights={sortedFlights} 
                           onBook={handleBookClick} 
-                          initialLimit={6}
+                          initialLimit={20}
                           searchParams={searchParams}
                           verifyingFlightId={verifyingFlightId}
                         />
