@@ -1,4 +1,5 @@
 import React from 'react';
+import FlightSearchingModal from './FlightSearchingModal';
 
 /**
  * Single Realistic Flight Ticket Shimmer Skeleton
@@ -6,68 +7,67 @@ import React from 'react';
  */
 export const FlightTicketSkeleton: React.FC = React.memo(() => {
   return (
-    <div className="animate-shimmer bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-4 sm:p-5 relative overflow-hidden shadow-xs">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div className="animate-shimmer bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 relative overflow-hidden shadow-xs">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 lg:gap-6">
         
-        {/* 1. Airline Info Skeleton */}
-        <div className="flex items-center gap-3 w-full lg:w-48 shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
-          <div className="space-y-1.5 flex-1 min-w-0">
-            <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-md w-24" />
-            <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md w-16" />
-          </div>
-        </div>
-
-        {/* 2. Schedule & Route Timeline Skeleton */}
-        <div className="flex-1 flex items-center justify-between gap-2 sm:gap-6 px-1 sm:px-4">
-          {/* Departure */}
-          <div className="min-w-[75px] space-y-1">
-            <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-md w-16" />
-            <div className="h-3.5 bg-slate-100 dark:bg-slate-800/60 rounded-md w-12" />
-          </div>
-
-          {/* Route Duration & Flight Line */}
-          <div className="flex flex-col items-center flex-1 max-w-[160px] sm:max-w-[200px] px-2 space-y-1.5">
-            <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md w-14" />
-            <div className="w-full flex items-center gap-1">
-              <div className="h-1 w-full bg-slate-200 dark:bg-slate-800 rounded-full relative flex items-center justify-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-              </div>
+        {/* === Left Content Skeleton === */}
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Airline row */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-200 shrink-0" />
+            <div className="space-y-1.5 flex-1 min-w-0">
+              <div className="h-4 bg-slate-200 rounded-md w-28" />
+              <div className="h-3 bg-slate-100 rounded-md w-16" />
             </div>
-            <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md w-16" />
           </div>
 
-          {/* Arrival */}
-          <div className="min-w-[75px] space-y-1 text-right flex flex-col items-end">
-            <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-md w-16" />
-            <div className="h-3.5 bg-slate-100 dark:bg-slate-800/60 rounded-md w-12" />
+          {/* Timeline */}
+          <div className="flex items-center justify-between gap-2 sm:gap-6 pt-1">
+            <div className="min-w-[85px] space-y-1">
+              <div className="h-7 bg-slate-200 rounded-md w-20" />
+              <div className="h-3.5 bg-slate-100 rounded-md w-10" />
+            </div>
+
+            <div className="flex flex-col items-center flex-1 max-w-[200px] sm:max-w-[260px] px-2 space-y-2">
+              <div className="h-3 bg-slate-100 rounded-md w-14" />
+              <div className="w-full flex items-center justify-center relative">
+                <div className="w-full h-px bg-slate-200" />
+              </div>
+              <div className="h-3 bg-slate-100 rounded-md w-16" />
+            </div>
+
+            <div className="min-w-[85px] space-y-1 text-right flex flex-col items-end">
+              <div className="h-7 bg-slate-200 rounded-md w-20" />
+              <div className="h-3.5 bg-slate-100 rounded-md w-10" />
+            </div>
+          </div>
+
+          {/* Bottom meta row */}
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="h-3 bg-slate-100 rounded-md w-20" />
+              <div className="h-3 bg-slate-100 rounded-md w-24" />
+            </div>
+            <div className="h-3 bg-slate-100 rounded-md w-20" />
           </div>
         </div>
 
-        {/* 3. Class & Baggage Badges (Desktop) */}
-        <div className="hidden xl:flex flex-col gap-1.5 items-end w-32 shrink-0">
-          <div className="h-4 bg-slate-100 dark:bg-slate-800/60 rounded-md w-20" />
-          <div className="h-3 bg-slate-100 dark:bg-slate-800/40 rounded-md w-24" />
-          <div className="h-3 bg-slate-100 dark:bg-slate-800/40 rounded-md w-16" />
+        {/* Ticket Divider & Notches Skeleton */}
+        <div className="hidden lg:flex flex-col items-center justify-between relative self-stretch py-0">
+          <div className="w-5 h-5 -mt-5 rounded-full bg-slate-50 border-b border-slate-200 z-10" />
+          <div className="w-px flex-1 border-r border-dashed border-slate-200 my-1" />
+          <div className="w-5 h-5 -mb-5 rounded-full bg-slate-50 border-t border-slate-200 z-10" />
         </div>
 
-        {/* 4. Price & Select Flight Button Skeleton */}
-        <div className="w-full lg:w-44 shrink-0 flex flex-row lg:flex-col items-center justify-between lg:justify-center border-t lg:border-t-0 lg:border-l border-slate-100 dark:border-slate-800/80 pt-3 lg:pt-0 lg:pl-5">
-          <div className="space-y-1 lg:mb-2 text-left lg:text-center">
-            <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-md w-24" />
-            <div className="h-2.5 bg-slate-100 dark:bg-slate-800/60 rounded-md w-16" />
+        {/* Right Fare & Select Skeleton */}
+        <div className="w-full lg:w-44 shrink-0 flex flex-row lg:flex-col items-center lg:items-end justify-between gap-3 pt-2 lg:pt-0">
+          <div className="h-6 bg-slate-100 rounded-full w-20" />
+          <div className="space-y-1 text-left lg:text-right">
+            <div className="h-2.5 bg-slate-100 rounded-md w-10 ml-auto" />
+            <div className="h-8 bg-slate-200 rounded-md w-24 ml-auto" />
           </div>
-          <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-xl w-32" />
+          <div className="h-10 bg-slate-200 rounded-xl w-full" />
         </div>
-      </div>
-
-      {/* Bottom Amenity Row Skeleton */}
-      <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md w-32" />
-          <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md w-20" />
-        </div>
-        <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md w-24" />
       </div>
     </div>
   );
@@ -190,11 +190,22 @@ export const FlightSearchSkeleton: React.FC<{ from?: string; to?: string }> = Re
 
 FlightSearchSkeleton.displayName = 'FlightSearchSkeleton';
 
-export const SkeletonLoader: React.FC<{ from?: string; to?: string }> = React.memo(({
-  from,
-  to,
-}) => {
-  return <FlightSearchSkeleton from={from} to={to} />;
+export const SkeletonLoader: React.FC<{
+  from?: string;
+  to?: string;
+  searchParams?: any;
+  onClose?: () => void;
+}> = React.memo(({ from, to, searchParams, onClose }) => {
+  return (
+    <>
+      <FlightSearchingModal
+        isOpen={true}
+        searchParams={searchParams || (from && to ? { from, to } : null)}
+        onClose={onClose}
+      />
+      <FlightSearchSkeleton from={from} to={to} />
+    </>
+  );
 });
 
 SkeletonLoader.displayName = 'SkeletonLoader';

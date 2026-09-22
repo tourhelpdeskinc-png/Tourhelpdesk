@@ -143,7 +143,12 @@ export default function FlightRoutePage() {
         
         {isSearching && (
           <div id="search-loading-indicator">
-            <SkeletonLoader from={origin} to={destination} />
+            <SkeletonLoader
+              from={origin}
+              to={destination}
+              searchParams={searchParams}
+              onClose={() => setIsSearching(false)}
+            />
           </div>
         )}
 

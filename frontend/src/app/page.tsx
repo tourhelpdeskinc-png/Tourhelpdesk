@@ -396,7 +396,12 @@ function HomeContent() {
 
               {isSearching && (
                 <div id="search-loading-indicator">
-                  <SkeletonLoader from={searchParams?.from} to={searchParams?.to} />
+                  <SkeletonLoader
+                    from={searchParams?.from}
+                    to={searchParams?.to}
+                    searchParams={searchParams}
+                    onClose={() => setIsSearching(false)}
+                  />
                 </div>
               )}
 

@@ -4,7 +4,7 @@ module.exports = {
       name: 'tour-backend',
       cwd: './backend',
       script: 'dist/server.js',
-      node_args: '--env-file=.env',
+      node_args: '--env-file=.env.local',
       instances: 1,
       autorestart: true,
       watch: false,
