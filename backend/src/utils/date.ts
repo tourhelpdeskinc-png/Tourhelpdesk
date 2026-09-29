@@ -158,22 +158,9 @@ export const isDomesticRoute = (origin: string, destination: string): boolean =>
   return isIndianAirport(o) && isIndianAirport(d);
 };
 
+import { resolveAirportCode } from '../services/airportService.js';
+
 export const extractCode = (str: string): string => {
-  if (!str) return 'DEL';
-  const match = str.match(/\(([A-Za-z]{3})\)/);
-  if (match) return match[1].toUpperCase();
-  const trimmed = str.trim();
-  if (trimmed.length === 3 && /^[A-Za-z]{3}$/.test(trimmed)) {
-    return trimmed.toUpperCase();
-  }
-
-  const lower = trimmed.toLowerCase();
-  if (CITY_TO_IATA[lower]) return CITY_TO_IATA[lower];
-
-  for (const [city, code] of Object.entries(CITY_TO_IATA)) {
-    if (lower.includes(city)) return code;
-  }
-
-  return trimmed.substring(0, 3).toUpperCase();
+  return resolveAirportCode(str);
 };
 

@@ -35,6 +35,19 @@ const getApiBase = () => {
 };
 
 export const flightService = {
+  async searchAirports(query: string, limit: number = 15): Promise<any[]> {
+    if (!query || !query.trim()) return [];
+    try {
+      const response = await fetch(`${getApiBase()}/flights/airports?q=${encodeURIComponent(query.trim())}&limit=${limit}`);
+      if (!response.ok) return [];
+      const data = await response.json();
+      return Array.isArray(data.airports) ? data.airports : [];
+    } catch (e) {
+      console.error('Error fetching airports:', e);
+      return [];
+    }
+  },
+
   async searchFlights(params: SearchParams): Promise<Flight[]> {
     const cacheKey = JSON.stringify(params);
     const cachedData = getCachedSearchResult(cacheKey);
@@ -105,16 +118,27 @@ export const flightService = {
       nationality?: string;
     }>;
     remarks?: string;
+    idempotencyKey?: string;
   }): Promise<{
     success: boolean;
     requestId?: string;
     message: string;
   }> {
     try {
+      // O(1) UUID generation for duplicate submit protection
+      const key =
+        payload.idempotencyKey ||
+        (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+          ? crypto.randomUUID()
+          : `idemp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
+
       const response = await fetch(`${getApiBase()}/flights/booking-request`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': key,
+        },
+        body: JSON.stringify({ ...payload, idempotencyKey: key }),
       });
 
       const data = await response.json();

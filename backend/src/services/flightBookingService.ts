@@ -27,6 +27,20 @@ export const createFlightBookingRequestService = async (
     throw new AppError('At least one passenger is required for flight booking request.', 400);
   }
 
+  // 0. Database-level Idempotency Check (Dual-layer guarantee even if cache is purged)
+  if (input.idempotencyKey) {
+    const existing = await FlightBookingRequest.findOne({ idempotencyKey: input.idempotencyKey });
+    if (existing) {
+      logger.info(`[Idempotency] Returning existing database record for key "${input.idempotencyKey}" (${existing.requestId})`);
+      return {
+        success: true,
+        requestId: existing.requestId,
+        message: 'Flight booking request already submitted successfully.',
+        booking: existing,
+      };
+    }
+  }
+
   const requestId = generateBookingRequestId();
 
   // 1. SAVE TO DATABASE FIRST (Source of truth)
@@ -67,6 +81,7 @@ export const createFlightBookingRequestService = async (
     remarks: input.remarks ? input.remarks.trim() : '',
     status: 'PENDING',
     ipAddress: clientIp || '',
+    idempotencyKey: input.idempotencyKey || undefined,
   });
 
   await bookingRecord.save();

@@ -52,8 +52,8 @@ function QueryParamSearchTrigger({
       onViewDetails();
     } else if (fromParam && toParam && dateParam) {
       onSearch({
-        from: resolveIataCode(fromParam),
-        to: resolveIataCode(toParam),
+        from: resolveIataCode(fromParam) || (fromParam.length === 3 ? fromParam.toUpperCase() : fromParam),
+        to: resolveIataCode(toParam) || (toParam.length === 3 ? toParam.toUpperCase() : toParam),
         date: dateParam,
         passengers: 1,
         travelClass: classParam,

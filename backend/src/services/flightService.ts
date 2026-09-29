@@ -48,7 +48,7 @@ export const searchLiveFlights = async (params: {
   const { from, to, date, returnDate, passengers, travelClass, airline, airlineCode, clientIp } = params;
 
   const pageNum = Math.max(1, parseInt(String(params.page || 1), 10) || 1);
-  const limitNum = Math.min(500, Math.max(1, parseInt(String(params.limit || 500), 10) || 500));
+  const limitNum = Math.min(50, Math.max(1, parseInt(String(params.limit || 20), 10) || 20));
 
   const origin = extractCode(from);
   const destination = extractCode(to);
@@ -71,9 +71,10 @@ export const searchLiveFlights = async (params: {
     }
 
     const startIndex = (pageNum - 1) * limitNum;
-    const paginatedFlights = params.limit 
-      ? flightList.slice(startIndex, startIndex + limitNum) 
+    const paginatedFlights = params.limit
+      ? flightList.slice(startIndex, startIndex + limitNum)
       : flightList;
+
     return {
       flights: paginatedFlights,
       count: paginatedFlights.length,

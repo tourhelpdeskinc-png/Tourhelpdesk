@@ -5,6 +5,20 @@ import * as flightService from '../services/flightService.js';
 // export const preCachePopularRoutes = flightService.preCachePopularRoutes;
 
 import { createFlightBookingRequestService } from '../services/flightBookingService.js';
+import { searchAirportsService } from '../services/airportService.js';
+
+// Airport Autocomplete Search Controller
+export const searchAirports = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const query = (req.query.q as string) || (req.body.query as string) || '';
+  const limit = Math.min(50, Math.max(1, parseInt(String(req.query.limit || req.body.limit || 15), 10) || 15));
+  const airports = searchAirportsService(query, limit);
+
+  res.status(200).json({
+    success: true,
+    airports,
+    count: airports.length,
+  });
+});
 
 // Active Flight Search Controller
 export const searchFlights = asyncHandler(async (req: Request, res: Response): Promise<void> => {

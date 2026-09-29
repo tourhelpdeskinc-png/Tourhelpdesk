@@ -17,6 +17,7 @@ import {
   hotelTempBookingSchema,
   hotelTicketSchema,
 } from '../validators/hotel.validator.js';
+import { idempotencyMiddleware } from '../middleware/idempotency.js';
 
 const router = Router();
 
@@ -24,8 +25,8 @@ router.post('/autocomplete', hotelSearchLimiter, validateBody(hotelAutocompleteS
 router.post('/search', hotelSearchLimiter, validateBody(hotelSearchSchema), searchHotels);
 router.post('/details', validateBody(hotelDetailsSchema), getHotelDetails);
 router.post('/cancellation-policy', getCancellationPolicy);
-router.post('/temp-booking', authMiddleware, validateBody(hotelTempBookingSchema), createTempBooking);
-router.post('/ticket', authMiddleware, validateBody(hotelTicketSchema), issueHotelTicket);
+router.post('/temp-booking', authMiddleware, idempotencyMiddleware({ ttlSeconds: 900 }), validateBody(hotelTempBookingSchema), createTempBooking);
+router.post('/ticket', authMiddleware, idempotencyMiddleware({ ttlSeconds: 900 }), validateBody(hotelTicketSchema), issueHotelTicket);
 
 export default router;
 

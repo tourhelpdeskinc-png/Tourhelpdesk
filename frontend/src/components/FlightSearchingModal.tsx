@@ -45,20 +45,22 @@ const resolveCityAndCode = (val?: string): { city: string; code: string } => {
 
   if (clean.length === 3 && /^[A-Z]{3}$/i.test(clean)) {
     const code = clean.toUpperCase();
-    const airport = AIRPORTS_DATA.find((a) => a.code === code);
+    const airport = AIRPORTS_DATA.find((a) => a.code.toLowerCase() === code.toLowerCase());
     return { city: airport?.city || code, code };
   }
 
   const airport = AIRPORTS_DATA.find(
     (a) =>
       a.city.toLowerCase() === clean.toLowerCase() ||
+      a.city.toLowerCase().startsWith(clean.toLowerCase()) ||
+      a.name.toLowerCase().includes(clean.toLowerCase()) ||
       a.keywords?.toLowerCase().includes(clean.toLowerCase())
   );
   if (airport) {
     return { city: airport.city, code: airport.code };
   }
 
-  return { city: clean, code: clean.slice(0, 3).toUpperCase() };
+  return { city: clean, code: clean.length === 3 ? clean.toUpperCase() : clean };
 };
 
 const formatDate = (dateStr?: string): string => {

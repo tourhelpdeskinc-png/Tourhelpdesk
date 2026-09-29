@@ -146,8 +146,8 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
     const formData = new FormData(event.currentTarget);
     const rawFrom = (formData.get('from') as string || fromCity).trim();
     const rawTo = (formData.get('to') as string || toCity).trim();
-    const from = resolveIataCode(rawFrom);
-    const to = resolveIataCode(rawTo);
+    const from = resolveIataCode(rawFrom) || (rawFrom.length === 3 ? rawFrom.toUpperCase() : rawFrom);
+    const to = resolveIataCode(rawTo) || (rawTo.length === 3 ? rawTo.toUpperCase() : rawTo);
     const date = (formData.get('date') as string) || departureDate;
     const finalReturnDate = tripType === 'oneway' ? '' : ((formData.get('returnDate') as string) || returnDate);
     const passCount = Number(formData.get('passengers')) || passengers;

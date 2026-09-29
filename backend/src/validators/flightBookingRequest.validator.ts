@@ -40,6 +40,7 @@ export const flightBookingRequestSchema = z.object({
     .min(1, 'At least one passenger must be provided')
     .max(15, 'Maximum 15 passengers per request'),
   remarks: z.string().max(1000, 'Remarks cannot exceed 1000 characters').optional().default(''),
+  idempotencyKey: z.string().max(128).optional(),
 });
 
 export type FlightBookingRequestInput = z.infer<typeof flightBookingRequestSchema>;

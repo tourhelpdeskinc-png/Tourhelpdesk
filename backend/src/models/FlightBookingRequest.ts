@@ -39,6 +39,7 @@ export interface IFlightBookingRequest extends Document {
   remarks?: string;
   status: 'PENDING' | 'CONTACTED' | 'CONFIRMED' | 'CANCELLED';
   ipAddress?: string;
+  idempotencyKey?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -202,6 +203,13 @@ const flightBookingRequestSchema = new Schema<IFlightBookingRequest>(
     ipAddress: {
       type: String,
       default: '',
+    },
+    idempotencyKey: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+      trim: true,
     },
   },
   {
