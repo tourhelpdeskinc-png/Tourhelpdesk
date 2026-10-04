@@ -41,6 +41,29 @@ const staggerContainerVariants = {
   },
 };
 
+const CheapFlightHeroDiscount: React.FC<{ size?: 'sm' | 'lg' }> = ({ size = 'lg' }) => (
+  <div className="text-center select-none">
+    <p
+      className={`${
+        size === 'sm'
+          ? 'text-base sm:text-lg'
+          : 'text-xl sm:text-2xl md:text-3xl lg:text-4xl'
+      } font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]`}
+    >
+      Domestic <span className="text-amber-400">30% off</span>
+    </p>
+    <p
+      className={`${
+        size === 'sm'
+          ? 'text-base sm:text-lg mt-0.5'
+          : 'text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-1 sm:mt-1.5'
+      } font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]`}
+    >
+      international <span className="text-emerald-400">40% off</span>
+    </p>
+  </div>
+);
+
 export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
   isCheapFlights = false,
   searchForm,
@@ -76,6 +99,12 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
               <div className="absolute inset-0 bg-gradient-to-b from-slate-950/45 via-slate-950/20 to-slate-950/70"></div>
             )}
           </div>
+
+          {isCheapFlights && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+              <CheapFlightHeroDiscount size="sm" />
+            </div>
+          )}
         </div>
 
         <FlightSearchForm
@@ -121,6 +150,15 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
           viewport={{ once: true, amount: 0.2 }}
           className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 md:px-8 text-center w-full mt-8 sm:mt-12"
         >
+          {isCheapFlights && (
+            <motion.div
+              variants={scrollRevealVariants}
+              className="w-full flex justify-center mb-4 sm:mb-6 px-4"
+            >
+              <CheapFlightHeroDiscount size="lg" />
+            </motion.div>
+          )}
+
           {/* Multi-Field Search Card */}
           <motion.div
             variants={scrollRevealVariants}
