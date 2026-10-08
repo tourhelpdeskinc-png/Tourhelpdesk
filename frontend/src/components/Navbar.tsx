@@ -215,11 +215,11 @@ const Navbar: React.FC<NavbarProps> = ({
     <nav 
       className={`z-50 transition-all duration-300 ${
         isTripHeader 
-          ? 'absolute top-0 left-0 right-0 bg-gradient-to-b from-slate-950/85 via-slate-900/50 to-transparent text-white border-b border-white/10 shadow-sm'
+          ? 'absolute top-0 left-0 right-0 bg-linear-to-b from-slate-950/85 via-slate-900/50 to-transparent text-white border-b border-white/10 shadow-sm'
           : 'sticky top-0 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shadow-sm'
       }`}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[54px] sm:h-[62px] relative">
+      <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between h-13.5 sm:h-15.5 relative">
         
         {/* Left: Hamburger + Logo + Inline Navigation Links */}
         <div className="flex items-center gap-3 sm:gap-5 lg:gap-7 min-w-0">
@@ -404,19 +404,19 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* Sidebar Backdrop Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/35 backdrop-blur-[1px] z-[90] transition-opacity duration-300"
+          className="fixed inset-0 bg-black/35 backdrop-blur-[1px] z-90 transition-opacity duration-300"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar Drawer */}
       <div 
-        className={`fixed top-0 left-0 h-full w-[280px] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-2xl z-[100] transition-transform duration-300 ease-out transform ${
+        className={`fixed top-0 left-0 h-full w-70 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-2xl z-100 transition-transform duration-300 ease-out transform ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } flex flex-col`}
       >
         {/* Sidebar Header */}
-        <div className="h-[64px] px-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
+        <div className="h-16 px-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
           <div 
             className="flex items-center gap-2.5 cursor-pointer select-none group min-w-0"
             onClick={() => { onLogoClick(); setIsSidebarOpen(false); }}
@@ -455,10 +455,10 @@ const Navbar: React.FC<NavbarProps> = ({
               onClick={() => { setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0h-3.18a2 2 0 00-1.737 1.01l-1.026 1.78a2 2 0 01-1.737 1.01H9.943a2 2 0 01-1.737-1.01l-1.026-1.78A2 2 0 005.44 13H2" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Cruises</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Cruises</span>
             </button>
 
             <button 
@@ -468,30 +468,30 @@ const Navbar: React.FC<NavbarProps> = ({
               }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Flights</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Flights</span>
             </button>
 
             <button 
               onClick={() => { onHotelsClick(); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 10V19M21 10V19M3 14H21M3 10C3 10 6 7 12 7C18 7 21 10 21 10M5 19H19" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Hotels</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Hotels</span>
             </button>
 
             <button 
               onClick={() => { router.push('/car-rental'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 5h-16l1-5zm2 12a2 2 0 100-4 2 2 0 000 4zm10 0a2 2 0 100-4 2 2 0 000 4z" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Car Rental</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Car Rental</span>
             </button>
 
             <div className="h-px bg-slate-100 dark:bg-slate-800 my-2 mx-6" />
@@ -500,20 +500,20 @@ const Navbar: React.FC<NavbarProps> = ({
               onClick={() => { onOffersClick(); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 18.364a9 9 0 0112.728 0M12 3v15M12 18a3 3 0 100-6 3 3 0 000 6zM5.636 5.636L12 12m6.364-6.364L12 12" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Holidays</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Holidays</span>
             </button>
 
             <button 
               onClick={() => { router.push('/offers'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-9l2 4-4-2 2-2z" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Activities</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Activities</span>
             </button>
 
             <div className="h-px bg-slate-100 dark:bg-slate-800 my-2 mx-6" />
@@ -522,30 +522,30 @@ const Navbar: React.FC<NavbarProps> = ({
               onClick={() => { router.push('/customer-service'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Insurance</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Insurance</span>
             </button>
 
             <button 
               onClick={() => { router.push('/customer-service'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Visa</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Visa</span>
             </button>
 
             <button 
               onClick={() => { router.push('/bus'); setIsSidebarOpen(false); }}
               className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left group transition-colors cursor-pointer"
             >
-              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-[#E8A11A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg className="w-5 h-5 text-[#0F172A]/70 dark:text-slate-400 group-hover:text-brand-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 7v8M16 7v8M3 9v7a2 2 0 002 2h14a2 2 0 002-2V9M3 9a2 2 0 012-2h14a2 2 0 012 2M3 9h18M6 21h2m8 0h2" />
               </svg>
-              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-[#E8A11A] transition-colors">Bus</span>
+              <span className="text-[14px] font-bold text-[#0F172A] dark:text-slate-200 group-hover:text-brand-gold transition-colors">Bus</span>
             </button>
 
           </div>
@@ -556,7 +556,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
             © 2026 Tour Help Desk Inc. All rights reserved.
           </p>
-          <p className="text-[10px] font-bold text-[#E8A11A] tracking-wider uppercase mt-1">
+          <p className="text-[10px] font-bold text-brand-gold tracking-wider uppercase mt-1">
             BRITISH COLUMBIA: REGISTRATION #1578191
           </p>
         </div>

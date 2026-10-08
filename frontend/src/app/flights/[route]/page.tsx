@@ -138,7 +138,7 @@ export default function FlightRoutePage() {
         toggleDarkMode={() => setDarkMode(prev => !prev)}
       />
       
-      <main className="flex-grow">
+      <main className="grow">
         <Hero onSearch={handleSearch} isLoading={isSearching} />
         
         {isSearching && (

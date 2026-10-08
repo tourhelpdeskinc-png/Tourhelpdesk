@@ -52,7 +52,7 @@ export const ExclusiveFlightOffers: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
             className="mt-1 text-slate-600 dark:text-slate-400 text-xs sm:text-sm font-medium"
           >
-            Save big on international and domestic flight tickets with our promo codes.
+            Save big on International and Domestic flight tickets with our promo codes.
           </motion.p>
         </div>
 
@@ -121,9 +121,6 @@ export const ExclusiveFlightOffers: React.FC = () => {
                 <h3 className="text-slate-900 font-extrabold text-base sm:text-lg leading-snug max-w-[85%]">
                   {offer.title}
                 </h3>
-                <p className="text-[11px] font-medium text-slate-700/90 mt-1">
-                  {offer.validity}
-                </p>
               </div>
 
               <div className="flex items-end justify-between mt-4 relative z-10">

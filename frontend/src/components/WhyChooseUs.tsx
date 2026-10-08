@@ -21,7 +21,7 @@ const WhyChooseUs: React.FC = () => {
                 <path d="M12 17H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </div>
-            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white max-w-[260px] leading-snug">
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white max-w-65 leading-snug">
               The best hotel & flight deals in the universe
             </h3>
           </div>
@@ -37,7 +37,7 @@ const WhyChooseUs: React.FC = () => {
                 <path d="M5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white max-w-[260px] leading-snug">
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white max-w-65 leading-snug">
               Flexible ways to pay
             </h3>
           </div>
@@ -55,7 +55,7 @@ const WhyChooseUs: React.FC = () => {
                 <path d="M18.364 18.364L15.5355 15.5355" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white max-w-[260px] leading-snug">
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white max-w-65 leading-snug">
               Support that never sleeps, we’re with you 24/7
             </h3>
           </div>

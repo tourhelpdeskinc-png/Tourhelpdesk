@@ -193,7 +193,7 @@ export const FlightSearchingModal: React.FC<FlightSearchingModalProps> = React.m
         </div>
 
         {/* 2. Super Compact Airplane Animation */}
-        <div className="relative w-full max-w-[240px] sm:max-w-xs h-9 sm:h-12 mx-auto flex items-center justify-center my-0.5">
+        <div className="relative w-full max-w-60 sm:max-w-xs h-9 sm:h-12 mx-auto flex items-center justify-center my-0.5">
           {/* Subtle cloud backdrop */}
           <div className="absolute inset-0 flex items-center justify-center opacity-70 pointer-events-none">
             <svg className="w-full h-full" viewBox="0 0 240 50" fill="none">
@@ -258,11 +258,11 @@ export const FlightSearchingModal: React.FC<FlightSearchingModalProps> = React.m
           <div className="flex items-center justify-between relative">
             
             {/* Background connecting track */}
-            <div className="absolute top-2.5 sm:top-3 left-2.5 right-2.5 h-0.5 bg-slate-200 -z-0" />
+            <div className="absolute top-2.5 sm:top-3 left-2.5 right-2.5 h-0.5 bg-slate-200 z-0" />
             
             {/* Active blue connecting progress track */}
             <div
-              className="absolute top-2.5 sm:top-3 left-2.5 h-0.5 bg-blue-600 transition-all duration-500 ease-out -z-0"
+              className="absolute top-2.5 sm:top-3 left-2.5 h-0.5 bg-blue-600 transition-all duration-500 ease-out z-0"
               style={{
                 width: `${(currentStepIndex / (STEPS.length - 1)) * 92}%`,
               }}
@@ -291,7 +291,7 @@ export const FlightSearchingModal: React.FC<FlightSearchingModalProps> = React.m
                   )}
 
                   <span
-                    className={`mt-1 text-[8px] sm:text-[10px] text-center max-w-[48px] sm:max-w-[65px] leading-tight font-bold ${
+                    className={`mt-1 text-[8px] sm:text-[10px] text-center max-w-12 sm:max-w-16.25 leading-tight font-bold ${
                       isActive
                         ? 'text-slate-900 font-extrabold'
                         : isCompleted

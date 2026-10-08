@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CONTACT_INFO } from '../constants/config';
-import { Badge } from '@/components/ui/Badge';
+import { convertINR, getSavedCurrency, CURRENCIES, CurrencyOption } from '../lib/currency';
 
 interface PromotionalPopupProps {
   onClose: () => void;
@@ -12,6 +12,19 @@ interface PromotionalPopupProps {
 
 const PromotionalPopup: React.FC<PromotionalPopupProps> = ({ onClose, minPrice, route }) => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [currency, setCurrency] = useState<CurrencyOption>(CURRENCIES[0]);
+
+  useEffect(() => {
+    const updateCurrency = () => {
+      setCurrency(getSavedCurrency());
+    };
+    updateCurrency();
+    window.addEventListener('currency_change', updateCurrency);
+    return () => window.removeEventListener('currency_change', updateCurrency);
+  }, []);
+
+  const convertedOnlinePrice = convertINR(minPrice, currency.code) || 49;
+  const convertedOfflinePrice = Math.max(1, Math.floor(convertedOnlinePrice * 0.85));
 
   if (isMinimized) {
     return (
@@ -88,12 +101,12 @@ const PromotionalPopup: React.FC<PromotionalPopupProps> = ({ onClose, minPrice, 
             <div className="text-center mb-4 w-full">
               <div className="text-slate-800 dark:text-slate-100 text-xs sm:text-sm font-semibold leading-relaxed">
                 <span className="block mb-1 text-slate-600 dark:text-slate-300">Route: <span className="font-black text-slate-900 dark:text-white">{route || "Premium Flights"}</span></span>
-                <span className="text-slate-400 dark:text-slate-500">Online Fare: <span className="line-through font-bold">${minPrice.toLocaleString()}</span></span>
+                <span className="text-slate-400 dark:text-slate-500">Online Fare: <span className="line-through font-bold">{currency.symbol}{convertedOnlinePrice.toLocaleString()}</span></span>
                 <span className="block mt-1.5 text-xs sm:text-sm font-extrabold text-[#0E255E] dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 py-1 px-2 rounded-lg border border-blue-100 dark:border-blue-900/50">
                   21+ Unpublished Flights Available!
                 </span>
                 <span className="block mt-2 font-black text-slate-900 dark:text-slate-100 text-xs sm:text-sm">
-                  Offline Offer: <span className="text-[#E8A11A] text-xl sm:text-2xl font-black ml-1">${Math.floor(minPrice * 0.85).toLocaleString()}</span>
+                  Offline Offer: <span className="text-[#E8A11A] text-xl sm:text-2xl font-black ml-1">{currency.symbol}{convertedOfflinePrice.toLocaleString()}</span>
                 </span>
               </div>
             </div>

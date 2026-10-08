@@ -5,33 +5,33 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/Badge';
 import BusSearchForm from './forms/BusSearchForm';
-import { 
-  RedBusGraphic, 
-  PrimoOfferGraphic, 
-  BankBadgeGraphic, 
-  TrainGraphic, 
-  HotelGraphic, 
-  FlightGraphic, 
-  CabGraphic 
+import {
+  RedBusGraphic,
+  PrimoOfferGraphic,
+  BankBadgeGraphic,
+  TrainGraphic,
+  HotelGraphic,
+  FlightGraphic,
+  CabGraphic
 } from './ui/OfferGraphics';
-import { 
-  Bus, 
-  MapPin, 
-  Calendar, 
-  ArrowLeftRight, 
-  Search, 
-  Wifi, 
-  BatteryCharging, 
-  Droplet, 
-  Navigation, 
-  Snowflake, 
-  Leaf, 
-  Sparkles, 
-  Headphones, 
-  ShieldCheck, 
-  BadgePercent, 
-  Star, 
-  Globe, 
+import {
+  Bus,
+  MapPin,
+  Calendar,
+  ArrowLeftRight,
+  Search,
+  Wifi,
+  BatteryCharging,
+  Droplet,
+  Navigation,
+  Snowflake,
+  Leaf,
+  Sparkles,
+  Headphones,
+  ShieldCheck,
+  BadgePercent,
+  Star,
+  Globe,
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
@@ -55,14 +55,14 @@ interface BusSearchForm {
 }
 
 const scrollRevealVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: 40, 
-    scale: 0.98 
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.98
   },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
+  visible: {
+    opacity: 1,
+    y: 0,
     scale: 1,
     transition: {
       duration: 0.8,
@@ -222,8 +222,8 @@ export default function BusPage() {
     }
   ];
 
-  const filteredOfferCards = activeOfferTab === 'All' 
-    ? allOfferCards 
+  const filteredOfferCards = activeOfferTab === 'All'
+    ? allOfferCards
     : allOfferCards.filter(o => o.category === activeOfferTab);
 
   const countries = [
@@ -387,14 +387,14 @@ export default function BusPage() {
 
   return (
     <div className="w-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
-      
+
       {/* 1. HERO & SEARCH ENGINE SECTION */}
       <section className="relative bg-slate-900 pt-4 pb-4 sm:pt-12 sm:pb-8 md:pt-16 md:pb-10 overflow-hidden">
         {/* Background Image Overlay */}
         <div className="absolute inset-0 z-0">
-          <Image 
-            src="/bus.webp" 
-            alt="Luxury Bus Highway" 
+          <Image
+            src="/bus.webp"
+            alt="Luxury Bus Highway"
             fill
             priority
             sizes="100vw"
@@ -404,7 +404,7 @@ export default function BusPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-900/50 to-slate-950/90"></div>
         </div>
 
-        <motion.div 
+        <motion.div
           variants={staggerContainerVariants}
           initial="hidden"
           whileInView="visible"
@@ -453,7 +453,7 @@ export default function BusPage() {
 
           {/* Left & Right Navigation Arrow Buttons */}
           <div className="flex items-center gap-2 shrink-0">
-            <button 
+            <button
               onClick={handleScrollLeft}
               type="button"
               aria-label="Previous Offers"
@@ -461,7 +461,7 @@ export default function BusPage() {
             >
               <ArrowLeft className="w-5 h-5 text-slate-800 dark:text-white" />
             </button>
-            <button 
+            <button
               onClick={handleScrollRight}
               type="button"
               aria-label="Next Offers"
@@ -480,11 +480,10 @@ export default function BusPage() {
               onClick={() => setActiveOfferTab(tab)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-5 py-2.5 rounded-xl font-extrabold text-sm transition-all duration-200 shrink-0 relative ${
-                activeOfferTab === tab
+              className={`px-5 py-2.5 rounded-xl font-extrabold text-sm transition-all duration-200 shrink-0 relative ${activeOfferTab === tab
                   ? "bg-[#E8A11A] text-slate-950 shadow-md shadow-[#E8A11A]/30 scale-105 border-2 border-[#c88812] font-black"
                   : "bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 font-bold"
-              }`}
+                }`}
             >
               {tab}
             </motion.button>
@@ -492,15 +491,15 @@ export default function BusPage() {
         </div>
 
         {/* Horizontal Sliding Offer Cards Container with Framer Motion */}
-        <div 
+        <div
           ref={offerSliderRef}
           className="flex items-stretch gap-5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory pt-1 px-0.5"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           <AnimatePresence mode="popLayout">
             {filteredOfferCards.map((offer) => (
-              <motion.div 
-                key={offer.id} 
+              <motion.div
+                key={offer.id}
                 layout
                 initial={{ opacity: 0, scale: 0.92, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -530,7 +529,7 @@ export default function BusPage() {
 
                 <div className="flex items-end justify-between mt-4 relative z-10">
                   {/* White Tag Pill with Golden #E8A11A Tag Icon */}
-                  <motion.button 
+                  <motion.button
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.92 }}
                     onClick={() => handleCopyCode(offer.code)}
@@ -554,8 +553,8 @@ export default function BusPage() {
           </AnimatePresence>
         </div>
       </section>
-       {/* 3. INTERNATIONAL & USA BUS TRAVEL CARDS (RIGHT BELOW OFFER CARDS) */}
-      <motion.section 
+      {/* 3. INTERNATIONAL & USA BUS TRAVEL CARDS (RIGHT BELOW OFFER CARDS) */}
+      <motion.section
         variants={staggerContainerVariants}
         initial="hidden"
         whileInView="visible"
@@ -578,7 +577,7 @@ export default function BusPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {internationalBusCards.map((card) => (
-            <motion.div 
+            <motion.div
               key={card.country}
               variants={scrollRevealVariants}
               whileHover={{ y: -6, scale: 1.01 }}
@@ -586,8 +585,8 @@ export default function BusPage() {
             >
               {/* Background Image with Dark Gradient Overlay */}
               <div className="absolute inset-0 z-0">
-                <Image 
-                  src={card.img} 
+                <Image
+                  src={card.img}
                   alt={card.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -630,7 +629,7 @@ export default function BusPage() {
                     ))}
                   </div>
 
-                  <button 
+                  <button
                     type="button"
                     onClick={() => {
                       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -648,7 +647,7 @@ export default function BusPage() {
       </motion.section>
 
       {/* 4. BUS FLEET & COMFORT CLASS SELECTOR */}
-      <motion.section 
+      <motion.section
         variants={staggerContainerVariants}
         initial="hidden"
         whileInView="visible"
@@ -670,7 +669,7 @@ export default function BusPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {busTypes.map((type) => (
-              <motion.div 
+              <motion.div
                 key={type.name}
                 variants={scrollRevealVariants}
                 whileHover={{ y: -5 }}
@@ -713,7 +712,7 @@ export default function BusPage() {
 
 
       {/* 5. BOOKING GUARANTEES */}
-      <motion.section 
+      <motion.section
         variants={staggerContainerVariants}
         initial="hidden"
         whileInView="visible"
@@ -743,7 +742,7 @@ export default function BusPage() {
       </motion.section>
 
       {/* 6. WHY BOOK WITH US */}
-      <motion.section 
+      <motion.section
         variants={staggerContainerVariants}
         initial="hidden"
         whileInView="visible"
@@ -762,7 +761,7 @@ export default function BusPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyChooseUs.map((item) => (
-              <motion.div 
+              <motion.div
                 key={item.title}
                 variants={scrollRevealVariants}
                 whileHover={{ y: -5 }}
@@ -782,7 +781,7 @@ export default function BusPage() {
 
 
       {/* 8. REDBUS-STYLE PREMIUM SEO & TRAVEL INFORMATION SECTION */}
-      <motion.section 
+      <motion.section
         variants={staggerContainerVariants}
         initial="hidden"
         whileInView="visible"
@@ -790,18 +789,18 @@ export default function BusPage() {
         className="py-20 md:py-28 bg-white dark:bg-slate-950 border-t border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-slate-100"
       >
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8">
-          
+
           {/* Main Title & Hero Overview */}
           <motion.div variants={scrollRevealVariants} className="max-w-4xl mb-16">
             <Badge variant="luxury" className="mb-4">
               <Globe className="w-3.5 h-3.5" />
               <span>Official Online Travel Guide</span>
             </Badge>
-            
+
             <h2 className="text-2xl sm:text-3xl md:text-[34px] font-black tracking-tight leading-tight text-slate-900 dark:text-white mb-4">
               The Smart Way to Book Bus Travel
             </h2>
-            
+
             <div className="space-y-3 text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-300 font-medium">
               <p>
                 <strong className="text-slate-900 dark:text-white font-black">TourHelpDesk</strong> makes bus travel simple, secure, and affordable. Whether you're planning a weekend getaway, a family vacation, or a business trip, you can compare routes, choose from trusted operators, and book your bus tickets in just a few clicks.
@@ -823,51 +822,51 @@ export default function BusPage() {
                 </h2>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { 
+                {
                   icon: <Bus className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
-                  title: "Wide Network of Bus Operators", 
-                  desc: "Choose from a large selection of trusted bus partners offering AC, Non-AC, Sleeper, Seater, Volvo, Luxury, and Premium coaches across popular destinations." 
+                  title: "Wide Network of Bus Operators",
+                  desc: "Choose from a large selection of trusted bus partners offering AC, Non-AC, Sleeper, Seater, Volvo, Luxury, and Premium coaches across popular destinations."
                 },
-                { 
+                {
                   icon: <BadgePercent className="w-6 h-6 text-amber-500" />,
-                  title: "Best Price Guarantee", 
-                  desc: "Compare fares from multiple operators and book the most affordable ticket without compromising on comfort or quality." 
+                  title: "Best Price Guarantee",
+                  desc: "Compare fares from multiple operators and book the most affordable ticket without compromising on comfort or quality."
                 },
-                { 
+                {
                   icon: <Gift className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
-                  title: "Exclusive Travel Offers", 
-                  desc: "Enjoy seasonal discounts, special promo codes, cashback offers, and limited-time deals to save more on every journey." 
+                  title: "Exclusive Travel Offers",
+                  desc: "Enjoy seasonal discounts, special promo codes, cashback offers, and limited-time deals to save more on every journey."
                 },
-                { 
+                {
                   icon: <Sparkles className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />,
-                  title: "Instant Booking Confirmation", 
-                  desc: "Receive your e-ticket immediately via email and SMS after successful payment." 
+                  title: "Instant Booking Confirmation",
+                  desc: "Receive your e-ticket immediately via email and SMS after successful payment."
                 },
-                { 
+                {
                   icon: <ShieldCheck className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
-                  title: "Safe & Secure Payments", 
-                  desc: "Book confidently using trusted payment methods, including Visa, MasterCard, American Express, Apple Pay, and Digital Wallets." 
+                  title: "Safe & Secure Payments",
+                  desc: "Book confidently using trusted payment methods, including Visa, MasterCard, American Express, Apple Pay, and Digital Wallets."
                 },
-                { 
+                {
                   icon: <Navigation className="w-6 h-6 text-rose-600 dark:text-rose-400" />,
-                  title: "Live Bus Tracking", 
-                  desc: "Track your bus in real time and stay updated with arrival and departure information for a stress-free journey." 
+                  title: "Live Bus Tracking",
+                  desc: "Track your bus in real time and stay updated with arrival and departure information for a stress-free journey."
                 },
-                { 
+                {
                   icon: <Ticket className="w-6 h-6 text-teal-600 dark:text-teal-400" />,
-                  title: "Easy Ticket Management", 
-                  desc: "View your bookings, download tickets, and manage your travel details from a single dashboard." 
+                  title: "Easy Ticket Management",
+                  desc: "View your bookings, download tickets, and manage your travel details from a single dashboard."
                 },
-                { 
+                {
                   icon: <Headphones className="w-6 h-6 text-sky-600 dark:text-sky-400" />,
-                  title: "24×7 Customer Support", 
-                  desc: "Our dedicated support team is available around the clock to assist with bookings, cancellations, refunds, and travel-related queries." 
+                  title: "24×7 Customer Support",
+                  desc: "Our dedicated support team is available around the clock to assist with bookings, cancellations, refunds, and travel-related queries."
                 },
               ].map((feature, idx) => (
-                <motion.div 
+                <motion.div
                   key={idx}
                   variants={scrollRevealVariants}
                   whileHover={{ y: -6, scale: 1.01 }}
@@ -911,7 +910,7 @@ export default function BusPage() {
                 { step: "Step 5", text: "Complete your payment using your preferred payment method." },
                 { step: "Step 6", text: "Receive instant confirmation along with your e-ticket via email and SMS." },
               ].map((s) => (
-                <div 
+                <div
                   key={s.step}
                   className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 transition-all hover:border-[#E8A11A]/50 shadow-xs"
                 >
@@ -929,9 +928,9 @@ export default function BusPage() {
 
           {/* 3. TRAVEL SMARTER & EXCLUSIVE OFFERS CARDS */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
-            
+
             {/* Travel Smarter with TourHelpDesk */}
-            <motion.div 
+            <motion.div
               variants={scrollRevealVariants}
               whileHover={{ y: -4 }}
               className="p-8 sm:p-10 rounded-[24px] bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between"
@@ -951,7 +950,7 @@ export default function BusPage() {
             </motion.div>
 
             {/* Exclusive Bus Booking Offers (Responsive Chips & Cards) */}
-            <motion.div 
+            <motion.div
               variants={scrollRevealVariants}
               whileHover={{ y: -4 }}
               className="p-8 sm:p-10 rounded-[24px] bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between"
@@ -964,7 +963,7 @@ export default function BusPage() {
                 <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mb-6">
                   Save more every time you travel with our regularly updated promotions and special discounts.
                 </p>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     "Seasonal Sale Offers",
@@ -976,8 +975,8 @@ export default function BusPage() {
                     "Cashback on Selected Payments",
                     "Limited-Time Promo Codes"
                   ].map((item) => (
-                    <motion.div 
-                      key={item} 
+                    <motion.div
+                      key={item}
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center gap-2.5 p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 shadow-xs"
                     >

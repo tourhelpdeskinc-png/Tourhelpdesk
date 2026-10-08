@@ -59,7 +59,7 @@ const CheapFlightHeroDiscount: React.FC<{ size?: 'sm' | 'lg' }> = ({ size = 'lg'
           : 'text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-1 sm:mt-1.5'
       } font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]`}
     >
-      international <span className="text-emerald-400">40% off</span>
+      International <span className="text-emerald-400">40% off</span>
     </p>
   </div>
 );
@@ -86,17 +86,17 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
               alt="Flight Hero Background"
               fill
               priority
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 1px"
               quality={85}
               className={`object-cover object-center ${isCheapFlights ? 'opacity-100' : 'opacity-100'}`}
             />
             {isCheapFlights ? (
               <>
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/15 to-slate-950/85"></div>
+                <div className="absolute inset-0 bg-linear-to-b from-slate-950/50 via-slate-950/15 to-slate-950/85"></div>
                 <div className="absolute inset-0 bg-black/20 mix-blend-multiply"></div>
               </>
             ) : (
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-950/45 via-slate-950/20 to-slate-950/70"></div>
+              <div className="absolute inset-0 bg-linear-to-b from-slate-950/45 via-slate-950/20 to-slate-950/70"></div>
             )}
           </div>
 
@@ -119,14 +119,14 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
       </div>
 
       {/* DESKTOP VIEW (>= md screen sizes) */}
-      <div className="hidden md:block pt-28 pb-12 sm:pt-36 sm:pb-16 md:pt-44 md:pb-20 relative min-h-[480px] lg:min-h-[520px] flex flex-col justify-end">
+      <div className="hidden md:flex flex-col justify-end pt-28 pb-12 sm:pt-36 sm:pb-16 md:pt-44 md:pb-20 relative min-h-120 lg:min-h-130">
         <div className="absolute inset-0 z-0">
           <Image
             src={isCheapFlights ? "/cheap-flight/nils-nedel-ONpGBpns3cs-unsplash.webp" : "/flight hero/fligth hero.jpg"}
             alt="Flight Hero Background"
             fill
             priority
-            sizes="100vw"
+            sizes="(min-width: 768px) 100vw, 1px"
             quality={85}
             className={`object-cover object-center transition-all duration-300 ${
               isCheapFlights ? 'opacity-100' : 'opacity-90 md:opacity-95'
@@ -135,11 +135,11 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
           {isCheapFlights ? (
             <>
               {/* Light & Real Natural Shadow Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-950/45 via-transparent to-slate-950/65"></div>
+              <div className="absolute inset-0 bg-linear-to-b from-slate-950/45 via-transparent to-slate-950/65"></div>
               <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
             </>
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/25 to-slate-950/75"></div>
+            <div className="absolute inset-0 bg-linear-to-b from-slate-950/50 via-slate-950/25 to-slate-950/75"></div>
           )}
         </div>
 
@@ -379,8 +379,8 @@ export const FlightHeroSection: React.FC<FlightHeroSectionProps> = ({
                   <div className={`${searchForm.tripType === 'round-trip' ? 'md:col-span-12 lg:col-span-12' : 'md:col-span-3'} mt-1 sm:mt-0`}>
                     <button
                       type="submit"
-                      className={`w-full h-full py-2 bg-[#E8A11A] hover:bg-[#d69013] text-slate-955 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.98] cursor-pointer ${
-                        isCheapFlights ? 'min-h-[36px] sm:min-h-[40px]' : 'min-h-[38px] sm:min-h-[46px] md:min-h-[50px]'
+                      className={`w-full h-full py-2 bg-brand-gold hover:bg-[#d69013] text-slate-955 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.98] cursor-pointer ${
+                        isCheapFlights ? 'min-h-9 sm:min-h-10' : 'min-h-9.5 sm:min-h-11.5 md:min-h-12.5'
                       }`}
                     >
                       <Search className="w-4 h-4 text-slate-955" />

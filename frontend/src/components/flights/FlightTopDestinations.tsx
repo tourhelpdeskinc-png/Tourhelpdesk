@@ -49,7 +49,7 @@ export const FlightTopDestinations: React.FC<FlightTopDestinationsProps> = ({ on
             transition={{ duration: 0.5, delay: Math.min(idx * 0.06, 0.4), ease: "easeOut" }}
             whileHover={{ y: -5, scale: 1.01 }}
             onClick={() => onSelectDestination?.(dest.name)}
-            className="group relative overflow-hidden rounded-2xl h-[175px] sm:h-[190px] md:h-[200px] shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer border border-slate-300 dark:border-slate-700"
+            className="group relative overflow-hidden rounded-2xl h-43.75 sm:h-47.5 md:h-50 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer border border-slate-300 dark:border-slate-700"
           >
             {/* Background Image */}
             <Image
@@ -61,7 +61,7 @@ export const FlightTopDestinations: React.FC<FlightTopDestinationsProps> = ({ on
             />
 
             {/* Bottom Dark Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
 
             {/* Bottom Card Content */}
             <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-4.5 flex items-end justify-between z-10">
@@ -69,9 +69,6 @@ export const FlightTopDestinations: React.FC<FlightTopDestinationsProps> = ({ on
                 <h3 className="text-lg sm:text-xl font-black text-white leading-tight drop-shadow-sm group-hover:text-amber-300 transition-colors">
                   {dest.name}
                 </h3>
-                <p className="text-[10px] sm:text-[11px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">
-                  {dest.dates}
-                </p>
               </div>
 
               <div className="text-right shrink-0">

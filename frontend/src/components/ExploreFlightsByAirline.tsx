@@ -16,7 +16,6 @@ export interface AirlineFlightDeal {
   originName: string;
   departureTime: string;
   arrivalTime: string;
-  flightDate: string;
   duration: string;
   rawPrice: number;
 }
@@ -35,7 +34,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "John F. Kennedy",
     departureTime: "8:15 AM",
     arrivalTime: "10:05 AM",
-    flightDate: "Monday, May 15",
     duration: "2 hours, 50 min.",
     rawPrice: 189
   },
@@ -52,7 +50,7 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Benito Juárez Intl",
     departureTime: "9:30 AM",
     arrivalTime: "12:45 PM",
-    flightDate: "Monday, May 15",
+
     duration: "2 hours, 15 min.",
     rawPrice: 165
   },
@@ -69,7 +67,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Pearson Intl",
     departureTime: "7:45 AM",
     arrivalTime: "11:15 AM",
-    flightDate: "Monday, May 15",
     duration: "3 hours, 30 min.",
     rawPrice: 289
   },
@@ -86,7 +83,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Kingsford Smith",
     departureTime: "10:00 AM",
     arrivalTime: "3:15 PM",
-    flightDate: "Monday, May 15",
     duration: "3 hours, 15 min.",
     rawPrice: 325
   },
@@ -103,7 +99,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Barajas Airport",
     departureTime: "11:15 AM",
     arrivalTime: "11:40 AM",
-    flightDate: "Monday, May 15",
     duration: "1 hour, 25 min.",
     rawPrice: 119
   },
@@ -120,7 +115,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Seattle-Tacoma Intl",
     departureTime: "6:40 AM",
     arrivalTime: "9:25 AM",
-    flightDate: "Monday, May 15",
     duration: "3 hours, 45 min.",
     rawPrice: 249
   },
@@ -137,7 +131,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "John F. Kennedy",
     departureTime: "8:30 AM",
     arrivalTime: "8:45 PM",
-    flightDate: "Monday, May 15",
     duration: "7 hours, 15 min.",
     rawPrice: 549
   },
@@ -154,7 +147,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Haneda Airport",
     departureTime: "10:15 AM",
     arrivalTime: "2:10 PM",
-    flightDate: "Monday, May 15",
     duration: "4 hours, 55 min.",
     rawPrice: 415
   },
@@ -171,7 +163,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Logan Intl Airport",
     departureTime: "7:15 AM",
     arrivalTime: "10:05 AM",
-    flightDate: "Monday, May 15",
     duration: "2 hours, 50 min.",
     rawPrice: 195
   },
@@ -188,7 +179,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Frankfurt Airport",
     departureTime: "6:30 AM",
     arrivalTime: "11:45 AM",
-    flightDate: "Monday, May 15",
     duration: "6 hours, 15 min.",
     rawPrice: 589
   },
@@ -205,7 +195,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Charles de Gaulle",
     departureTime: "10:45 AM",
     arrivalTime: "7:20 PM",
-    flightDate: "Monday, May 15",
     duration: "6 hours, 35 min.",
     rawPrice: 580
   },
@@ -222,7 +211,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Philadelphia Intl",
     departureTime: "6:15 AM",
     arrivalTime: "9:10 AM",
-    flightDate: "Monday, May 15",
     duration: "2 hours, 55 min.",
     rawPrice: 79
   },
@@ -239,7 +227,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Los Angeles Intl",
     departureTime: "9:00 AM",
     arrivalTime: "12:10 PM",
-    flightDate: "Monday, May 15",
     duration: "5 hours, 10 min.",
     rawPrice: 289
   },
@@ -256,7 +243,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Fiumicino Airport",
     departureTime: "12:20 PM",
     arrivalTime: "2:55 PM",
-    flightDate: "Monday, May 15",
     duration: "2 hours, 35 min.",
     rawPrice: 135
   },
@@ -273,7 +259,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "San Francisco Intl",
     departureTime: "4:30 PM",
     arrivalTime: "7:55 PM",
-    flightDate: "Monday, May 15",
     duration: "10 hours, 25 min.",
     rawPrice: 745
   },
@@ -290,7 +275,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Los Angeles Intl",
     departureTime: "11:30 PM",
     arrivalTime: "5:00 AM",
-    flightDate: "Monday, May 15",
     duration: "12 hours, 30 min.",
     rawPrice: 790
   },
@@ -307,7 +291,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Orlando Intl Airport",
     departureTime: "8:00 AM",
     arrivalTime: "10:55 AM",
-    flightDate: "Monday, May 15",
     duration: "2 hours, 55 min.",
     rawPrice: 145
   },
@@ -324,7 +307,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Schiphol Airport",
     departureTime: "2:30 PM",
     arrivalTime: "3:50 PM",
-    flightDate: "Monday, May 15",
     duration: "1 hour, 20 min.",
     rawPrice: 129
   },
@@ -341,7 +323,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Frankfurt Airport",
     departureTime: "7:15 AM",
     arrivalTime: "8:25 AM",
-    flightDate: "Monday, May 15",
     duration: "1 hour, 10 min.",
     rawPrice: 115
   },
@@ -358,7 +339,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Tullamarine Airport",
     departureTime: "9:00 AM",
     arrivalTime: "10:25 AM",
-    flightDate: "Monday, May 15",
     duration: "1 hour, 25 min.",
     rawPrice: 175
   },
@@ -375,7 +355,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Ngurah Rai Intl",
     departureTime: "11:55 AM",
     arrivalTime: "2:40 PM",
-    flightDate: "Monday, May 15",
     duration: "2 hours, 45 min.",
     rawPrice: 198
   },
@@ -392,7 +371,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Harry Reid Intl",
     departureTime: "1:20 PM",
     arrivalTime: "2:35 PM",
-    flightDate: "Monday, May 15",
     duration: "1 hour, 15 min.",
     rawPrice: 89
   },
@@ -409,7 +387,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Hollywood Intl",
     departureTime: "8:10 AM",
     arrivalTime: "10:20 AM",
-    flightDate: "Monday, May 15",
     duration: "3 hours, 10 min.",
     rawPrice: 69
   },
@@ -426,7 +403,6 @@ export const AIRLINE_FLIGHTS_DATA: AirlineFlightDeal[] = [
     originName: "Newark Liberty Intl",
     departureTime: "9:15 AM",
     arrivalTime: "1:45 PM",
-    flightDate: "Monday, May 15",
     duration: "4 hours, 30 min.",
     rawPrice: 349
   }
@@ -499,9 +475,6 @@ export const AirlineFlightCard: React.FC<{ deal: AirlineFlightDeal }> = ({ deal 
           <span className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 leading-none truncate block">
             {deal.departureTime}
           </span>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium mt-0.5 truncate block">
-            {deal.flightDate}
-          </span>
         </div>
 
         {/* Center Flight Route Line with Plane Icon (Guaranteed No-Overlap & Symmetrically Centered) */}
@@ -537,18 +510,12 @@ export const AirlineFlightCard: React.FC<{ deal: AirlineFlightDeal }> = ({ deal 
           <span className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 leading-none truncate block w-full text-right">
             {deal.arrivalTime}
           </span>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium mt-0.5 truncate block w-full text-right">
-            {deal.flightDate}
-          </span>
         </div>
       </div>
 
       {/* 3. Footer: Pill Badges + Price (Matching Screenshot) */}
       <div className="flex items-center justify-between gap-2 pt-3 border-t border-slate-100 dark:border-slate-800/80">
         <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-          <span className="px-2.5 py-1 rounded-md bg-[#EEF2FF] dark:bg-slate-800 text-[#4F46E5] dark:text-slate-300 text-[10px] font-bold">
-            {deal.flightDate}
-          </span>
           <span className="px-2.5 py-1 rounded-md bg-[#EEF2FF] dark:bg-slate-800 text-[#4F46E5] dark:text-slate-300 text-[10px] font-bold">
             {deal.duration}
           </span>
