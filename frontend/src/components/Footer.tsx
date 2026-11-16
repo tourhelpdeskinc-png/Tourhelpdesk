@@ -1,8 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCookieConsent } from '../context/CookieConsentContext';
 
 interface FooterProps {
   onLegalClick?: () => void;
@@ -13,6 +14,8 @@ interface FooterProps {
   onContactClick?: () => void;
   bgClass?: string;
   showTopAirlines?: boolean;
+  showDisclaimer?: boolean;
+  disclaimerText?: string;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -23,8 +26,28 @@ const Footer: React.FC<FooterProps> = ({
   onCreditCardVerificationClick = () => { },
   onContactClick = () => { },
   bgClass = "bg-[#0E255E]",
-  showTopAirlines = false
+  showTopAirlines = false,
+  showDisclaimer = false,
+  disclaimerText
 }) => {
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
+
+  let openPreferences = () => {};
+  try {
+    const cookieConsent = useCookieConsent();
+    openPreferences = cookieConsent.openPreferences;
+  } catch {
+    // Graceful fallback if rendered outside CookieConsentProvider
+  }
+
+  useEffect(() => {
+    if (!isDisclaimerOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsDisclaimerOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isDisclaimerOpen]);
   return (
     <footer className={`${bgClass} dark:bg-slate-950 text-slate-400 py-8 md:py-12 border-t border-slate-800 dark:border-slate-900 transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -81,6 +104,7 @@ const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-3 text-sm text-slate-300">
               <li><Link href="/about" onClick={onAboutClick} className="hover:text-white transition-colors block">About Us</Link></li>
               <li><Link href="/privacy" onClick={onPrivacyClick} className="hover:text-white transition-colors block">Privacy Policy</Link></li>
+              <li><Link href="/cookie-policy" className="hover:text-white transition-colors block">Cookie Policy</Link></li>
               <li><Link href="/contact" onClick={onContactClick} className="hover:text-white transition-colors block">Contact Us</Link></li>
             </ul>
           </div>
@@ -107,9 +131,44 @@ const Footer: React.FC<FooterProps> = ({
         </div>
 
         <div className="border-t border-slate-800 dark:border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em]">
-          <Link href="/terms-of-use" onClick={onTermsClick} className="text-slate-400 hover:text-white transition-colors text-center md:text-left">
-            Terms of Service
-          </Link>
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4">
+            <Link href="/terms-of-use" onClick={onTermsClick} className="text-slate-400 hover:text-white transition-colors text-center md:text-left">
+              Terms of Service
+            </Link>
+            <span className="text-slate-600 dark:text-slate-700 font-normal">|</span>
+            <Link href="/cookie-policy" className="text-slate-400 hover:text-white transition-colors text-center md:text-left">
+              Cookie Policy
+            </Link>
+            <span className="text-slate-600 dark:text-slate-700 font-normal">|</span>
+            <button
+              type="button"
+              onClick={openPreferences}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer text-center md:text-left focus:outline-none"
+            >
+              Cookie Preferences
+            </button>
+            {showDisclaimer && (
+              <>
+                <span className="text-slate-600 dark:text-slate-700 font-normal">|</span>
+                <button
+                  type="button"
+                  onClick={() => setIsDisclaimerOpen((prev) => !prev)}
+                  className="text-slate-400 hover:text-white transition-colors cursor-pointer inline-flex items-center gap-1.5 focus:outline-none"
+                  aria-expanded={isDisclaimerOpen}
+                >
+                  <span>Disclaimer</span>
+                  <svg
+                    className={`w-3.5 h-3.5 transition-transform duration-200 text-slate-400 ${isDisclaimerOpen ? 'rotate-180 text-white' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
           <div className="flex flex-col items-center md:items-end text-center md:text-right gap-1">
             <p className="text-slate-500 dark:text-slate-600">&copy; 2026 Tour Help Desk Inc. All rights reserved.</p>
             <p className="text-[10px] md:text-[11px] font-semibold tracking-wider text-slate-400 dark:text-slate-500">
@@ -117,6 +176,67 @@ const Footer: React.FC<FooterProps> = ({
             </p>
           </div>
         </div>
+
+        {/* Centered Modal Popup for Disclaimer */}
+        {showDisclaimer && isDisclaimerOpen && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200"
+            onClick={() => setIsDisclaimerOpen(false)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div
+              className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 text-left transition-all normal-case tracking-normal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">
+                      Partner Disclaimer
+                    </h3>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Tour Help Desk Ticketing & Affiliate Notice</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsDisclaimerOpen(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close disclaimer modal"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-3">
+                <p>
+                  <strong className="text-slate-900 dark:text-white font-semibold">Disclaimer: </strong>
+                  {disclaimerText || "We are an IATA-authorized partner, licensed to sell airline tickets. All the advertisement and display information is just for informational purposes. We are not associated directly or indirectly with Airlines. We work as an affiliate with many brand to get the ticketing updates."}
+                </p>
+              </div>
+
+              {/* Footer Button */}
+              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsDisclaimerOpen(false)}
+                  className="px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors cursor-pointer shadow-sm shadow-blue-500/20"
+                >
+                  Understood
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </footer>
   );

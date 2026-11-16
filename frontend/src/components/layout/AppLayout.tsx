@@ -12,6 +12,8 @@ interface AppLayoutProps {
   activeView?: string;
   showHotels?: boolean;
   footerBgClass?: string;
+  showDisclaimer?: boolean;
+  disclaimerText?: string;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
@@ -19,6 +21,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   activeView,
   showHotels = true,
   footerBgClass = 'bg-[#0E255E]',
+  showDisclaimer,
+  disclaimerText,
 }) => {
   const router = useRouter();
   const { darkMode, toggleDarkMode } = useTheme();
@@ -56,6 +60,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 
       <Footer
         bgClass={footerBgClass}
+        showDisclaimer={showDisclaimer ?? activeView === 'cheap-flights'}
+        disclaimerText={disclaimerText}
         onLegalClick={() => router.push('/terms')}
         onAboutClick={() => router.push('/about')}
         onPrivacyClick={() => router.push('/privacy')}

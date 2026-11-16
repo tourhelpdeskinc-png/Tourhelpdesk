@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "../context/ThemeContext";
 import { ToastProvider } from "../context/ToastContext";
+import { CookieConsentProvider } from "../context/CookieConsentContext";
+import CookieConsentBanner from "../components/common/CookieConsentBanner";
+import CookiePreferencesModal from "../components/common/CookiePreferencesModal";
 import GoogleAuthProvider from "./providers/GoogleAuthProvider";
 import "./globals.css";
 
@@ -76,9 +79,13 @@ export default function RootLayout({
       <body className={`${plusJakartaSans.className} min-h-full flex flex-col`}>
         <ThemeProvider>
           <ToastProvider>
-            <GoogleAuthProvider>
-              {children}
-            </GoogleAuthProvider>
+            <CookieConsentProvider>
+              <GoogleAuthProvider>
+                {children}
+                <CookieConsentBanner />
+                <CookiePreferencesModal />
+              </GoogleAuthProvider>
+            </CookieConsentProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>
