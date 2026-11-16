@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface FooterProps {
   onLegalClick?: () => void;
@@ -76,9 +79,9 @@ const Footer: React.FC<FooterProps> = ({
           <div className={showTopAirlines ? "lg:col-span-2" : "lg:col-span-2 md:pl-4"}>
             <h5 className="text-white font-bold mb-5">Company</h5>
             <ul className="space-y-3 text-sm text-slate-300">
-              <li><button onClick={onAboutClick} className="hover:text-white transition-colors">About Us</button></li>
-              <li><button onClick={onPrivacyClick} className="hover:text-white transition-colors">Privacy Policy</button></li>
-              <li><button onClick={onContactClick} className="hover:text-white transition-colors">Contact Us</button></li>
+              <li><Link href="/about" onClick={onAboutClick} className="hover:text-white transition-colors block">About Us</Link></li>
+              <li><Link href="/privacy" onClick={onPrivacyClick} className="hover:text-white transition-colors block">Privacy Policy</Link></li>
+              <li><Link href="/contact" onClick={onContactClick} className="hover:text-white transition-colors block">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -86,7 +89,7 @@ const Footer: React.FC<FooterProps> = ({
           <div className={showTopAirlines ? "lg:col-span-2" : "lg:col-span-2"}>
             <h5 className="text-white font-bold mb-5">Support</h5>
             <ul className="space-y-3 text-sm text-slate-300">
-              <li><button onClick={onCreditCardVerificationClick} className="hover:text-white transition-colors">Credit Card Verification</button></li>
+              <li><Link href="/credit-card-verification" onClick={onCreditCardVerificationClick} className="hover:text-white transition-colors block">Credit Card Verification</Link></li>
             </ul>
           </div>
 
@@ -104,9 +107,9 @@ const Footer: React.FC<FooterProps> = ({
         </div>
 
         <div className="border-t border-slate-800 dark:border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em]">
-          <button onClick={onTermsClick} className="text-slate-400 hover:text-white transition-colors text-center md:text-left">
+          <Link href="/terms-of-use" onClick={onTermsClick} className="text-slate-400 hover:text-white transition-colors text-center md:text-left">
             Terms of Service
-          </button>
+          </Link>
           <div className="flex flex-col items-center md:items-end text-center md:text-right gap-1">
             <p className="text-slate-500 dark:text-slate-600">&copy; 2026 Tour Help Desk Inc. All rights reserved.</p>
             <p className="text-[10px] md:text-[11px] font-semibold tracking-wider text-slate-400 dark:text-slate-500">

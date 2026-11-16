@@ -82,7 +82,7 @@ Team TourHelpDesk.com`;
   <!-- Footer -->
   <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #94a3b8;">
     <p style="margin: 0;">&copy; ${new Date().getFullYear()} TourHelpDesk.com. All rights reserved.</p>
-    <p style="margin: 4px 0 0 0;">Need assistance? Contact us anytime at support@tourhelpdesk.com</p>
+    <p style="margin: 4px 0 0 0;">Need assistance? Contact us anytime at support@tourhelpdeskinc.com</p>
   </div>
 </body>
 </html>`;
@@ -401,7 +401,14 @@ export const sendFlightBookingAdminEmail = async (data: FlightBookingEmailData):
       return;
     }
 
-    const adminRecipient = env.EMAIL_FROM || 'support@tourhelpdesk.com';
+    const adminRecipientRaw = env.ADMIN_EMAIL || 'support@tourhelpdeskinc.com';
+    const adminRecipients = adminRecipientRaw
+      .split(',')
+      .map((e) => {
+        const match = e.match(/<([^>]+)>/);
+        return match ? match[1].trim() : e.trim();
+      })
+      .filter(Boolean);
     const senderEmail = env.EMAIL_FROM || 'TourHelpDesk <onboarding@resend.dev>';
     const subject = `✈️ [NEW BOOKING REQUEST] #${data.requestId} - ${data.customer.name} (${data.flight.origin} -> ${data.flight.destination})`;
 
@@ -510,7 +517,7 @@ export const sendFlightBookingAdminEmail = async (data: FlightBookingEmailData):
     // If running in development or sandbox, also sends without throwing
     let sendResult = await resend.emails.send({
       from: senderEmail,
-      to: [adminRecipient],
+      to: adminRecipients,
       subject,
       html: htmlContent,
     });
@@ -519,7 +526,7 @@ export const sendFlightBookingAdminEmail = async (data: FlightBookingEmailData):
       logger.warn(`[EmailService] Retrying admin email with resend sandbox domain: ${sendResult.error.message}`);
       sendResult = await resend.emails.send({
         from: 'TourHelpDesk <onboarding@resend.dev>',
-        to: [adminRecipient],
+        to: adminRecipients,
         subject,
         html: htmlContent,
       });

@@ -46,6 +46,10 @@ export const configureSecurityMiddleware = (app: Express): void => {
     'http://tourhelpdesk.com',
     'https://www.tourhelpdesk.com',
     'http://www.tourhelpdesk.com',
+    'https://tourhelpdeskinc.com',
+    'http://tourhelpdeskinc.com',
+    'https://www.tourhelpdeskinc.com',
+    'http://www.tourhelpdeskinc.com',
     'http://91.108.104.138',
     'https://91.108.104.138',
   ];
@@ -68,12 +72,14 @@ export const configureSecurityMiddleware = (app: Express): void => {
         // Always allow explicitly whitelisted production/dev origins
         if (allowedOrigins.includes(origin)) return callback(null, true);
 
-        // Allow any subdomain of tourhelpdesk.com or the VPS IP
+        // Allow any subdomain of tourhelpdesk.com or tourhelpdeskinc.com or the VPS IP
         try {
           const parsed = new URL(origin);
           if (
             parsed.hostname === 'tourhelpdesk.com' ||
             parsed.hostname.endsWith('.tourhelpdesk.com') ||
+            parsed.hostname === 'tourhelpdeskinc.com' ||
+            parsed.hostname.endsWith('.tourhelpdeskinc.com') ||
             parsed.hostname === '91.108.104.138'
           ) {
             return callback(null, true);
