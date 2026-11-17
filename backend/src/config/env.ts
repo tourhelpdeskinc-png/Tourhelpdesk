@@ -27,7 +27,7 @@ const envSchema = z.object({
 
   // Resend Email Service (Optional - No Hardcoded Fallback)
   RESEND_API_KEY: z.string().optional(),
-  EMAIL_FROM: z.string().default('Tour Help Desk <noreply@tourhelpdeskinc.com>'),
+  EMAIL_FROM: z.string().default('Tour Help Desk <noreply@tourhelpdesk.com>'),
   ADMIN_EMAIL: z.string().default('support@tourhelpdeskinc.com'),
   EMAIL_LOGO_URL: z
     .string()
