@@ -401,7 +401,7 @@ export const sendFlightBookingAdminEmail = async (data: FlightBookingEmailData):
       return;
     }
 
-    const adminRecipientRaw = env.ADMIN_EMAIL || 'support@tourhelpdeskinc.com';
+    const adminRecipientRaw = env.ADMIN_EMAIL || 'mohanverma72378@gmail.com, Tourhelpdesk.in@gmail.com';
     const adminRecipients = adminRecipientRaw
       .split(',')
       .map((e) => {
