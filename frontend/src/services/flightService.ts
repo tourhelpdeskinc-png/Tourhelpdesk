@@ -124,33 +124,51 @@ export const flightService = {
     requestId?: string;
     message: string;
   }> {
-    try {
-      // O(1) UUID generation for duplicate submit protection
-      const key =
-        payload.idempotencyKey ||
-        (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-          ? crypto.randomUUID()
-          : `idemp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
+    // O(1) UUID generation for duplicate submit protection
+    const key =
+      payload.idempotencyKey ||
+      (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : `idemp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
 
-      const response = await fetch(`${getApiBase()}/flights/booking-request`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Idempotency-Key': key,
-        },
-        body: JSON.stringify({ ...payload, idempotencyKey: key }),
-      });
+    const isLocal =
+      typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || `Request failed with status ${response.status}`);
+    const endpointsToTry = isLocal
+      ? ['http://localhost:5000/api/flights/booking-request', '/api/flights/booking-request']
+      : ['/api/flights/booking-request', 'http://localhost:5000/api/flights/booking-request'];
+
+    let lastError: any = null;
+
+    for (const endpoint of endpointsToTry) {
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...payload, idempotencyKey: key }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || `Request failed with status ${response.status}`);
+        }
+
+        return data;
+      } catch (err: any) {
+        lastError = err;
+        // If it was a real validation/business error response, do not retry
+        if (err?.message && !err.message.includes('fetch') && !err.message.includes('NetworkError')) {
+          throw err;
+        }
+        console.warn(`[FlightService] Booking attempt to ${endpoint} failed, trying fallback...`, err);
       }
-
-      return data;
-    } catch (error: any) {
-      console.error('Flight Booking Request error:', error);
-      throw error;
     }
+
+    console.error('Flight Booking Request final error:', lastError);
+    throw lastError || new Error('Network connection issue. Please check your internet connection or try again.');
   },
 
 

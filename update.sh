@@ -10,6 +10,10 @@ git pull origin main
 # 2. Build Backend
 echo "🔨 Building Backend..."
 cd backend
+if [ ! -f .env.local ] && [ -f .env ]; then
+  echo "📋 Setting up .env.local from .env..."
+  cp .env .env.local
+fi
 npm install
 npm run build
 cd ..
@@ -23,7 +27,7 @@ cd ..
 
 # 4. Restart PM2 processes gracefully with zero downtime
 echo "🔄 Reloading PM2 processes..."
-pm2 reload ecosystem.config.cjs
+pm2 reload ecosystem.config.cjs || pm2 restart ecosystem.config.cjs
 
 echo "✅ Tour Help Desk updated and running successfully!"
 pm2 status

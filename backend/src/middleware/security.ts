@@ -10,37 +10,16 @@ export const configureSecurityMiddleware = (app: Express): void => {
   // Disable x-powered-by header
   app.disable('x-powered-by');
 
-  // Payload body parsing with secure limit (500kb) - MUST BE FIRST
-  app.use(express.json({ limit: '500kb' }));
-  app.use(express.urlencoded({ extended: true, limit: '500kb' }));
-
-  // Safe Mongo Sanitization for Express 5 (sanitizes req.body and req.params without mutating req.query getter)
-  app.use((req: Request, _res: Response, next: NextFunction) => {
-    if (req.body && typeof req.body === 'object') {
-      mongoSanitize.sanitize(req.body);
-    }
-    if (req.params && typeof req.params === 'object') {
-      mongoSanitize.sanitize(req.params);
-    }
-    next();
-  });
-
-  // Configure Secure HTTP Headers via Helmet
-  app.use(
-    helmet({
-      contentSecurityPolicy: false, // Allows API usage without blocking inline scripts in frontend demos
-      crossOriginResourcePolicy: { policy: 'cross-origin' },
-    })
-  );
-
-  // Configure CORS with strict origin validation
+  // Configure CORS with strict origin validation - MUST BE BEFORE BODY PARSING FOR PREFLIGHT
   const allowedOrigins: string[] = [
     'http://localhost:3000',
     'http://localhost:3001',
     'http://localhost:3002',
+    'http://localhost:5000',
     'http://localhost:5173',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:3001',
+    'http://127.0.0.1:5000',
     'http://127.0.0.1:5173',
     'https://tourhelpdesk.com',
     'http://tourhelpdesk.com',
@@ -52,6 +31,8 @@ export const configureSecurityMiddleware = (app: Express): void => {
     'http://www.tourhelpdeskinc.com',
     'http://91.108.104.138',
     'https://91.108.104.138',
+    'http://91.108.104.138:3000',
+    'http://91.108.104.138:5000',
   ];
 
   if (env.FRONTEND_URL) {
@@ -105,7 +86,40 @@ export const configureSecurityMiddleware = (app: Express): void => {
       },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+      allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'X-Requested-With',
+        'Accept',
+        'Idempotency-Key',
+        'idempotency-key',
+        'X-Idempotency-Key',
+        'x-idempotency-key',
+      ],
+      optionsSuccessStatus: 200,
+    })
+  );
+
+  // Payload body parsing with secure limit (500kb)
+  app.use(express.json({ limit: '500kb' }));
+  app.use(express.urlencoded({ extended: true, limit: '500kb' }));
+
+  // Safe Mongo Sanitization for Express 5 (sanitizes req.body and req.params without mutating req.query getter)
+  app.use((req: Request, _res: Response, next: NextFunction) => {
+    if (req.body && typeof req.body === 'object') {
+      mongoSanitize.sanitize(req.body);
+    }
+    if (req.params && typeof req.params === 'object') {
+      mongoSanitize.sanitize(req.params);
+    }
+    next();
+  });
+
+  // Configure Secure HTTP Headers via Helmet
+  app.use(
+    helmet({
+      contentSecurityPolicy: false, // Allows API usage without blocking inline scripts in frontend demos
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
     })
   );
 
