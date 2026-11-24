@@ -11,9 +11,50 @@ interface FlightSeoFaqProps {
 export const FlightSeoFaq: React.FC<FlightSeoFaqProps> = ({ isCheapFlights = false }) => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": CHEAP_FLIGHT_FAQS.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      },
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://tourhelpdesk.com",
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": isCheapFlights ? "Cheap Flights" : "Flights",
+        "item": `https://tourhelpdesk.com/${isCheapFlights ? "cheap-flights" : "flights"}`,
+      },
+    ],
+  };
+
   if (isCheapFlights) {
     return (
       <section className="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 border-t border-slate-200 dark:border-slate-800/80 text-left">
+        {/* Schema.org FAQPage & Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
         
         {/* FAQ HEADING & INTERACTIVE ACCORDION */}
         <motion.div
@@ -141,6 +182,15 @@ export const FlightSeoFaq: React.FC<FlightSeoFaqProps> = ({ isCheapFlights = fal
   // Standard Flights Page SEO Content
   return (
     <section className="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 border-t border-slate-200 dark:border-slate-800/80 text-left">
+      {/* Schema.org FAQPage & Breadcrumb Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}

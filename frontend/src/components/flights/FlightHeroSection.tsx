@@ -42,25 +42,32 @@ const staggerContainerVariants = {
 };
 
 const CheapFlightHeroDiscount: React.FC<{ size?: 'sm' | 'lg' }> = ({ size = 'lg' }) => (
-  <div className="text-center select-none">
-    <p
+  <div className="text-center select-none max-w-3xl mx-auto">
+    <h1
       className={`${
         size === 'sm'
           ? 'text-base sm:text-lg'
           : 'text-xl sm:text-2xl md:text-3xl lg:text-4xl'
       } font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]`}
     >
-      Domestic <span className="text-amber-400">30% off</span>
-    </p>
-    <p
+      Cheap Flights & Unpublished Airline Ticket Deals
+    </h1>
+    <div
       className={`${
         size === 'sm'
-          ? 'text-base sm:text-lg mt-0.5'
-          : 'text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-1 sm:mt-1.5'
-      } font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]`}
+          ? 'text-xs sm:text-sm mt-0.5'
+          : 'text-sm sm:text-base md:text-lg mt-1 sm:mt-1.5'
+      } font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] flex items-center justify-center gap-2`}
     >
-      International <span className="text-emerald-400">40% off</span>
-    </p>
+      <span>Domestic <span className="text-amber-400">30% off</span></span>
+      <span className="text-white/40">•</span>
+      <span>International <span className="text-emerald-400">40% off</span></span>
+    </div>
+    {size === 'lg' && (
+      <p className="mt-2 text-xs sm:text-sm text-slate-200/95 font-medium max-w-2xl mx-auto drop-shadow-sm leading-relaxed hidden sm:block">
+        TourHelpDesk provides consolidated airline ticket discounts starting from $49 across 500+ global carriers. Compare live airfares, unlock unpublished offline phone deals, and enjoy 24/7 ticket support at +1 (888) 791-8007 with zero hidden booking fees.
+      </p>
+    )}
   </div>
 );
 

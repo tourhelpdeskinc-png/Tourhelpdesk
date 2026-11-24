@@ -1,0 +1,77 @@
+# Tour Helpdesk
+
+> TourHelpDesk (https://tourhelpdesk.com) is an online travel booking platform and 24/7 travel concierge service providing real-time price comparisons across 500+ global airlines, luxury hotel reservations, and intercity bus routes. We specialize in published and unpublished offline consolidated flight fares with 24/7 phone assistance.
+
+## Quick Facts
+- **Website**: https://tourhelpdesk.com
+- **24/7 Phone Concierge**: +1 (888) 791-8007 (Toll-Free, 24/7 Booking Desk)
+- **Customer Support Email**: support@tourhelpdeskinc.com
+- **Currencies Accepted**: USD, CAD, INR, EUR, GBP, AED
+- **Payment Methods**: Visa, MasterCard, American Express, Discover, Net Banking, UPI
+- **Primary Markets**: United States, Canada, India, United Kingdom, UAE, International
+
+## Core Services
+
+### 1. Flights & Cheap Airfare
+- Live search and booking across 500+ domestic and international airlines (Delta, American Airlines, United, Air Canada, British Airways, Emirates, Qatar Airways, IndiGo, Air India, and more).
+- Unpublished offline phone-only fares available via 24/7 Booking Desk (+1 888 791-8007).
+- Flexible date searches, multi-city itineraries, one-way and round-trip bookings.
+- Cabin classes: Economy, Premium Economy, Business Class, First Class.
+- Dedicated page: https://tourhelpdesk.com/cheap-flights
+
+### 2. Hotel Accommodations
+- Worldwide hotel and resort booking with instant confirmation.
+- Transparent room rates with no hidden amenity or resort surcharges.
+- Flexible cancellation policies on participating properties.
+- Dedicated page: https://tourhelpdesk.com/hotels
+
+### 3. Bus & Ground Transportation
+- Intercity bus ticket booking across major domestic transit networks.
+- Clean seating, sleeper, and luxury coach options.
+- Dedicated page: https://tourhelpdesk.com/bus
+
+### 4. 24/7 AI Travel Assistant & Human Concierge
+- Live AI Travel Concierge on website for instant itinerary recommendations and flight comparisons.
+- Offline travel desk for complex multi-city bookings, group travel, baggage add-ons, and special assistance (wheelchair, special meals).
+
+## Popular Flight Routes
+- New York (JFK / EWR) to London (LHR)
+- Los Angeles (LAX) to Tokyo (NRT / HND)
+- San Francisco (SFO) to Delhi (DEL)
+- Toronto (YYZ) to Vancouver (YVR)
+- Chicago (ORD) to Paris (CDG)
+- Delhi (DEL) to Mumbai (BOM)
+- Dallas (DFW) to Cancun (CUN)
+- Miami (MIA) to Madrid (MAD)
+
+## Booking Policy & Traveler Guarantees
+- **Best Price Commitment**: Real-time fare tracking ensures travelers receive competitive market rates.
+- **24/7 Live Assistance**: Dedicated phone agents available at +1 (888) 791-8007 for flight changes, cancellations, and rebooking.
+- **Data Privacy & Security**: 256-bit SSL encrypted transactions; PCI-DSS compliant payment processing.
+- **IATA Partner Network**: Bookings are facilitated through accredited ARC and IATA travel partners.
+
+## Frequently Asked Questions
+
+### What is TourHelpDesk?
+TourHelpDesk is a comprehensive travel booking engine and concierge service helping travelers find, compare, and book the cheapest available flights, hotels, and bus tickets worldwide.
+
+### How do I get unpublished offline flight discounts?
+Call our 24/7 Phone Help Desk at +1 (888) 791-8007. Airline aggregators often allocate special phone-only consolidated fares that cannot be published online due to airline fare rules.
+
+### How can I modify or cancel my booking?
+You can manage your reservation by calling our 24/7 desk at +1 (888) 791-8007 or emailing support@tourhelpdeskinc.com with your Booking Request ID.
+
+### Are my payment details safe?
+Yes. All payments are processed through bank-grade 256-bit SSL encryption adhering to strict PCI-DSS security standards.
+
+## Key Links & Navigation
+- Homepage: https://tourhelpdesk.com
+- Cheap Flights: https://tourhelpdesk.com/cheap-flights
+- Special Offers: https://tourhelpdesk.com/special-offer
+- Hotels: https://tourhelpdesk.com/hotels
+- Bus Tickets: https://tourhelpdesk.com/bus
+- About Us: https://tourhelpdesk.com/about
+- Customer Support: https://tourhelpdesk.com/customer-service
+- Privacy Policy: https://tourhelpdesk.com/privacy
+- Terms & Conditions: https://tourhelpdesk.com/terms
+- Cookie Policy: https://tourhelpdesk.com/cookie-policy

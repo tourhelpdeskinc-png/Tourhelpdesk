@@ -1148,6 +1148,47 @@ const HotelsPage: React.FC = () => {
           </div>
 
           <Accordion items={HOTEL_FAQS} />
+          {/* Schema.org FAQPage & Breadcrumb Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": HOTEL_FAQS.map((faq) => ({
+                  "@type": "Question",
+                  "name": faq.question,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer,
+                  },
+                })),
+              }),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://tourhelpdesk.com",
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Hotels",
+                    "item": "https://tourhelpdesk.com/hotels",
+                  },
+                ],
+              }),
+            }}
+          />
         </div>
       </section>
 

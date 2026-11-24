@@ -19,6 +19,7 @@ const CarRentals = dynamic(() => import('../components/CarRentals'));
 const TrendingHolidays = dynamic(() => import('../components/TrendingHolidays'));
 const OutdoorActivities = dynamic(() => import('../components/OutdoorActivities'));
 const ExploreFlightsByAirline = dynamic(() => import('../components/ExploreFlightsByAirline'));
+const HomeFaqSection = dynamic(() => import('../components/home/HomeFaqSection'));
 const FlightResults = dynamic(() => import('../components/FlightResults'));
 const FlightFilterSidebar = dynamic(() => import('../components/flights/FlightFilterSidebar'));
 import { parseTimeToHour, getTimeSlot } from '../components/flights/FlightFilterSidebar';
@@ -557,8 +558,7 @@ function HomeContent() {
               <TrendingHolidays />
               <OutdoorActivities />
               <ExploreFlightsByAirline />
-
-
+              <HomeFaqSection />
             </>
           )}
           <Footer

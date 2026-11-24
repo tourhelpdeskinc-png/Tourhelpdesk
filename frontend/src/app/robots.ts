@@ -4,11 +4,19 @@ export default function robots(): MetadataRoute.Robots {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tourhelpdesk.com';
 
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/api/', '/login', '/credit-card-verification'],
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/', '/login', '/credit-card-verification'],
+      },
+      {
+        userAgent: ['GPTBot', 'OAI-SearchBot', 'PerplexityBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended'],
+        allow: '/',
+        disallow: ['/api/', '/login', '/credit-card-verification'],
+      },
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
+
