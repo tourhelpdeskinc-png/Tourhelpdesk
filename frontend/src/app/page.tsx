@@ -582,7 +582,7 @@ function HomeContent() {
         <AuthModal
           isOpen={isAuthModalOpen}
           onClose={() => setIsAuthModalOpen(false)}
-          onSuccess={() => window.location.reload()}
+          onSuccess={() => setIsAuthModalOpen(false)}
         />
       )}
       {isBookingModalOpen && (

@@ -32,34 +32,42 @@ interface AuthResponse {
   };
 }
 
-const getApiBase = () => {
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    if (host === 'localhost' || host === '127.0.0.1') {
-      return 'http://localhost:5000/api';
-    }
-  }
-  return '/api';
+const getApiUrls = (endpoint: string): string[] => {
+  const isLocal =
+    typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+  return isLocal
+    ? [`http://localhost:5000/api${endpoint}`, `/api${endpoint}`]
+    : [`/api${endpoint}`];
 };
 
-async function postAuth(endpoint: string, body: any): Promise<AuthResponse> {
-  const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-  const urlsToTry = isLocal
-    ? [`http://localhost:5000/api${endpoint}`, `/api${endpoint}`]
-    : [`/api${endpoint}`, `http://localhost:5000/api${endpoint}`];
+const emitAuthChange = (user: any | null): void => {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('auth_change', { detail: user }));
+  }
+};
+
+async function requestAuth<T = AuthResponse>(
+  endpoint: string,
+  options: { method?: 'GET' | 'POST'; body?: any; headers?: Record<string, string>; cache?: RequestCache } = {}
+): Promise<T> {
+  const { method = 'POST', body, headers = {}, cache } = options;
+  const urlsToTry = getApiUrls(endpoint);
 
   let lastError: Error | null = null;
 
   for (const url of urlsToTry) {
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method,
         credentials: 'include',
+        ...(cache ? { cache } : {}),
         headers: {
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
+          ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+          ...headers,
         },
-        body: JSON.stringify(body),
+        ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
       });
 
       const text = await response.text();
@@ -72,23 +80,35 @@ async function postAuth(endpoint: string, body: any): Promise<AuthResponse> {
 
       if (!response.ok) {
         const errorMsg = data.message || data.error || `Authentication failed (${response.status})`;
-        throw new Error(errorMsg);
+        const err = new Error(errorMsg) as Error & { status?: number };
+        err.status = response.status;
+        throw err;
       }
 
       if (data.token) {
         authService.setToken(data.token);
       }
-      return data;
+      if (data.user) {
+        emitAuthChange(data.user);
+      }
+      return data as T;
     } catch (err: any) {
       lastError = err;
-      // If it was a real response from the backend (like invalid credentials or validation error), surface it immediately
-      if (err.message && !err.message.includes('fetch') && !err.message.includes('Failed to fetch') && !err.message.includes('NetworkError')) {
+      // Surface real HTTP / validation / auth responses immediately without retrying fallback
+      if (
+        typeof err?.status === 'number' ||
+        (err.message && !err.message.includes('fetch') && !err.message.includes('Failed to fetch') && !err.message.includes('NetworkError'))
+      ) {
         throw err;
       }
     }
   }
 
-  throw new Error(lastError?.message || 'Cannot connect to authentication server. Please ensure backend is running.');
+  throw new Error(lastError?.message || 'Cannot connect to authentication server. Please try again shortly.');
+}
+
+async function postAuth(endpoint: string, body: any): Promise<AuthResponse> {
+  return requestAuth<AuthResponse>(endpoint, { method: 'POST', body });
 }
 
 export const authService = {
@@ -109,21 +129,10 @@ export const authService = {
   },
 
   async forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
-    const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-    const url = isLocal ? 'http://localhost:5000/api/auth/forgot-password' : '/api/auth/forgot-password';
-
-    const response = await fetch(url, {
+    return requestAuth<{ success: boolean; message: string }>('/auth/forgot-password', {
       method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: { email },
     });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to send password reset email.');
-    }
-    return data;
   },
 
   async resetPassword(token: string, password: string): Promise<AuthResponse> {
@@ -136,20 +145,18 @@ export const authService = {
       const headers: Record<string, string> = {};
       if (token) headers['Authorization'] = `Bearer ${token}`;
 
-      const response = await fetch(`${getApiBase()}/auth/profile`, {
-        credentials: 'include',
+      return await requestAuth<any>('/auth/profile', {
+        method: 'GET',
         headers,
+        cache: 'no-store',
       });
-
-      if (!response.ok) {
+    } catch (error: any) {
+      // Only clear stored token when the server explicitly rejects the token (401/403)
+      if (error?.status === 401 || error?.status === 403) {
         this.logout();
-        return null;
+      } else {
+        console.error('Profile fetch error:', error);
       }
-
-      return response.json();
-    } catch (error) {
-      console.error('Profile fetch error:', error);
-      this.logout();
       return null;
     }
   },
@@ -164,13 +171,17 @@ export const authService = {
 
   async logout(): Promise<void> {
     localStorage.removeItem('tourhelpdesk_token');
-    try {
-      await fetch(`${getApiBase()}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-    } catch {
-      // Ignore network errors during logout
+    emitAuthChange(null);
+    for (const url of getApiUrls('/auth/logout')) {
+      try {
+        await fetch(url, {
+          method: 'POST',
+          credentials: 'include',
+        });
+        break;
+      } catch {
+        // Ignore network errors during logout
+      }
     }
   }
 };

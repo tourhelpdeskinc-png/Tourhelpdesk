@@ -52,9 +52,16 @@ export const loginUser = async (data: { email: string; password?: string }) => {
     throw new AppError('Password is required.', 400);
   }
 
-  const user = await User.findOne({ email: data.email.toLowerCase() }).select('+password');
+  const user = await User.findOne({ email: data.email.trim().toLowerCase() }).select('+password');
   if (!user) {
     throw new AppError('Invalid email or password.', 401);
+  }
+
+  if (!user.password && user.authProvider === 'google') {
+    throw new AppError(
+      'This email is linked with Google Sign-In. Please click "Continue with Google" or reset your password to sign in with email.',
+      400
+    );
   }
 
   const isMatch = await user.matchPassword(data.password);

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import Link from 'next/link';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { authService } from '../services/authService';
 
@@ -24,20 +25,35 @@ const Login: React.FC<LoginProps> = ({ onBack, onSuccess }) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
+
+    const cleanEmail = email.trim();
+    const cleanFirstName = firstName.trim();
+    const cleanLastName = lastName.trim();
+
+    if (mode === 'signup' && password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
     setLoading(true);
 
     try {
       if (mode === 'forgot') {
-        const res = await authService.forgotPassword(email);
+        const res = await authService.forgotPassword(cleanEmail);
         setSuccessMessage(res.message || 'Password reset link has been sent to your email.');
         return;
       }
 
       let result;
       if (mode === 'signup') {
-        result = await authService.signup({ firstName, lastName, email, password });
+        result = await authService.signup({
+          firstName: cleanFirstName,
+          lastName: cleanLastName,
+          email: cleanEmail,
+          password,
+        });
       } else {
-        result = await authService.login({ email, password });
+        result = await authService.login({ email: cleanEmail, password });
       }
       
       if (onSuccess) {
@@ -308,7 +324,7 @@ const Login: React.FC<LoginProps> = ({ onBack, onSuccess }) => {
 
           <div className="mt-3 text-center">
             <p className="text-slate-400 dark:text-slate-500 text-[10px] leading-tight">
-              By continuing, you agree to Tour Help Desk's <a href="#" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">Terms</a> and <a href="#" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">Privacy</a>.
+              By continuing, you agree to Tour Help Desk&apos;s <Link href="/terms" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">Terms</Link> and <Link href="/privacy" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">Privacy</Link>.
             </p>
           </div>
         </div>

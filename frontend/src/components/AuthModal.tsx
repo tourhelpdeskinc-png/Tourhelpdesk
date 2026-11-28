@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { authService } from '../services/authService';
 
@@ -21,36 +21,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
   const [loading, setLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
 
-  if (!isOpen) return null;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSuccessMessage('');
-    setLoading(true);
-
-    try {
-      if (mode === 'forgot') {
-        const res = await authService.forgotPassword(email);
-        setSuccessMessage(res.message || 'Password reset link has been sent to your email.');
-        return;
-      }
-
-      let result;
-      if (mode === 'signup') {
-        result = await authService.signup({ firstName, lastName, email, password });
-      } else {
-        result = await authService.login({ email, password });
-      }
-
-      onSuccess(result.user);
-      onClose();
-    } catch (err: any) {
-      setError(err.message || 'An error occurred. Please try again.');
-    } finally {
+  // Reset transient feedback whenever the modal opens or closes
+  useEffect(() => {
+    if (!isOpen) {
+      setError('');
+      setSuccessMessage('');
       setLoading(false);
+      setSocialLoading(null);
     }
-  };
+  }, [isOpen]);
 
   const handleGoogleSuccess = useCallback(async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
@@ -71,6 +50,52 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     }
   }, [onSuccess, onClose]);
 
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccessMessage('');
+
+    const cleanEmail = email.trim();
+    const cleanFirstName = firstName.trim();
+    const cleanLastName = lastName.trim();
+
+    if (mode === 'signup' && password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      if (mode === 'forgot') {
+        const res = await authService.forgotPassword(cleanEmail);
+        setSuccessMessage(res.message || 'Password reset link has been sent to your email.');
+        return;
+      }
+
+      let result;
+      if (mode === 'signup') {
+        result = await authService.signup({
+          firstName: cleanFirstName,
+          lastName: cleanLastName,
+          email: cleanEmail,
+          password,
+        });
+      } else {
+        result = await authService.login({ email: cleanEmail, password });
+      }
+
+      onSuccess(result.user);
+      onClose();
+    } catch (err: any) {
+      setError(err.message || 'An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleUnsupportedSocial = (provider: string) => {
     setError(`${provider} login is coming soon. Please use Google or email/password for now.`);
   };
@@ -84,7 +109,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
       />
 
       {/* Centered Modal Card */}
-      <div className="relative z-10 w-full max-w-md bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 p-6 sm:p-8 md:p-9 animate-in zoom-in-95 duration-200">
+      <div className="relative z-10 w-full max-w-md max-h-[92vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 p-6 sm:p-8 md:p-9 animate-in zoom-in-95 duration-200">
         
         {/* Close X Button */}
         <button
@@ -282,7 +307,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                         shape="rectangular"
                         size="large"
                         theme="outline"
-                        width="340"
+                        width="300"
                         text="continue_with"
                       />
                     </div>

@@ -271,7 +271,7 @@ const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onBack }) => {
                 </span>
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
-                Used with promotional partners (such as the Taboola network on cheap flight promotions) to evaluate campaign conversion and show relevant flight deals rather than repetitive generic ads.
+                Used with promotional partners (such as Taboola and Microsoft Advertising / Bing UET on cheap flight promotions) to evaluate campaign conversion and show relevant flight deals rather than repetitive generic ads.
               </p>
               <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
                 <strong className="text-slate-700 dark:text-slate-300">Gated Script Guarantee:</strong> In accordance with our consent system, third-party marketing pixels remain completely dormant and will never load or execute until you click "Accept All" or toggle Marketing ON.
@@ -293,6 +293,7 @@ const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onBack }) => {
             <ul className="list-disc pl-6 space-y-2">
               <li><strong>Google OAuth:</strong> Allows travelers to sign in instantly using their Google account without remembering separate passwords. Google sets security tokens to prevent fraudulent sign-ins.</li>
               <li><strong>Taboola:</strong> Advertising conversion tracking on specialized landing pages (e.g. cheap-flights) to track which discounts are performing best.</li>
+              <li><strong>Microsoft Advertising (Bing UET):</strong> Universal Event Tracking tag on <code className="text-xs font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">/cheap-flights</code> to measure search campaign effectiveness and flight inquiry conversions (consent-gated).</li>
               <li><strong>Forex Exchange APIs:</strong> Caches real-time exchange rates to display accurate currency conversions without querying external banks repeatedly.</li>
             </ul>
           </div>
@@ -361,6 +362,13 @@ const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onBack }) => {
                   <td className="py-3 px-4">Taboola</td>
                   <td className="py-3 px-4">Attribution pixel for promotional flight deals. Only runs if you opt in.</td>
                   <td className="py-3 px-4">Session / 13 Mo.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-mono font-semibold text-slate-800 dark:text-slate-200">_uetsid / _uetvid</td>
+                  <td className="py-3 px-4 font-semibold text-purple-600 dark:text-purple-400">Marketing</td>
+                  <td className="py-3 px-4">Microsoft Bing</td>
+                  <td className="py-3 px-4">Conversion and remarketing tag on <code className="text-xs font-mono">/cheap-flights</code>. Only loads after marketing opt-in.</td>
+                  <td className="py-3 px-4">1 Day / 13 Mo.</td>
                 </tr>
               </tbody>
             </table>

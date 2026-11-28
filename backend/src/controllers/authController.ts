@@ -4,14 +4,18 @@ import { AuthRequest } from '../middleware/auth.js';
 import * as authService from '../services/authService.js';
 import env from '../config/env.js';
 
+const isHttpsRequest = (req: Request): boolean => {
+  return req.secure || req.headers['x-forwarded-proto'] === 'https';
+};
+
 /**
  * Attaches a secure HttpOnly JWT cookie to the response.
  * XSS immune (JavaScript cannot access it) with CSRF Lax protection.
  */
-const setAuthCookie = (res: Response, token: string): void => {
+const setAuthCookie = (req: Request, res: Response, token: string): void => {
   res.cookie('token', token, {
     httpOnly: true,
-    secure: env.NODE_ENV === 'production',
+    secure: isHttpsRequest(req),
     sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/',
@@ -20,7 +24,7 @@ const setAuthCookie = (res: Response, token: string): void => {
 
 export const signup = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const result = await authService.registerUser(req.body);
-  setAuthCookie(res, result.token);
+  setAuthCookie(req, res, result.token);
   res.status(201).json({
     success: true,
     message: 'Account created successfully',
@@ -31,7 +35,7 @@ export const signup = asyncHandler(async (req: Request, res: Response): Promise<
 
 export const login = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const result = await authService.loginUser(req.body);
-  setAuthCookie(res, result.token);
+  setAuthCookie(req, res, result.token);
   res.status(200).json({
     success: true,
     message: 'Login successful',
@@ -42,7 +46,7 @@ export const login = asyncHandler(async (req: Request, res: Response): Promise<v
 
 export const googleLogin = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const result = await authService.loginWithGoogle(req.body.idToken);
-  setAuthCookie(res, result.token);
+  setAuthCookie(req, res, result.token);
   res.status(200).json({
     success: true,
     message: 'Google login successful',
@@ -53,7 +57,7 @@ export const googleLogin = asyncHandler(async (req: Request, res: Response): Pro
 
 export const socialLogin = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const result = await authService.handleSocialLogin({ idToken: req.body.idToken });
-  setAuthCookie(res, result.token);
+  setAuthCookie(req, res, result.token);
   res.status(200).json({
     success: true,
     message: 'Social login successful',
@@ -62,10 +66,10 @@ export const socialLogin = asyncHandler(async (req: Request, res: Response): Pro
   });
 });
 
-export const logout = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
+export const logout = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: env.NODE_ENV === 'production',
+    secure: isHttpsRequest(req),
     sameSite: 'lax',
     path: '/',
   });
@@ -85,7 +89,7 @@ export const forgotPassword = asyncHandler(async (req: Request, res: Response): 
 
 export const resetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const result = await authService.resetPassword(req.body.token, req.body.password);
-  setAuthCookie(res, result.token);
+  setAuthCookie(req, res, result.token);
   res.status(200).json({
     success: true,
     message: result.message,

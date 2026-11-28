@@ -45,6 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [hideMobileCategoryStrip, setHideMobileCategoryStrip] = useState(false);
 
   const currencyRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Sync saved currency after mount to prevent SSR hydration mismatch
@@ -67,6 +68,9 @@ const Navbar: React.FC<NavbarProps> = ({
       if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) {
         setShowCurrencyMenu(false);
       }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setShowUserMenu(false);
+      }
     };
     document.addEventListener('mousedown', handleOutsideClick);
     return () => {
@@ -86,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   useEffect(() => {
-    // Check local JWT user authentication
+    // Check local JWT user authentication and keep Navbar synced with auth changes
     const checkUser = async () => {
       const token = authService.getToken();
       if (token) {
@@ -97,6 +101,14 @@ const Navbar: React.FC<NavbarProps> = ({
       }
     };
     checkUser();
+
+    const handleAuthChange = (e: Event) => {
+      const customEvt = e as CustomEvent<any>;
+      setUser(customEvt.detail ?? null);
+      setShowUserMenu(false);
+    };
+    window.addEventListener('auth_change', handleAuthChange);
+    return () => window.removeEventListener('auth_change', handleAuthChange);
   }, []);
 
   const isSidebarOpenRef = useRef(isSidebarOpen);
@@ -355,10 +367,11 @@ const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Custom Sign In / Account Dropdown */}
-          <div className="relative shrink-0">
+          <div className="relative shrink-0" ref={userMenuRef}>
             {user ? (
               <div className="relative">
                 <button
+                  type="button"
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-blue-600 text-white font-extrabold text-[11px] sm:text-xs shadow-md hover:bg-blue-700 transition-all cursor-pointer"
                 >
@@ -375,8 +388,9 @@ const Navbar: React.FC<NavbarProps> = ({
                       <p className="text-[10px] text-slate-400 truncate">{user.email}</p>
                     </div>
                     <button
+                      type="button"
                       onClick={handleLogout}
-                      className="w-full text-left px-3 py-2 mt-1 text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
+                      className="w-full text-left px-3 py-2 mt-1 text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all cursor-pointer"
                     >
                       Sign Out
                     </button>
@@ -385,6 +399,7 @@ const Navbar: React.FC<NavbarProps> = ({
               </div>
             ) : (
               <button 
+                type="button"
                 onClick={onLoginClick}
                 className={`${
                   isTripHeader 

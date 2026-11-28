@@ -29,8 +29,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleAuthSuccess = (_user: any) => {
-    // Refresh current page or state when user logs in/registers
-    window.location.reload();
+    // Navbar updates immediately via the auth_change event; keep current page state & search results intact
+    setIsAuthModalOpen(false);
   };
 
   return (
