@@ -251,13 +251,10 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
         </div>
 
         {/* Center content */}
-        <div className="relative z-20 w-full flex flex-col items-center text-center px-4">
-          <h1 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-1.5 sm:mb-2 tracking-tight text-white drop-shadow-md">
-            Book Cheap Flights, Hotels & Tours Worldwide
+        <div className="relative z-20 w-full flex flex-col items-center text-center">
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-1.5 sm:mb-2 tracking-tight text-white drop-shadow-md">
+            Your Trip Starts Here
           </h1>
-          <p className="max-w-2xl mx-auto text-xs sm:text-sm text-slate-100/90 font-medium leading-relaxed mb-2.5 drop-shadow-sm hidden sm:block">
-            TourHelpDesk is an authorized travel concierge comparing live fares across 500+ global airlines, luxury hotels, and buses. Unlock unpublished offline airfares starting from $49 with 24/7 ticket support at +1 (888) 791-8007 and zero hidden booking fees.
-          </p>
           
           {/* Glassmorphism badges */}
           <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5">
@@ -266,9 +263,6 @@ const Hero: React.FC<HeroProps> = ({ onSearch, isLoading }) => {
             </span>
             <span className="bg-white/10 backdrop-blur-md border border-white/20 px-2.5 py-0.5 sm:px-3.5 sm:py-1 rounded-full text-[10px] sm:text-xs md:text-sm font-extrabold text-white tracking-wide shadow-sm flex items-center gap-1.5">
               <span className="text-[#E8A11A] font-black">✔</span> Support in approx. 30s
-            </span>
-            <span className="bg-white/10 backdrop-blur-md border border-white/20 px-2.5 py-0.5 sm:px-3.5 sm:py-1 rounded-full text-[10px] sm:text-xs md:text-sm font-extrabold text-white tracking-wide shadow-sm flex items-center gap-1.5">
-              <span className="text-[#E8A11A] font-black">✔</span> Unpublished Offline Fares
             </span>
           </div>
         </div>
