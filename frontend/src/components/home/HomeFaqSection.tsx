@@ -59,8 +59,8 @@ export default function HomeFaqSection() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-left max-w-2xl mb-8">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider mb-3">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Traveler Help & FAQ</span>
@@ -110,9 +110,9 @@ export default function HomeFaqSection() {
         </div>
 
         {/* 24/7 Call to Action Box */}
-        <div className="mt-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
-          <div className="text-center sm:text-left">
-            <h3 className="font-extrabold text-sm sm:text-base flex items-center gap-2 justify-center sm:justify-start">
+        <div className="mt-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
+          <div className="text-left">
+            <h3 className="font-extrabold text-sm sm:text-base flex items-center gap-2 justify-start">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               Need custom itinerary assistance?
             </h3>
