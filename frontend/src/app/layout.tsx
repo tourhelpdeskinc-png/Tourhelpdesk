@@ -17,25 +17,29 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tourhelpdesk.com'),
-  title: {
-    default: "Tour Helpdesk - Flights, Hotels & Holiday Bookings",
-    template: "%s | Tour Helpdesk",
+  alternates: {
+    canonical: './',
   },
-  description: "Book cheap domestic & international flights, luxury hotels, and intercity buses with 24/7 AI travel support and exclusive offline discounts.",
+  title: {
+    default: "TourHelpDesk — Flights, Hotels & Holiday Bookings",
+    template: "%s | TourHelpDesk",
+  },
+  description: "TourHelpDesk helps you book cheap domestic & international flights, luxury hotels, and intercity buses with 24/7 travel support and exclusive offline discounts.",
   keywords: [
+    "tourhelpdesk",
+    "tour helpdesk",
     "flight booking",
     "cheap flights",
     "hotels",
     "bus tickets",
-    "tour helpdesk",
     "travel deals",
     "vacation packages",
     "airline tickets",
     "last minute flights"
   ],
-  authors: [{ name: "Tour Helpdesk", url: "https://tourhelpdesk.com" }],
-  creator: "Tour Helpdesk",
-  publisher: "Tour Helpdesk",
+  authors: [{ name: "TourHelpDesk", url: "https://tourhelpdesk.com" }],
+  creator: "TourHelpDesk",
+  publisher: "TourHelpDesk",
   robots: {
     index: true,
     follow: true,
@@ -48,17 +52,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Tour Helpdesk - Instant Flights & Hotel Deals",
-    description: "Compare live fares across 500+ airlines. Fast, secure online booking with 24/7 AI concierge.",
+    title: "TourHelpDesk — Instant Flights & Hotel Deals",
+    description: "Compare live fares across 500+ airlines on TourHelpDesk. Fast, secure online booking with 24/7 concierge.",
     url: "https://tourhelpdesk.com",
-    siteName: "Tour Helpdesk",
+    siteName: "TourHelpDesk",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tour Helpdesk - Flights & Hotel Deals",
-    description: "Book cheap flights and stays with instant 24/7 AI assistance.",
+    title: "TourHelpDesk — Flights & Hotel Deals",
+    description: "Book cheap flights and stays with 24/7 assistance on TourHelpDesk.",
   },
   icons: {
     icon: [
@@ -87,16 +91,16 @@ export default function RootLayout({
       {
         "@type": ["TravelAgency", "Organization"],
         "@id": "https://tourhelpdesk.com/#organization",
-        "name": "Tour Helpdesk",
-        "alternateName": ["TourHelpDesk", "Tour Help Desk Inc"],
+        "name": "TourHelpDesk",
+        "alternateName": ["Tour Helpdesk", "Tour Help Desk", "Tour Help Desk Inc"],
         "url": "https://tourhelpdesk.com",
         "logo": {
           "@type": "ImageObject",
           "url": "https://tourhelpdesk.com/tourhelpdesk.png",
-          "caption": "Tour Helpdesk"
+          "caption": "TourHelpDesk"
         },
         "image": "https://tourhelpdesk.com/tourhelpdesk.png",
-        "description": "Enterprise travel booking engine and 24/7 travel concierge providing unpublished offline airline fares, luxury hotels, and intercity bus routes.",
+        "description": "TourHelpDesk is an online travel booking platform and 24/7 travel concierge providing unpublished offline airline fares, luxury hotels, and intercity bus routes.",
         "telephone": "+1-888-791-8007",
         "email": "support@tourhelpdeskinc.com",
         "priceRange": "$$",
@@ -127,16 +131,17 @@ export default function RootLayout({
           }
         ],
         "sameAs": [
-          "https://facebook.com/tourhelpdesk",
-          "https://twitter.com/tourhelpdesk",
-          "https://instagram.com/tourhelpdesk"
+          "https://www.facebook.com/tourhelpdeskofficial",
+          "https://www.instagram.com/tourhelpdesk/",
+          "https://www.youtube.com/@tour_help_desk"
         ]
       },
       {
         "@type": "WebSite",
         "@id": "https://tourhelpdesk.com/#website",
         "url": "https://tourhelpdesk.com",
-        "name": "Tour Helpdesk",
+        "name": "TourHelpDesk",
+        "alternateName": "Tour Help Desk",
         "publisher": {
           "@id": "https://tourhelpdesk.com/#organization"
         },
